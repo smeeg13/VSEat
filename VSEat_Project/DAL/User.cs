@@ -1,39 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
-    class Administrator
+    public class User
     {
-        private int Id_Admin { get; set; }
+        private int IdUser { get; set; }
         private string Lastname { get; set; }
         private string Firstname { get; set; }
-        private string Birth_Date { get; set; }
-        private string Phone_Number { get; set; }
+        private string BirthDate { get; set; }
+        private string PhoneNumber { get; set; }
         private string Email { get; set; }
         private string Address { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
         private string Status_Account { get; set; }
+        public Boolean IsAdmin { get; set; }
 
-        public Administrator(int id_Admin, string lastname, string firstname, string birth_Date, string phone_Number, string email, string address, string username, string password, string status_Account)
+        public User(int idUser, string lastname, string firstname, string birthDate, string phoneNumber, string email, string address, string username, string password, string status_Account, bool isAdmin)
         {
-            Id_Admin = id_Admin;
+            IdUser = idUser;
             Lastname = lastname;
             Firstname = firstname;
-            Birth_Date = birth_Date;
-            Phone_Number = phone_Number;
+            BirthDate = birthDate;
+            PhoneNumber = phoneNumber;
             Email = email;
             Address = address;
             Username = username;
             Password = password;
             Status_Account = status_Account;
-        } 
-
+            IsAdmin = isAdmin;
+        }
     }
-
 
 }
