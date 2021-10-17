@@ -7,18 +7,13 @@ namespace VSEat_Project
     {
             static void Main(string[] args)
             {
-            var menu = new Menu
+            Deliverer deliverer = new Deliverer();
                 {
-                    Id_Menu = 1,
-                    Name_Menu = "test",
-                    Price_Menu = 10,
-                    Image_Menu = 0,
-                    Ingredients_Menu = "ail, ...",
-                    Status_Menu = "123"
+                  
 
                 };
 
-                Console.WriteLine(menu);
+                Console.WriteLine(deliverer);
 
             }
     }
