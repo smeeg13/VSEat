@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    class Category
+   public class Category
     {
-        private int IdCategory  { get; set; }
-        private string NameCategory  { get; set; }
-        private string DescriptionCategory  { get; set; }
+        public int IdCategory  { get; set; }
+        public string NameCategory  { get; set; }
+        public string DescriptionCategory  { get; set; }
 
-        public Category(int idCategory, string nameCategory, string descriptionCategory)
+
+        public override string ToString()
         {
-            IdCategory = idCategory;
-            NameCategory = nameCategory;
-            DescriptionCategory = descriptionCategory;
+            return "IdCategory " +IdCategory+
+            "NameCategory " + NameCategory+
+            "DescriptionCategory " + DescriptionCategory;
         }
     }
 

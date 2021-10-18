@@ -6,22 +6,18 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-        public class Deliverer : User
+        public class Deliverer
     {
-        private int IdDeliverer { get; set; }
-        private int AvailabilityDeliverer { get; set; } // maybe a boolean ??
-        private DateTime TimeAssigned { get; set; }
+        public int IdDeliverer { get; set; }
+        public int AvailabilityDeliverer { get; set; } // maybe a boolean ??
+        public DateTime TimeAssigned { get; set; }
 
-
-
-        public Deliverer(int idDeliverer, int availabilityDeliverer, DateTime timeAssigned) : base(idUser, lastname, firstname, birthDate, phoneNumber, email, address, username, password, status_Account, isAdmin)
+        public override string ToString()
         {
-            this.IdDeliverer = idDeliverer;
-            this.AvailabilityDeliverer = availabilityDeliverer;
-            this.TimeAssigned = timeAssigned;
+            return "IdDeliverer " + IdDeliverer +
+                    "AvailabilityDeliverer " + AvailabilityDeliverer +
+                    "TimeAssigned " + TimeAssigned;
         }
-
-
     }
 
 
