@@ -147,7 +147,7 @@ namespace DAL
         }
 
         //Method to update the quantity of one orderdetail in the database
-        public void UpdateOrderDetailsQuantity(OrderDetails orderDetails, string newQuantity)
+        public void UpdateOrderDetailsQuantity(OrderDetails orderDetails, int newQuantity)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 

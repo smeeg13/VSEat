@@ -8,6 +8,6 @@ namespace DAL
         void DeleteOrderDetails(OrderDetails orderDetails);
         OrderDetails GetOrderDetails(int idOrderDetails, int TotalAmount);
         List<OrderDetails> GetOrdersDetails();
-        void UpdateOrderDetailsQuantity(OrderDetails orderDetails, string newQuantity);
+        void UpdateOrderDetailsQuantity(OrderDetails orderDetails, int newQuantity);
     }
 }

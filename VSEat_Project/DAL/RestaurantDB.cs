@@ -117,7 +117,7 @@ namespace DAL
             return result;
         }
 
-        public Restaurant AddRestaurant(Restaurant resaurant)
+        public Restaurant AddRestaurant(Restaurant restaurant)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -127,13 +127,13 @@ namespace DAL
                 {
                     string query = "Insert into Restaurant(NameRestaurant, AddressRestaurant) values(@nameRestaurant, @addressRestaurant); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@nameRestaurant", resaurant.NameRestaurant);
-                    cmd.Parameters.AddWithValue("@addressRestaurant", resaurant.AddressRestaurant);
+                    cmd.Parameters.AddWithValue("@nameRestaurant", restaurant.NameRestaurant);
+                    cmd.Parameters.AddWithValue("@addressRestaurant", restaurant.AddressRestaurant);
 
 
                     cn.Open();
 
-                    resaurant.IdRestaurant = Convert.ToInt32(cmd.ExecuteScalar());
+                    restaurant.IdRestaurant = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -141,7 +141,7 @@ namespace DAL
                 throw e;
             }
 
-            return resaurant;
+            return restaurant;
         }
 
         //Method to update the status of one Restaurant in the database

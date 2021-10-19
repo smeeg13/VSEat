@@ -152,12 +152,14 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into User(Lastname, Address, Username, Password, IsAdmin) values(@lastname, @address, @username, @password, @IsAdmin); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into User(Lastname,Firstname, Address, Username, Password, StatusAccount, IsAdmin) values(@lastname,@firstname, @address, @username, @password,@statusAccount, @IsAdmin); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@lastname", user.Lastname);
+                    cmd.Parameters.AddWithValue("@firstname", user.Firstname);
                     cmd.Parameters.AddWithValue("@address", user.Address);
                     cmd.Parameters.AddWithValue("@username", user.Username);
                     cmd.Parameters.AddWithValue("@password", user.Password);
+                    cmd.Parameters.AddWithValue("@statusAccount", user.StatusAccount);
                     cmd.Parameters.AddWithValue("@isadmin", user.IsAdmin);
 
 
