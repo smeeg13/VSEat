@@ -9,14 +9,14 @@ namespace DAL
     public class Restaurant
     {
         //PK
-        private int IdRestaurant { get; set; }
+        public int IdRestaurant { get; set; }
         //FK
         public int IdCity { get; set; }
-
-        private string Name_Restaurant { get; set; }
-        private string Description_Restaurant { get; set; }
-        private string Contact { get; set; }
-        private string Address_Restaurant { get; set; }
+        public int IdMenu { get; set; }
+        public string NameRestaurant { get; set; }
+        public string DescriptionRestaurant { get; set; }
+        public string Contact { get; set; }
+        public string AddressRestaurant { get; set; }
 
         
     }

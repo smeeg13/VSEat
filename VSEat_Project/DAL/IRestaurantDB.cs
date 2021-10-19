@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DAL
 {
-    interface IRestaurantDB
+    public interface IRestaurantDB
     {
+        Restaurant AddRestaurant(Restaurant resaurant);
+        void DeleteRestaurant(Restaurant restaurant);
+        Restaurant GetRestaurant(string nameRestaurant, string addressRestaurant);
         List<Restaurant> GetRestaurants();
-        Order GetRestaurant(string email, string password);
-        void AddRestaurant(Restaurant restaurant);
-        void UpdateRestaurant(Restaurant Restaurant);
-        void DeleteRestaurant(int id);
+        void UpdateRestaurantAddress(Restaurant restaurant, string newAddress);
     }
 }
