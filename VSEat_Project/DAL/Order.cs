@@ -8,23 +8,23 @@ namespace DAL
 {
     public class Order
     {
-        private int Id_Order { get; set; }
-        private DateTime Date_Order { get; set; }
-        private DateTime Date_Delivery { get; set; }
-        private string Delivery_Address { get; set; }
-        private int Fees { get; set; }
-        private int Total_Amount { get; set; }
-        private string Status_Order { get; set; }
+        //PK
+        public int IdOrder { get; set; }
+        //FK
+        public int IdOrderDetails { get; set; }
+        public int IdResautant { get; set; }
+        public int IdDeliverer { get; set; }
+        public int IdUser { get; set; }
 
-        public Order(int id_Order, DateTime date_Order, DateTime date_Delivery, string delivery_Address, int fees, int total_Amount, string status_Order)
-        {
-            Id_Order = id_Order;
-            Date_Order = date_Order;
-            Date_Delivery = date_Delivery;
-            Delivery_Address = delivery_Address;
-            Fees = fees;
-            Total_Amount = total_Amount;
-            Status_Order = status_Order;
-        }
+
+        public DateTime DateOrder { get; set; }
+        public DateTime DateDelivery { get; set; }
+        public string DeliveryAddress { get; set; }
+        public int Fees { get; set; }
+        public int TotalAmount { get; set; }
+        public string StatusOrder { get; set; }
+        public DateTime DeliveryTime { get; set; }
+
+
     }
 }
