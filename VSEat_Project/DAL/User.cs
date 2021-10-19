@@ -4,7 +4,10 @@ namespace DAL
 {
     public class User
     {
+        //PK
         private int IdUser { get; set; }
+        //Fk
+        public int IdCity { get; set; }
         private string Lastname { get; set; }
         private string Firstname { get; set; }
         private string BirthDate { get; set; }

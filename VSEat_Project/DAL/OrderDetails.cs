@@ -8,17 +8,17 @@ namespace DAL
 {
     public class OrderDetails
     {
-        private int Id_OrderDetails { get; set; }
-        private int Unit_Price { get; set; }
-        private int Quantity { get; set; }
-        private int Discount { get; set; }
+        //PK
+        public int IdOrderDetails { get; set; }
+        //FK
+        public int IdMenu { get; set; }
+        public int IdOrder { get; set; }
 
-        public OrderDetails(int id_OrderDetails, int unit_Price, int quantity, int discount)
-        {
-            Id_OrderDetails = id_OrderDetails;
-            Unit_Price = unit_Price;
-            Quantity = quantity;
-            Discount = discount;
-        }
+        public int UnitPrice { get; set; }
+        public int Quantity { get; set; }
+        public int Discount { get; set; }
+        public int TotalAmount { get; set; }
+
+        
     }
 }
