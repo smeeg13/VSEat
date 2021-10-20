@@ -8,6 +8,15 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
+    public interface IOrderDB1
+    {
+        Order AddOrder(Order order);
+        void DeleteOrder(Order order);
+        Order GetOrder(int IdOrder, DateTime DateOrder);
+        List<Order> GetOrders();
+        void UpdateOrderStatus(Order order, string newStatus);
+    }
+
     public class OrderDB : IOrderDB
     {
 
@@ -41,25 +50,21 @@ namespace DAL
                             if (results == null)
                                 results = new List<Order>();
 
-                            Order order= new Order();
+                            Order order = new Order();
 
                             order.IdOrder = (int)dr["idOrder"];
 
-                            if (dr["DateOrder"] != null)
-                                order.DateOrder = (DateTime)dr["DateOrder"];
+                            order.DateOrder = (DateTime)dr["DateOrder"];
 
-                            if (dr["DateDelivery"] != null)
-                                order.DateDelivery = (DateTime)dr["DateDelivery"];
+                            order.DateDelivery = (DateTime)dr["DateDelivery"];
 
-                            if (dr["DeliveryAddress"] != null)
-                                order.DeliveryAddress = (string)dr["DeliveryAddress"];
+                            order.DeliveryAddress = (string)dr["DeliveryAddress"];
 
                             order.Fees = (int)dr["Fees"];
 
                             order.TotalAmount = (int)dr["TotalAmount"];
 
                             order.StatusOrder = (string)dr["StatusOrder"];
-
 
                             order.DeliveryTime = (DateTime)dr["DeliveryTime"];
 
@@ -87,7 +92,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Members WHERE IdOrder=@IdOrder AND DateOrder=@DateOrder";
+                    string query = "Select * from Order WHERE IdOrder=@IdOrder AND DateOrder=@DateOrder";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@IdOrder", IdOrder);
                     cmd.Parameters.AddWithValue("@DateOrder", DateOrder);
@@ -103,7 +108,7 @@ namespace DAL
 
                             result = new Order();
 
-                            result.IdOrder  = (int)dr["IdOrder"];
+                            result.IdOrder = (int)dr["IdOrder"];
 
                             if (dr["DateOrder"] != null)
                                 result.DateOrder = (DateTime)dr["DateOrder"];
@@ -162,16 +167,54 @@ namespace DAL
             return order;
         }
 
-        //Method to update one order in the database
-        public void UpdateOrder(Order order)
+        //Method to update the status of one order in the database
+        public void UpdateOrderStatus(Order order, string newStatus)
         {
-            throw new NotImplementedException();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Update from Order SET StatusOrder = @statusorder WHERE IdOrder = @idorder";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@statusorder", newStatus);
+
+                    cn.Open();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
+
+
         //Method to delete one order in the database
-        public void DeleteOrder(int id)
+        public void DeleteOrder(Order order)
         {
-         
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Delete from Order WHERE IdOrder = @idorder";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@idorder", order.IdOrder);
+
+                    cn.Open();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
+
 
     }
 }

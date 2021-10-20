@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
-    interface IOrderDB
+    public interface IOrderDB
     {
-        List<Order> GetOrders();
-        Order GetOrder(int IdOrder, DateTime DateOrder);
         Order AddOrder(Order order);
-        void UpdateOrder(Order order);
-        void DeleteOrder(int id);
+        void DeleteOrder(Order order);
+        Order GetOrder(int IdOrder, DateTime DateOrder);
+        List<Order> GetOrders();
+        void UpdateOrderStatus(Order order, string newStatus);
     }
 }
