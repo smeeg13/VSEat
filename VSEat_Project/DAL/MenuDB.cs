@@ -12,11 +12,111 @@ namespace DAL
     {
         private IConfiguration Configuration { get; }
 
-
         public MenuDB(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        public List<Menu> GetMenu()
+        {
+            List<Menu> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Menu";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Menu>();
+
+                            Menu menu = new Menu();
+
+                            menu.IdMenu = (int)dr["IdMenu"];
+                            menu.PriceMenu = (int)dr["PriceMenu"];
+
+                            menu.ImageMenu = (int)dr["ImageMenu"];
+
+                            if (dr["NameMenu"] != null)
+                                menu.NameMenu = (string)dr["NameMenu"];
+
+                            if (dr["IngredientsMenu"] != null)
+                                menu.IngredientsMenu = (string)dr["IngredientsMenu"];
+
+                            if (dr["StatusMenu"] != null)
+                                menu.StatusMenu = (string)dr["StatusMenu"];
+
+                            results.Add(menu);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return results;
+        }
+
+        public Menu GetMenu()
+        {
+            Menu menu = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Deliverer where AvailabilityDeliverer = @AvailabilityDeliverer AND TimeAssigned = @TimeAssigned";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@AvailabilityDeliverer", AvailabilityDeliverer);
+                    cmd.Parameters.AddWithValue("@TimeAssigned", TimeAssigned);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            menu = new Menu();
+
+                            menu.IdMenu = (int)dr["IdMenu"];
+
+                            if (dr["PriceMenu"] != null)
+                                menu.PriceMenu = (int)dr["PriceMenu"];
+
+                            if (dr["NameMenu"] != null)
+                                menu.NameMenu = (string)dr["NameMenu"];
+
+                            if (dr["ImageMenu"] != null)
+                                menu.ImageMenu = (int)dr["ImageMenu"];
+
+                            if (dr["IngredientsMenu"] != null)
+                                menu.IngredientsMenu = (string)dr["IngredientsMenu"];
+
+                            if (dr["StatusMenu"] != null)
+                                menu.StatusMenu = (string)dr["StatusMenu"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return menu;
+        }
     }
 }
