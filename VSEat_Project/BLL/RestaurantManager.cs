@@ -26,25 +26,21 @@ namespace BLL
         public void DeleteRestaurant(Restaurant restaurant)
         {
             RestaurantDb.DeleteRestaurant(restaurant);
-
         }
 
         public Restaurant GetRestaurant(string nameRestaurant, string addressRestaurant)
         {
             return RestaurantDb.GetRestaurant(nameRestaurant, addressRestaurant);
-
         }
 
         public List<Restaurant> GetRestaurants()
         {
             return RestaurantDb.GetRestaurants();
-
         }
 
         public void UpdateRestaurantAddress(Restaurant restaurant, string newAddress)
         {
             RestaurantDb.UpdateRestaurantAddress(restaurant, newAddress);
-
         }
     }
 
