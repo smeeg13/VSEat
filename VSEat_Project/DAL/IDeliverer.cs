@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    interface IDeliverer
+   public interface IDelivererDB
     {
         List<Deliverer> GetDeliverers();
-        Order GetDeliverer(string email, string password);
-        void AddDeliverer(Deliverer deliverer);
-        void DeleteDeliverer(int id);
+        Deliverer GetDeliverer(string email, string password);
+        Deliverer AddDeliverer(Deliverer deliverer);
+        void DeleteDeliverer(Deliverer deliverer);
+        void UpdateDeliverer(string email, string password);
     }
 }
