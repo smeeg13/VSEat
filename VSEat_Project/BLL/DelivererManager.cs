@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    class DelivererManager
+   public class DelivererManager
     {
         private IDelivererDB DelivererDb { get; }
 

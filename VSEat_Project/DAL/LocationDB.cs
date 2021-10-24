@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-        public class LocationDB
+        public class LocationDB : ILocationDB
         {
             private IConfiguration Configuration { get; }
 
@@ -69,10 +69,10 @@ namespace DAL
                 {
                     using (SqlConnection cn = new SqlConnection(connectionString))
                     {
-                        string query = "Select * from Deliverer where AvailabilityDeliverer = @AvailabilityDeliverer AND TimeAssigned = @TimeAssigned";
+                        string query = "Select * from Location where NameCity = @NameCity AND ZIP = @ZIP";
                         SqlCommand cmd = new SqlCommand(query, cn);
-                        cmd.Parameters.AddWithValue("@AvailabilityDeliverer", AvailabilityDeliverer);
-                        cmd.Parameters.AddWithValue("@TimeAssigned", TimeAssigned);
+                        cmd.Parameters.AddWithValue("@NameCity", NameCity);
+                        cmd.Parameters.AddWithValue("@ZIP", ZIP);
 
                         cn.Open();
 
@@ -85,19 +85,7 @@ namespace DAL
                                 location.IdCity = (int)dr["IdCity"];
 
                                 if (dr["PriceMenu"] != null)
-                                    menu.PriceMenu = (int)dr["PriceMenu"];
-
-                                if (dr["NameMenu"] != null)
-                                    menu.NameMenu = (string)dr["NameMenu"];
-
-                                if (dr["ImageMenu"] != null)
-                                    menu.ImageMenu = (int)dr["ImageMenu"];
-
-                                if (dr["IngredientsMenu"] != null)
-                                    menu.IngredientsMenu = (string)dr["IngredientsMenu"];
-
-                                if (dr["StatusMenu"] != null)
-                                    menu.StatusMenu = (string)dr["StatusMenu"];
+                                    location.ZIP = (int)dr["ZIP"];
 
                             }
                         }
@@ -108,8 +96,33 @@ namespace DAL
                     throw e;
                 }
 
-                return menu;
+                return location;
             }
+
+        public List<Location> GetLocations()
+        {
+            throw new NotImplementedException();
         }
+
+        Deliverer ILocationDB.GetLocation(string NameCity, int ZIP)
+        {
+            throw new NotImplementedException();
+        }
+
+        Deliverer ILocationDB.AddLocation(Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ILocationDB.DeleteLocation(Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ILocationDB.UpdateLocation(string NameCity, int ZIP)
+        {
+            throw new NotImplementedException();
+        }
+    }
     }
 

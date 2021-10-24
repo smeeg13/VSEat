@@ -138,6 +138,26 @@ namespace DAL
         {
             throw new NotImplementedException();
         }
+
+        public Deliverer GetDeliverer(string NameCity, int ZIP)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Deliverer AddDeliverer(Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDeliverer(Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateDeliverer(string NameCity, int ZIP)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
     
