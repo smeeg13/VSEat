@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class DelivererDB
+    public class DelivererDB : IDelivererDB
     {
         private IConfiguration Configuration { get; }
 
@@ -97,6 +97,66 @@ namespace DAL
             }
 
             return deliverer;
+        }
+
+        public List<Deliverer> GetDeliverers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Order GetDeliverer(string email, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddDeliverer(Deliverer deliverer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDeliverer(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Deliverer IDelivererDB.GetDeliverer(string email, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        Deliverer IDelivererDB.AddDeliverer(Deliverer deliverer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDeliverer(Deliverer deliverer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateDeliverer(string email, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Deliverer GetDeliverer(string NameCity, int ZIP)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Deliverer AddDeliverer(Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteDeliverer(Location location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateDeliverer(string NameCity, int ZIP)
+        {
+            throw new NotImplementedException();
         }
     }
 }

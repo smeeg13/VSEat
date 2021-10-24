@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class CategoryDB 
+    public class CategoryDB : ICategoryDB
     {
         private IConfiguration Configuration { get; }
 
@@ -101,6 +101,26 @@ namespace DAL
             }
 
             return category;
+        }
+
+        public List<Category> GetCategories()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Category AddCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateCategory(string NameCategory, string DescriptionCategory)
+        {
+            throw new NotImplementedException();
         }
     }
 }

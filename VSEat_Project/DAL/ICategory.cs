@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    interface ICategory
+   public interface ICategoryDB
     {
         List<Category> GetCategories();
-        Category GetCategory();
-        void AddCategory();
-        void DeleteCategory();
-        void UpdateCategory();
+        Category GetCategory(string NameCategory, string DescriptionCategory);
+        Category AddCategory(Category category);
+        void DeleteCategory(Category category);
+        void UpdateCategory(Category category, string DescriptionCategory);
     }
 }

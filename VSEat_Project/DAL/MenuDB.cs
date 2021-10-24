@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class MenuDB
+    public class MenuDB : IMenuDB
     {
         private IConfiguration Configuration { get; }
 
@@ -67,7 +67,7 @@ namespace DAL
             return results;
         }
 
-        public Menu GetMenu()
+        public Menu GetMenu(string NameMenu, int PriceMenu)
         {
             Menu menu = null;
 
@@ -77,10 +77,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Deliverer where AvailabilityDeliverer = @AvailabilityDeliverer AND TimeAssigned = @TimeAssigned";
+                    string query = "Select * from Deliverer where NameMenu = @NameMenu AND PriceMenu = @PriceMenu";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@AvailabilityDeliverer", AvailabilityDeliverer);
-                    cmd.Parameters.AddWithValue("@TimeAssigned", TimeAssigned);
+                    cmd.Parameters.AddWithValue("@NameMenu", NameMenu);
+                    cmd.Parameters.AddWithValue("@PriceMenu", PriceMenu);
 
                     cn.Open();
 
@@ -117,6 +117,31 @@ namespace DAL
             }
 
             return menu;
+        }
+
+        public List<Menu> GetMenus()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddMenu(Menu menu)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateMenu(Menu menu)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteMenu(Menu menu)
+        {
+            throw new NotImplementedException();
+        }
+
+        Menu IMenuDB.AddMenu(Menu menu)
+        {
+            throw new NotImplementedException();
         }
     }
 }
