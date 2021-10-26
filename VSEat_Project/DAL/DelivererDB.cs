@@ -17,7 +17,7 @@ namespace DAL
             Configuration = configuration;
         }
 
-        public List<Deliverer> GetDeliverer()
+        public List<Deliverer> GetDeliverers()
         {
             List<Deliverer> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -99,64 +99,77 @@ namespace DAL
             return deliverer;
         }
 
-        public List<Deliverer> GetDeliverers()
+        public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
         {
-            throw new NotImplementedException();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Update from Deliverer SET AvailabilityDeliverer = @AvailibilityDeliverer WHERE IdDeliverer = @IdDeliverer";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@AvailibilityDeliverer", AvailabilityDeliverer);
+
+                    cn.Open();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
-        public Order GetDeliverer(string email, string password)
+        public Deliverer AddDeliverer(Deliverer deliverer)
         {
-            throw new NotImplementedException();
-        }
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-        public void AddDeliverer(Deliverer deliverer)
-        {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Insert into Deliverer(AvailabilityDeliverer, TimeAssigned) values(@AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@Availability", deliverer.AvailabilityDeliverer);
+                    cmd.Parameters.AddWithValue("@firstname", deliverer.TimeAssigned);
 
-        public void DeleteDeliverer(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        Deliverer IDelivererDB.GetDeliverer(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
+                    cn.Open();
 
-        Deliverer IDelivererDB.AddDeliverer(Deliverer deliverer)
-        {
-            throw new NotImplementedException();
+                    deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return deliverer;
         }
 
         public void DeleteDeliverer(Deliverer deliverer)
         {
-            throw new NotImplementedException();
-        }
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-        public void UpdateDeliverer(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Delete from Deliverer WHERE IdDeliverer = @IdDeliverer ";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@IdDeliverer", deliverer.IdDeliverer);
 
-        public Deliverer GetDeliverer(string NameCity, int ZIP)
-        {
-            throw new NotImplementedException();
-        }
+                    cn.Open();
 
-        public Deliverer AddDeliverer(Location location)
-        {
-            throw new NotImplementedException();
-        }
+                    deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
+                }
 
-        public void DeleteDeliverer(Location location)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateDeliverer(string NameCity, int ZIP)
-        {
-            throw new NotImplementedException();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

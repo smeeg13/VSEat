@@ -11,7 +11,8 @@ namespace DAL
         List<Menu> GetMenus();
         Menu GetMenu(string NameMenu, int PriceMenu);
         Menu AddMenu(Menu menu);
-        void UpdateMenu(Menu menu);
+        void UpdateMenuNameMenu(string NameMenu);
+        void UpdateMenuPriceMenu(int PriceMenu);
         void DeleteMenu(Menu menu);
     }
 }

@@ -8,10 +8,11 @@ namespace DAL
 {
    public interface ICategoryDB
     {
-        List<Category> GetCategories();
+        List<Category> Categories { get; }
+
         Category GetCategory(string NameCategory, string DescriptionCategory);
         Category AddCategory(Category category);
         void DeleteCategory(Category category);
-        void UpdateCategory(Category category, string DescriptionCategory);
+        void UpdateCategoryDescription(Category category, string newDescriptionCategory);
     }
 }

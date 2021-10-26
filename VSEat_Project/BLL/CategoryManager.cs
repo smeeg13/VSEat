@@ -35,7 +35,7 @@ namespace BLL
 
         public List<Category> GetCategories()
         {
-            return CategoryDb.GetCategories();
+            return CategoryDb.Categories;
         }
 
         public void UpdateCategory(Category category, string newDescriptionCategory)

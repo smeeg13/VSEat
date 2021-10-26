@@ -12,7 +12,7 @@ namespace DAL
         public int IdMenu { get; set; }
         public string NameMenu { get; set; }
         public int PriceMenu { get; set; }
-        public int ImageMenu { get; set; }
+        public int ImageMenu { get; set; } // ???? INT 
         public string IngredientsMenu { get; set; }
         public string StatusMenu { get; set; }
 

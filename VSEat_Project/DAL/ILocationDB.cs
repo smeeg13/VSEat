@@ -9,8 +9,8 @@ namespace DAL
     public interface ILocationDB
     {
         List<Location> GetLocations();
-        Deliverer GetLocation(string NameCity, int ZIP);
-        Deliverer AddLocation(Location location);
+        Location GetLocation(string NameCity, int ZIP);
+        Location AddLocation(Location location);
         void DeleteLocation(Location location);
         void UpdateLocation(string NameCity, int ZIP);
 

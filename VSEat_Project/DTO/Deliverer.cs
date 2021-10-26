@@ -13,7 +13,7 @@ namespace DAL
         //FK 
         public int IdOrder { get; set; }
 
-        public int AvailabilityDeliverer { get; set; } // maybe a boolean ??
+        public int AvailabilityDeliverer { get; set; } 
         public DateTime TimeAssigned { get; set; }
 
         public override string ToString()

@@ -17,7 +17,7 @@ namespace DAL
             Configuration = configuration;
         }
 
-        public List<Menu> GetMenu()
+        public List<Menu> GetMenus()
         {
             List<Menu> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -119,29 +119,103 @@ namespace DAL
             return menu;
         }
 
-        public List<Menu> GetMenus()
+        public void UpdateMenuNameMenu(string NameMenu)
         {
-            throw new NotImplementedException();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Update from Menu SET NameMenu = @NameMenu WHERE IdMenu = @IdMenu";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@NameMenu", NameMenu);
+
+                    cn.Open();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
-        public void AddMenu(Menu menu)
+        public void UpdateMenuPriceMenu(int PriceMenu)
         {
-            throw new NotImplementedException();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Update from Menu SET PriceMenu = @PriceMenu WHERE IdMenu = @IdMenu";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@PriceMenu", PriceMenu);
+
+                    cn.Open();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
-        public void UpdateMenu(Menu menu)
+        public Menu AddMenu(Menu menu)
         {
-            throw new NotImplementedException();
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Insert into Menu(NameMenu, PriceMenu, ImageMenu, IngredientsMenu, StatusMenu) values(@NameMenu, @PriceMenu, @ImageMenu, @IngredientsMenu, @StatusMenu); SELECT SCOPE_IDENTITY()";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@NameMenu", menu.NameMenu);
+                    cmd.Parameters.AddWithValue("@PriceMenu", menu.PriceMenu);
+                    cmd.Parameters.AddWithValue("@ImageMenu", menu.ImageMenu);
+                    cmd.Parameters.AddWithValue("@IngredientsMenu", menu.IngredientsMenu);
+                    cmd.Parameters.AddWithValue("@StatusMenu", menu.IngredientsMenu);
+
+                    cn.Open();
+
+                    menu.IdMenu = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return menu;
         }
 
         public void DeleteMenu(Menu menu)
         {
-            throw new NotImplementedException();
-        }
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-        Menu IMenuDB.AddMenu(Menu menu)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Delete from Menu WHERE IdMenu = @IdMenu ";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@IdMenu", menu.IdMenu);
+
+                    cn.Open();
+
+                    menu.IdMenu = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+
         }
     }
 }
