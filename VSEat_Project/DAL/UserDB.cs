@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from User";
+                    string query = "Select * from [User];";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
