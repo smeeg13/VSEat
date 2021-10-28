@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DAL
 {
-    interface IOrderDetailsDB
+    public interface IOrderDetailsDB
     {
+        OrderDetails AddOrderDetails(OrderDetails orderDetails);
+        void DeleteOrderDetails(OrderDetails orderDetails);
+        OrderDetails GetOrderDetails(int idOrderDetails, int TotalAmount);
         List<OrderDetails> GetOrdersDetails();
-        OrderDetails GetOrderDetail(string email, string password);
-        void AddOrder(OrderDetails orderdetails);
-        void UpdateOrderDetails(OrderDetails orderdetail);
-        void DeleteOrderDetails(int id);
+        void UpdateOrderDetailsQuantity(OrderDetails orderDetails, int newQuantity);
     }
 }

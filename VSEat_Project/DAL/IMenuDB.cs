@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    interface IMenuDB
+   public interface IMenuDB
     {
         List<Menu> GetMenus();
-        Menu GetMenu(string email, string password);
-        void AddMenu(Menu menu);
-        void UpdateMenu(Menu menu);
-        void DeleteMenu(int id);
-
+        Menu GetMenu(string NameMenu, int PriceMenu);
+        Menu AddMenu(Menu menu);
+        void UpdateMenuNameMenu(string NameMenu);
+        void UpdateMenuPriceMenu(int PriceMenu);
+        void DeleteMenu(Menu menu);
     }
 }

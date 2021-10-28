@@ -8,8 +8,12 @@ namespace DAL
 {
         public class Deliverer
     {
+        //PK
         public int IdDeliverer { get; set; }
-        public int AvailabilityDeliverer { get; set; } // maybe a boolean ??
+        //FK 
+        public int IdOrder { get; set; }
+
+        public int AvailabilityDeliverer { get; set; } 
         public DateTime TimeAssigned { get; set; }
 
         public override string ToString()

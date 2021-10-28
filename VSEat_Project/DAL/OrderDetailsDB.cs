@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class OrderDetailsDB
+    public class OrderDetailsDB : IOrderDetailsDB
     {
         private IConfiguration Configuration { get; }
 
@@ -40,7 +40,7 @@ namespace DAL
 
                             OrderDetails orderDetails = new OrderDetails();
 
-                            orderDetails.IdOrderDetails = (int)dr["idOrder"];
+                            orderDetails.IdOrderDetails = (int)dr["idOrderDetails"];
 
                             if (dr["UnitPrice"] != null)
                                 orderDetails.UnitPrice = (int)dr["UnitPrice"];
@@ -48,8 +48,7 @@ namespace DAL
                             if (dr["Quantity"] != null)
                                 orderDetails.Quantity = (int)dr["Quantity"];
 
-                            if (dr["Discount"] != DBNull.Value)
-                                orderDetails.Discount = (short)dr["Discount"];
+                            orderDetails.Discount = (short)dr["Discount"];
 
                             orderDetails.TotalAmount = (int)dr["TotalAmount"];
 
@@ -100,8 +99,7 @@ namespace DAL
                             if (dr["Quantity"] != null)
                                 result.Quantity = (int)dr["Quantity"];
 
-                            if (dr["Discount"] != DBNull.Value)
-                                result.Discount = (short)dr["Discount"];
+                            result.Discount = (short)dr["Discount"];
 
                             result.TotalAmount = (int)dr["TotalAmount"];
 
@@ -127,10 +125,13 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into OrderDetails(Lastname, Email) values(@lastname, @email); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into OrderDetails(UnitPrice, Quantity, Discount, Totalamount) values(@unitprice, @quantity, @discount, @totalAmount); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@lastname", orderDetails.Lastname);
-                    cmd.Parameters.AddWithValue("@email", orderDetails.Email);
+                    cmd.Parameters.AddWithValue("@unitprice", orderDetails.UnitPrice);
+                    cmd.Parameters.AddWithValue("@quantity", orderDetails.Quantity);
+                    cmd.Parameters.AddWithValue("@discount", orderDetails.Discount);
+                    cmd.Parameters.AddWithValue("@totalamount", orderDetails.TotalAmount);
+
 
                     cn.Open();
 
@@ -143,6 +144,54 @@ namespace DAL
             }
 
             return orderDetails;
+        }
+
+        //Method to update the quantity of one orderdetail in the database
+        public void UpdateOrderDetailsQuantity(OrderDetails orderDetails, int newQuantity)
+        {
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Update from OrderDetails SET Quantity = @quantity WHERE IdOrderDetails = @idorderdetails";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@quantity", newQuantity);
+
+                    cn.Open();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
+        //Method to delete one order details in the database
+        public void DeleteOrderDetails(OrderDetails orderDetails)
+        {
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Delete from OrderDetails WHERE IdOrderDetails = @idorderdetails";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@idorderdetails", orderDetails.IdOrderDetails);
+
+                    cn.Open();
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
     }
 }

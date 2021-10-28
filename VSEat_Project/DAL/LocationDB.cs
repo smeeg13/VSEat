@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class DelivererDB : IDelivererDB
+    public class LocationDB : ILocationDB
     {
         private IConfiguration Configuration { get; }
 
-        public DelivererDB(IConfiguration configuration)
+        public LocationDB(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public List<Deliverer> GetDeliverers()
+        public List<Location> GetLocations()
         {
-            List<Deliverer> results = null;
+            List<Location> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Deliverer";
+                    string query = "Select * from Location";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -36,15 +36,17 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<Deliverer>();
+                                results = new List<Location>();
 
-                            Deliverer deliverer = new Deliverer();
+                            Location location = new Location();
 
-                            deliverer.IdDeliverer = (int)dr["IdDeliverer"];
+                            location.IdCity = (int)dr["IdCity"];
+                            location.ZIP = (int)dr["ZIP"];
 
-                            deliverer.AvailabilityDeliverer = (int)dr["AvailabilityDeliverer"];
+                            if (dr["NameCity"] != null)
+                                location.NameCity = (string)dr["NameCity"];
 
-                            results.Add(deliverer);
+                            results.Add(location);
                         }
                     }
                 }
@@ -57,9 +59,9 @@ namespace DAL
             return results;
         }
 
-        public Deliverer GetDeliverer(int AvailabilityDeliverer, DateTime TimeAssigned)
+        public Location GetLocation(string NameCity, int ZIP)
         {
-            Deliverer deliverer = null;
+            Location location = null;
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -67,10 +69,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Deliverer where AvailabilityDeliverer = @AvailabilityDeliverer AND TimeAssigned = @TimeAssigned";
+                    string query = "Select * from Location where NameCity = @NameCity AND ZIP = @ZIP";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@AvailabilityDeliverer", AvailabilityDeliverer);
-                    cmd.Parameters.AddWithValue("@TimeAssigned", TimeAssigned);
+                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
+                    cmd.Parameters.AddWithValue("@ZIP", ZIP);
 
                     cn.Open();
 
@@ -78,15 +80,13 @@ namespace DAL
                     {
                         if (dr.Read())
                         {
-                            deliverer = new Deliverer();
+                            location = new Location();
 
-                            deliverer.IdDeliverer = (int)dr["IdDeliverer"];
+                            location.IdCity = (int)dr["IdCity"];
 
-                            if (dr["AvailabitlityDeliverer"] != null)
-                                deliverer.AvailabilityDeliverer = (int)dr["AvailabitlityDeliverer"];
+                            if (dr["PriceMenu"] != null)
+                                location.ZIP = (int)dr["ZIP"];
 
-                            if (dr["TimeAssigned"] != null)
-                                deliverer.TimeAssigned = (DateTime)dr["TimeAssigned"];
                         }
                     }
                 }
@@ -96,10 +96,10 @@ namespace DAL
                 throw e;
             }
 
-            return deliverer;
+            return location;
         }
 
-        public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
+        public void UpdateLocation(string NameCity, int ZIP)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -107,9 +107,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Deliverer SET AvailabilityDeliverer = @AvailibilityDeliverer WHERE IdDeliverer = @IdDeliverer";
+                    string query = "Update from Location SET NameCity = @NameCity WHERE IdCity = @IdCity";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@AvailibilityDeliverer", AvailabilityDeliverer);
+                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
+                    cmd.Parameters.AddWithValue("@ZIP", ZIP);
 
                     cn.Open();
 
@@ -121,7 +122,7 @@ namespace DAL
             }
         }
 
-        public Deliverer AddDeliverer(Deliverer deliverer)
+        public Location AddLocation(Location location)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -129,15 +130,15 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Deliverer(AvailabilityDeliverer, TimeAssigned) values(@AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Location(NameCity, ZIP) values(@NameCity, @ZIP); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@Availability", deliverer.AvailabilityDeliverer);
-                    cmd.Parameters.AddWithValue("@firstname", deliverer.TimeAssigned);
+                    cmd.Parameters.AddWithValue("@NameCity", location.NameCity);
+                    cmd.Parameters.AddWithValue("@firstname", location.ZIP);
 
 
                     cn.Open();
 
-                    deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
+                    location.IdCity = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -145,10 +146,10 @@ namespace DAL
                 throw e;
             }
 
-            return deliverer;
+            return location;
         }
 
-        public void DeleteDeliverer(Deliverer deliverer)
+        public void DeleteLocation(Location location)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -156,13 +157,13 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Deliverer WHERE IdDeliverer = @IdDeliverer ";
+                    string query = "Delete from Location WHERE IdCity = @IdCity";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdDeliverer", deliverer.IdDeliverer);
+                    cmd.Parameters.AddWithValue("@IdCity", location.IdCity);
 
                     cn.Open();
 
-                    deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
+                    location.IdCity = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }
@@ -173,4 +174,4 @@ namespace DAL
         }
     }
 }
-    
+
