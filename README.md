@@ -12,4 +12,6 @@ The path is also stored in the appsettings file<br/>
 
 <h2>Authors</h2>
 <p>Mégane Solliard<br/>
-Emilie Teodoro Do Nascimento</p>
+Emilie Teodoro Do Nascimento<br/>
+We have realised this project for the Module 623-1 Implementation of the information system 
+</p>
