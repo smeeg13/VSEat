@@ -8,14 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public interface IOrderDB1
-    {
-        Order AddOrder(Order order);
-        void DeleteOrder(Order order);
-        Order GetOrder(int IdOrder, DateTime DateOrder);
-        List<Order> GetOrders();
-        void UpdateOrderStatus(Order order, string newStatus);
-    }
+   
 
     public class OrderDB : IOrderDB
     {
@@ -83,7 +76,7 @@ namespace DAL
         }
 
         //Method to get one specific order in the database
-        public Order GetOrder(int IdOrder, DateTime DateOrder)
+        public Order GetOrder(int IdOrder, int IdCustomer)
         {
             Order result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -92,10 +85,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Order WHERE IdOrder=@IdOrder AND DateOrder=@DateOrder";
+                    string query = "Select * from Order WHERE IdOrder=@IdOrder AND IdCustomer=@IdCustomer";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@IdOrder", IdOrder);
-                    cmd.Parameters.AddWithValue("@DateOrder", DateOrder);
+                    cmd.Parameters.AddWithValue("@IdCustomer", IdCustomer);
 
 
                     cn.Open();
@@ -192,7 +185,7 @@ namespace DAL
 
 
         //Method to delete one order in the database
-        public void DeleteOrder(Order order)
+        public void DeleteOrder(int IdOrder)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -202,7 +195,7 @@ namespace DAL
                 {
                     string query = "Delete from Order WHERE IdOrder = @idorder";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idorder", order.IdOrder);
+                    cmd.Parameters.AddWithValue("@idorder", IdOrder);
 
                     cn.Open();
 
