@@ -15,9 +15,16 @@ namespace DAL
         public int IdMenu { get; set; }
         public string NameRestaurant { get; set; }
         public string DescriptionRestaurant { get; set; }
-        public string Contact { get; set; }
         public string AddressRestaurant { get; set; }
 
-        
+        public override string ToString()
+        {
+            return "Id Restaurant : " + IdRestaurant +
+                "IdCity : " + IdCity +
+                "IdMenu : " + IdMenu +
+                "NameRestaurant : " + NameRestaurant +
+                "DescriptionRestaurant : " + DescriptionRestaurant;
+        }
     }
+    
 }

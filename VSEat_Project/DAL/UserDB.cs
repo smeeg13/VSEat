@@ -40,19 +40,13 @@ namespace DAL
 
                             User user = new User();
 
-                            user.IdUser = (int)dr["idMember"];
+                            user.IdUser = (int)dr["idUser"];
 
                             if (dr["Lastname"] != null)
                                 user.Lastname = (string)dr["Lastname"];
 
                             if (dr["Firstname"] != null)
                                 user.Firstname = (string)dr["Firstname"];
-
-                            user.BirthDate = (DateTime)dr["BirthDate"];
-
-                            user.PhoneNumber = (string)dr["PhoneNumber"];
-
-                            user.Email = (string)dr["Email"];
 
                             if (dr["Address"] != null)
                                 user.Address = (string)dr["Address"];
@@ -61,8 +55,6 @@ namespace DAL
                                 user.Username = (string)dr["Username"];
 
                             user.Password = (string)dr["Password"];
-
-                            user.StatusAccount = (string)dr["StatusAccount"];
 
                             user.IsAdmin = (Boolean)dr["IsAdmin"];
 
@@ -114,11 +106,6 @@ namespace DAL
                             if (dr["Firstname"] != null)
                                 result.Firstname = (string)dr["Firstname"];
 
-                            result.BirthDate = (DateTime)dr["BirthDate"];
-
-                            result.PhoneNumber = (string)dr["PhoneNumber"];
-
-                            result.Email = (string)dr["Email"];
 
                             if (dr["Address"] != null)
                                 result.Address = (string)dr["Address"];
@@ -127,8 +114,6 @@ namespace DAL
                                 result.Username = (string)dr["Username"];
 
                             result.Password = (string)dr["Password"];
-
-                            result.StatusAccount = (string)dr["StatusAccount"];
 
                             result.IsAdmin = (Boolean)dr["IsAdmin"];
 
@@ -159,7 +144,6 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@address", user.Address);
                     cmd.Parameters.AddWithValue("@username", user.Username);
                     cmd.Parameters.AddWithValue("@password", user.Password);
-                    cmd.Parameters.AddWithValue("@statusAccount", user.StatusAccount);
                     cmd.Parameters.AddWithValue("@isadmin", user.IsAdmin);
 
 
