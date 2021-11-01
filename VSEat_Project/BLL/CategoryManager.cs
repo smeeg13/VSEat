@@ -38,9 +38,9 @@ namespace BLL
             return CategoryDb.Categories;
         }
 
-        public void UpdateCategory(Category category, string newDescriptionCategory)
+        public void UpdateCategoryDescription(Category category, string newDescriptionCategory)
         {
-            CategoryDb.UpdateCategory(category, newDescriptionCategory);
+            CategoryDb.UpdateCategoryDescription(category, newDescriptionCategory);
         }
     }
 }

@@ -19,9 +19,9 @@ namespace BLL
         {
             return OrderDb.AddOrder(order);
         }
-        public void DeleteOrder(Order order)
+        public void DeleteOrder(int IdOrder)
         {
-            OrderDb.DeleteOrder(order);
+            OrderDb.DeleteOrder(IdOrder);
 
         }
         public Order GetOrder(int IdOrder, DateTime DateOrder)

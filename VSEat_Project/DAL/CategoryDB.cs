@@ -42,13 +42,13 @@ namespace DAL
 
                                 Category category = new Category();
 
-                                category.IdCategory = (int)dr["IdCategory"];
+                                category.CategoryID = (int)dr["IdCategory"];
 
                                 if (dr["NameCategory"] != null)
-                                    category.NameCategory = (string)dr["NameCategory"];
+                                    category.CategoryName = (string)dr["NameCategory"];
 
                                 if (dr["DescriptionCategory"] != null)
-                                    category.DescriptionCategory = (string)dr["DescriptionCategory"];
+                                    category.Description = (string)dr["DescriptionCategory"];
 
                                 results.Add(category);
                             }
@@ -87,13 +87,13 @@ namespace DAL
                         {
                             category = new Category();
 
-                            category.IdCategory = (int)dr["idCategory"];
+                            category.CategoryID = (int)dr["idCategory"];
 
                             if(dr["NameCategory"] != null)
-                                category.NameCategory = (string)dr["NameCategory"];
+                                category.CategoryName = (string)dr["NameCategory"];
 
                             if (dr["DescriptionCategory"] != null)
-                                category.DescriptionCategory = (string)dr["DescriptionCategory"];
+                                category.Description = (string)dr["DescriptionCategory"];
                         }
                     }
                 }
@@ -138,13 +138,13 @@ namespace DAL
                 {
                     string query = "Insert into Category(NameCategory, DescriptionCategory) values(@NameCategory, @DescriptionCategory); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@lastname", category.NameCategory);
-                    cmd.Parameters.AddWithValue("@firstname", category.DescriptionCategory);
+                    cmd.Parameters.AddWithValue("@lastname", category.CategoryName);
+                    cmd.Parameters.AddWithValue("@firstname", category.Description);
              
 
                     cn.Open();
 
-                    category.IdCategory = Convert.ToInt32(cmd.ExecuteScalar());
+                    category.CategoryID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -165,11 +165,11 @@ namespace DAL
                 {
                     string query = "Delete from CategorY WHERE IdCategory = @IdCategory ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdCategory", category.IdCategory);
+                    cmd.Parameters.AddWithValue("@IdCategory", category.CategoryID);
 
                     cn.Open();
 
-                    category.IdCategory = Convert.ToInt32(cmd.ExecuteScalar());
+                    category.CategoryID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }

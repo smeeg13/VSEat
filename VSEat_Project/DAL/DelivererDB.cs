@@ -40,9 +40,9 @@ namespace DAL
 
                             Deliverer deliverer = new Deliverer();
 
-                            deliverer.IdDeliverer = (int)dr["IdDeliverer"];
+                            deliverer.DelivereID = (int)dr["IdDeliverer"];
 
-                            deliverer.AvailabilityDeliverer = (int)dr["AvailabilityDeliverer"];
+                            deliverer.Availability = (int)dr["AvailabilityDeliverer"];
 
                             results.Add(deliverer);
                         }
@@ -80,10 +80,10 @@ namespace DAL
                         {
                             deliverer = new Deliverer();
 
-                            deliverer.IdDeliverer = (int)dr["IdDeliverer"];
+                            deliverer.DelivereID = (int)dr["IdDeliverer"];
 
                             if (dr["AvailabitlityDeliverer"] != null)
-                                deliverer.AvailabilityDeliverer = (int)dr["AvailabitlityDeliverer"];
+                                deliverer.Availability = (int)dr["AvailabitlityDeliverer"];
 
                             if (dr["TimeAssigned"] != null)
                                 deliverer.TimeAssigned = (DateTime)dr["TimeAssigned"];
@@ -131,13 +131,13 @@ namespace DAL
                 {
                     string query = "Insert into Deliverer(AvailabilityDeliverer, TimeAssigned) values(@AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@Availability", deliverer.AvailabilityDeliverer);
+                    cmd.Parameters.AddWithValue("@Availability", deliverer.Availability);
                     cmd.Parameters.AddWithValue("@firstname", deliverer.TimeAssigned);
 
 
                     cn.Open();
 
-                    deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
+                    deliverer.DelivereID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -158,11 +158,11 @@ namespace DAL
                 {
                     string query = "Delete from Deliverer WHERE IdDeliverer = @IdDeliverer ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdDeliverer", deliverer.IdDeliverer);
+                    cmd.Parameters.AddWithValue("@IdDeliverer", deliverer.DelivereID);
 
                     cn.Open();
 
-                    deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
+                    deliverer.DelivereID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }

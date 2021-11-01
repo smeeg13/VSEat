@@ -9,18 +9,20 @@ namespace DAL
         public class Deliverer
     {
         //PK
-        public int IdDeliverer { get; set; }
-        //FK 
-        public int IdOrder { get; set; }
+        public int DelivereID { get; set; }
 
-        public int AvailabilityDeliverer { get; set; } 
-        public DateTime TimeAssigned { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public int NumberOrdersAssigned { get; set; }
+        public int Availability { get; set; } 
 
         public override string ToString()
         {
-            return "IdDeliverer " + IdDeliverer +
-                    "AvailabilityDeliverer " + AvailabilityDeliverer +
-                    "TimeAssigned " + TimeAssigned;
+            return "IdDeliverer : " + DelivereID +
+                    "Username :  " + Username +
+                   "Password : " + Password +
+                    "NumberOrdersAssigned : " + NumberOrdersAssigned +
+                    "Availability " + Availability;       
         }
     }
 
