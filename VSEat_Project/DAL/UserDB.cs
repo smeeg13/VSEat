@@ -20,7 +20,7 @@ namespace DAL
         public List<User> GetUsers()
         {
             List<User> results = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -53,9 +53,6 @@ namespace DAL
 
                             user.Password = (string)dr["Password"];
 
-                            user.IsAdmin = (Boolean)dr["IsAdmin"];
-
-
                             results.Add(user);
 
                         }
@@ -65,12 +62,13 @@ namespace DAL
             catch (Exception e)
             {
                 throw e;
+                
             }
 
             return results;
         }
 
-        public User GetUser(string Firstname, string Lastname, string password)
+        public User GetUser(string Firstname, string Lastname)
         {
             User result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -79,12 +77,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from User WHERE Firstname=@Firstname AND Lastname=@Lastname AND password=@mypassword";
+                    string query = "Select * from Users WHERE Firstname=@Firstname AND Lastname=@Lastname";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@Firstname", Firstname);
                     cmd.Parameters.AddWithValue("@Lastname", Lastname);
-                    cmd.Parameters.AddWithValue("@mypassword", password);
-
 
                     cn.Open();
 
@@ -109,9 +105,6 @@ namespace DAL
                                 result.Address = (string)dr["Address"];
 
                             result.Password = (string)dr["Password"];
-
-                            result.IsAdmin = (Boolean)dr["IsAdmin"];
-
                         }
                     }
                 }
@@ -132,15 +125,13 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into User(Lastname,Firstname, Address,  Password, StatusAccount, IsAdmin) values(@lastname,@firstname, @address, @username, @password,@statusAccount, @IsAdmin); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Users(Firstname, Lastname,  Password ,Address , LocationID) values(@lastname,@firstname, @address, @username, @password,@statusAccount); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@lastname", user.Lastname);
                     cmd.Parameters.AddWithValue("@firstname", user.Firstname);
                     cmd.Parameters.AddWithValue("@address", user.Address);
                     cmd.Parameters.AddWithValue("@password", user.Password);
-                    cmd.Parameters.AddWithValue("@isAdmin", user.IsAdmin);
-
-
+                    cmd.Parameters.AddWithValue("@LocationID", user.LocationID);
 
                     cn.Open();
 
@@ -156,7 +147,7 @@ namespace DAL
         }
 
 
-        public void UpdateUserAddress(Order order, string newAddress)
+        public void UpdateUserAddress(User user, string newAddress)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -164,9 +155,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from User SET Address = @address WHERE IdUser = @UserID";
+                    string query = "Update from Users SET Address = @address WHERE UserID = @UserID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@address", newAddress);
+                    cmd.Parameters.AddWithValue("@UserID", user.UserID);
 
                     cn.Open();
 
@@ -178,7 +170,7 @@ namespace DAL
             }
         }
 
-        public void UpdateUserPassword(Order order, string newPassword)
+        public void UpdateUserPassword(User user, string newPassword)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -186,9 +178,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from User SET Password = @password WHERE IdUser = @iduser";
+                    string query = "Update from Users SET Password = @password WHERE UserID = @UserID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@password", newPassword);
+                    cmd.Parameters.AddWithValue("@UserID", user.UserID);
 
                     cn.Open();
 
@@ -199,7 +192,5 @@ namespace DAL
                 throw e;
             }
         }
-
-
     }
 }

@@ -13,7 +13,7 @@ namespace DAL
         public string Firstname { get; set; }
         public string Address { get; set; }
         public string Password { get; set; }
-        public Boolean IsAdmin { get; set; }
+        public string StatusAccount { get; set; }
 
 
         public User()
@@ -26,6 +26,7 @@ namespace DAL
             Firstname = firstname;
             Address = address;
             Password = password;
+            StatusAccount = "Active";
         }
 
        
@@ -36,8 +37,7 @@ namespace DAL
                    " LastName: " + Lastname +
                    " Firsname: " + Firstname +
                    " Address: " + Address +
-                   "Password: " + Password+
-                   " Is Admin: " + IsAdmin;
+                   "Password: " + Password;
 
         }
     }

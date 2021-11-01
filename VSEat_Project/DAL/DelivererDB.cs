@@ -57,7 +57,7 @@ namespace DAL
             return results;
         }
 
-        public Deliverer GetDeliverer(int AvailabilityDeliverer, DateTime TimeAssigned)
+        public Deliverer GetDeliverer(int DelivererID)
         {
             Deliverer deliverer = null;
 
@@ -67,10 +67,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Deliverer where AvailabilityDeliverer = @AvailabilityDeliverer AND TimeAssigned = @TimeAssigned";
+                    string query = "Select * from Deliverers where DelivererID = @DelivererID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@AvailabilityDeliverer", AvailabilityDeliverer);
-                    cmd.Parameters.AddWithValue("@TimeAssigned", TimeAssigned);
+                    cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
 
                     cn.Open();
 
@@ -85,8 +84,6 @@ namespace DAL
                             if (dr["AvailabitlityDeliverer"] != null)
                                 deliverer.Availability = (int)dr["AvailabitlityDeliverer"];
 
-                            if (dr["TimeAssigned"] != null)
-                                deliverer.TimeAssigned = (DateTime)dr["TimeAssigned"];
                         }
                     }
                 }
@@ -129,11 +126,12 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Deliverer(AvailabilityDeliverer, TimeAssigned) values(@AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Deliverer(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@Username", deliverer.Username);
+                    cmd.Parameters.AddWithValue("@Password", deliverer.Password);
+                    cmd.Parameters.AddWithValue("@NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
                     cmd.Parameters.AddWithValue("@Availability", deliverer.Availability);
-                    cmd.Parameters.AddWithValue("@firstname", deliverer.TimeAssigned);
-
 
                     cn.Open();
 

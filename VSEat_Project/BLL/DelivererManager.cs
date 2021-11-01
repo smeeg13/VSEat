@@ -28,9 +28,9 @@ namespace BLL
             DelivererDb.DeleteDeliverer(deliverer);
         }
 
-        public Deliverer GetDeliverer(string email, string password)
+        public Deliverer GetDeliverer(int DelivererID)
         {
-            return DelivererDb.GetDeliverer(email, password);
+            return DelivererDb.GetDeliverer(DelivererID);
         }
 
         public List<Deliverer> GetDeliverers()
@@ -38,9 +38,9 @@ namespace BLL
             return DelivererDb.GetDeliverers();
         }
 
-        public void UpdateDeliverer(string email, string password)
+        public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
         {
-            DelivererDb.UpdateDeliverer(email, password);
+            DelivererDb.UpdateDelivererAvailability(deliverer, AvailabilityDeliverer);
         }
     }
 }
