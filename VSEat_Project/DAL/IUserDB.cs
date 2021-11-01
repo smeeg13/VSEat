@@ -5,7 +5,7 @@ namespace DAL
     public interface IUserDB
     {
         User AddUser(User user);
-        User GetUser(string username, string password);
+        User GetUser(string Firstname, string Lastname, string password);
         List<User> GetUsers();
         void UpdateUserAddress(Order order, string newAddress);
         void UpdateUserPassword(Order order, string newPassword);

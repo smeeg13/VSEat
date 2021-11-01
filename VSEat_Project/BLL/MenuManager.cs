@@ -38,9 +38,13 @@ namespace BLL
             return MenuDb.GetMenus();
         }
 
-        public void UpdateMenu(Menu menu)
+        public void UpdateMenuName(Menu menu, string newname)
         {
-            MenuDb.UpdateMenu(menu);
+            MenuDb.UpdateMenuName(menu, newname);
+        }
+        public void UpdateMenuPrice(Menu menu, int newPrice)
+        {
+            MenuDb.UpdateMenuPrice(menu, newPrice);
         }
     }
 }

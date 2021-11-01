@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Menu";
+                    string query = "Select * from Menus";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -40,16 +40,15 @@ namespace DAL
 
                             Menu menu = new Menu();
 
-                            menu.IdMenu = (int)dr["IdMenu"];
-                            menu.PriceMenu = (int)dr["PriceMenu"];
+                            menu.MenuID = (int)dr["MenuID"];
+                            menu.UnitPrice = (int)dr["UnitPrice"];
 
-                            menu.ImageMenu = (int)dr["ImageMenu"];
+                            if (dr["MenuName"] != null)
+                                menu.MenuName = (string)dr["MenuName"];
+                            menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
 
-                            if (dr["NameMenu"] != null)
-                                menu.NameMenu = (string)dr["NameMenu"];
 
-                            if (dr["IngredientsMenu"] != null)
-                                menu.IngredientsMenu = (string)dr["IngredientsMenu"];
 
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
@@ -67,7 +66,7 @@ namespace DAL
             return results;
         }
 
-        public Menu GetMenu(string NameMenu, int PriceMenu)
+        public Menu GetMenu(string NameMenu, int UnitPrice)
         {
             Menu menu = null;
 
@@ -77,10 +76,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Deliverer where NameMenu = @NameMenu AND PriceMenu = @PriceMenu";
+                    string query = "Select * from Menus where NameMenu = @NameMenu AND UnitPrice = @UnitPrice";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameMenu", NameMenu);
-                    cmd.Parameters.AddWithValue("@PriceMenu", PriceMenu);
+                    cmd.Parameters.AddWithValue("@UnitPrice", UnitPrice);
 
                     cn.Open();
 
@@ -90,19 +89,13 @@ namespace DAL
                         {
                             menu = new Menu();
 
-                            menu.IdMenu = (int)dr["IdMenu"];
+                            menu.MenuID = (int)dr["MenuID"];
 
                             if (dr["PriceMenu"] != null)
-                                menu.PriceMenu = (int)dr["PriceMenu"];
+                                menu.UnitPrice = (int)dr["PriceMenu"];
 
                             if (dr["NameMenu"] != null)
-                                menu.NameMenu = (string)dr["NameMenu"];
-
-                            if (dr["ImageMenu"] != null)
-                                menu.ImageMenu = (int)dr["ImageMenu"];
-
-                            if (dr["IngredientsMenu"] != null)
-                                menu.IngredientsMenu = (string)dr["IngredientsMenu"];
+                                menu.MenuName = (string)dr["NameMenu"];
 
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
@@ -119,7 +112,7 @@ namespace DAL
             return menu;
         }
 
-        public void UpdateMenuNameMenu(string NameMenu)
+        public void UpdateMenuName(Menu menu,string NameMenu)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -127,9 +120,11 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Menu SET NameMenu = @NameMenu WHERE IdMenu = @IdMenu";
+                    string query = "Update from Menus SET MenuName = @MenuName WHERE IdMenu = @MenuID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@NameMenu", NameMenu);
+                    cmd.Parameters.AddWithValue("@MenuName", NameMenu);
+                    cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
+
 
                     cn.Open();
 
@@ -141,7 +136,7 @@ namespace DAL
             }
         }
 
-        public void UpdateMenuPriceMenu(int PriceMenu)
+        public void UpdateMenuPrice(Menu menu, int UnitPrice)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -149,9 +144,11 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Menu SET PriceMenu = @PriceMenu WHERE IdMenu = @IdMenu";
+                    string query = "Update from Menus SET UnitPrice = @UnitPrice WHERE MenuID = @MenuID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@PriceMenu", PriceMenu);
+                    cmd.Parameters.AddWithValue("@UnitPrice", UnitPrice);
+                    cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
+
 
                     cn.Open();
 
@@ -171,17 +168,18 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Menu(NameMenu, PriceMenu, ImageMenu, IngredientsMenu, StatusMenu) values(@NameMenu, @PriceMenu, @ImageMenu, @IngredientsMenu, @StatusMenu); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Menus(MenuName, QuantityPerUnit, UnitPrice,UnitsInStock, UnitsOnOrder, StatusMenu) values(@MenuName, @QuantityPerUnit, @UnitPrice, @UnitsInStock, @UnitsOnOrder, @StatusMenu); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@NameMenu", menu.NameMenu);
-                    cmd.Parameters.AddWithValue("@PriceMenu", menu.PriceMenu);
-                    cmd.Parameters.AddWithValue("@ImageMenu", menu.ImageMenu);
-                    cmd.Parameters.AddWithValue("@IngredientsMenu", menu.IngredientsMenu);
-                    cmd.Parameters.AddWithValue("@StatusMenu", menu.IngredientsMenu);
+                    cmd.Parameters.AddWithValue("@MenuName", menu.MenuName);
+                    cmd.Parameters.AddWithValue("@QuantityPerUnit", menu.QuantityPerUnit);
+                    cmd.Parameters.AddWithValue("@UnitPrice", menu.UnitPrice);
+                    cmd.Parameters.AddWithValue("@UnitInStock", menu.UnitsInStock);
+                    cmd.Parameters.AddWithValue("@UnitOnOrder", menu.UnitsOnOrder);
+                    cmd.Parameters.AddWithValue("@StatusMenu", menu.StatusMenu);
 
                     cn.Open();
 
-                    menu.IdMenu = Convert.ToInt32(cmd.ExecuteScalar());
+                    menu.MenuID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -200,13 +198,13 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Menu WHERE IdMenu = @IdMenu ";
+                    string query = "Delete from Menus WHERE MenuID = @MenuID ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdMenu", menu.IdMenu);
+                    cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
 
                     cn.Open();
 
-                    menu.IdMenu = Convert.ToInt32(cmd.ExecuteScalar());
+                    menu.MenuID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }

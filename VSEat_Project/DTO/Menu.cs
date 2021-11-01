@@ -8,22 +8,28 @@ namespace DAL
 {
     public class Menu
     {
+        //PK
+        public int MenuID { get; set; }
+        //FK
+        public int RestaurantID { get; set; }
+        public int CategoryID { get; set; }
 
-        public int IdMenu { get; set; }
-        public string NameMenu { get; set; }
-        public int PriceMenu { get; set; }
-        public int ImageMenu { get; set; } // ???? INT 
-        public string IngredientsMenu { get; set; }
+
+        public string MenuName { get; set; }
+        public int QuantityPerUnit { get; set; }
+        public int UnitPrice { get; set; }
+        public int UnitsInStock { get; set; }
+        public int UnitsOnOrder { get; set; }
         public string StatusMenu { get; set; }
 
         public override string ToString()
         {
-            return "IdMenu " + IdMenu +
-                    "NameMenu " + NameMenu +
-                    "PriceMenu " + PriceMenu +
-                    "ImageMenu " + ImageMenu +
-                    "IngredientsMenu " +IngredientsMenu +
-                     "StatusMenu " + StatusMenu;
+            return "Id Menu :" + MenuID +
+                    "Name Menu :" + MenuName +
+                    "Unit Price :" + UnitPrice +
+                    "Units In Stock :" + UnitsInStock +
+                    "Units On Order :" + UnitsOnOrder +
+                    "StatusMenu " + StatusMenu;
         }
     }
 }

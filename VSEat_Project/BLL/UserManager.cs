@@ -24,9 +24,9 @@ namespace BLL
             return UserDb.AddUser(user);
         }
 
-        public User GetUser(string username, string password)
+        public User GetUser(string Firstname, string Lastname, string password)
         {
-            return UserDb.GetUser(username, password);
+            return UserDb.GetUser(Firstname, Lastname, password);
         }
 
         public List<User> GetUsers()
