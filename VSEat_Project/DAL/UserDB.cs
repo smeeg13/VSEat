@@ -180,15 +180,15 @@ namespace DAL
 
 
                 {
-                    string query = "Insert into Users(Firstname, Lastname,  Password ,Address,StatusAccount , LocationID) values(@Firstname ,@lastname, @password, @address,@StatusAccount, @LocationID); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Users(Firstname, Lastname,Username,  Password ,Address, LocationID) values(@Firstname ,@lastname,@username, @password, @address, @LocationID); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     Console.WriteLine("---- Connection String : "+ connectionString);
 
                     cmd.Parameters.AddWithValue("@lastname", user.Lastname);
                     cmd.Parameters.AddWithValue("@firstname", user.Firstname);
+                    cmd.Parameters.AddWithValue("@username", user.Username);
                     cmd.Parameters.AddWithValue("@address", user.Address);
                     cmd.Parameters.AddWithValue("@password", user.Password);
-                    cmd.Parameters.AddWithValue("@StatusAccount", "Active");
                     cmd.Parameters.AddWithValue("@LocationID", user.LocationID);
 
                     cn.Open();

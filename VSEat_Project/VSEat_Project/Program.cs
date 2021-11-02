@@ -22,7 +22,7 @@ namespace VSEat_Project
 
 
             //Add a User
-            var newUser = userManager.AddUser(new User("Scott", "Lucas", "Rte", "123"));
+            var newUser = userManager.AddUser(new User("Scott", "Lucas", "Rte",1, "123"));
 
             //Lister les Users
             // var userrDb = new UserDB(Configuration);
@@ -37,12 +37,10 @@ namespace VSEat_Project
             var searchMember = userManager.GetUser("Scott", "Lucas");
             if (searchMember != null)
             {
+                Console.WriteLine("--- THIS IS MY USER : ----");
                 Console.WriteLine(searchMember.ToString());
             }
-            else
-            {
-                Console.WriteLine("Email or Password is wrong, no user found !");
-            }
+            
 
 
         }
