@@ -8,14 +8,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public interface IOrderDB1
-    {
-        Order AddOrder(Order order);
-        void DeleteOrder(Order order);
-        Order GetOrder(int IdOrder, DateTime DateOrder);
-        List<Order> GetOrders();
-        void UpdateOrderStatus(Order order, string newStatus);
-    }
+   
 
     public class OrderDB : IOrderDB
     {
@@ -38,7 +31,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Order";
+                    string query = "Select * from Orders";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -52,24 +45,20 @@ namespace DAL
 
                             Order order = new Order();
 
-                            order.IdOrder = (int)dr["idOrder"];
+                            order.OrderID = (int)dr["OrderID"];
 
-                            order.DateOrder = (DateTime)dr["DateOrder"];
+                            order.OrderDate = (DateTime)dr["OrderDate"];
 
-                            order.DateDelivery = (DateTime)dr["DateDelivery"];
+                            order.ShippedDate = (DateTime)dr["ShippedDate"];
 
-                            order.DeliveryAddress = (string)dr["DeliveryAddress"];
+                            order.ShipAddress = (string)dr["ShipAddress"];
 
-                            order.Fees = (int)dr["Fees"];
 
-                            order.TotalAmount = (int)dr["TotalAmount"];
+                            order.Price = (int)dr["Price"];
 
                             order.StatusOrder = (string)dr["StatusOrder"];
 
-                            order.DeliveryTime = (DateTime)dr["DeliveryTime"];
-
                             results.Add(order);
-
                         }
                     }
                 }
@@ -83,7 +72,7 @@ namespace DAL
         }
 
         //Method to get one specific order in the database
-        public Order GetOrder(int IdOrder, DateTime DateOrder)
+        public Order GetOrder(int OrderID, int UserID)
         {
             Order result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -92,10 +81,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Order WHERE IdOrder=@IdOrder AND DateOrder=@DateOrder";
+                    string query = "Select * from Order WHERE OrderID=@OrderID AND UserID=@UserID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdOrder", IdOrder);
-                    cmd.Parameters.AddWithValue("@DateOrder", DateOrder);
+                    cmd.Parameters.AddWithValue("@OrderID", OrderID);
+                    cmd.Parameters.AddWithValue("@UserID", UserID);
 
 
                     cn.Open();
@@ -104,30 +93,22 @@ namespace DAL
                     {
                         if (dr.Read())
                         {
-
-
                             result = new Order();
 
-                            result.IdOrder = (int)dr["IdOrder"];
+                            result.OrderID = (int)dr["OrderID"];
 
-                            if (dr["DateOrder"] != null)
-                                result.DateOrder = (DateTime)dr["DateOrder"];
+                            if (dr["OrderDate"] != null)
+                                result.OrderDate = (DateTime)dr["OrderDate"];
 
-                            if (dr["DateDelivery"] != null)
-                                result.DateDelivery = (DateTime)dr["DateDelivery"];
+                            if (dr["ShippedDate"] != null)
+                                result.ShippedDate = (DateTime)dr["ShippedDate"];
 
-                            if (dr["DeliveryAddress"] != null)
-                                result.DeliveryAddress = (string)dr["DeliveryAddress"];
+                            if (dr["ShipAddress"] != null)
+                                result.ShipAddress = (string)dr["ShipAddress"];
 
-                            result.Fees = (int)dr["Fees"];
-
-                            result.TotalAmount = (int)dr["TotalAmount"];
+                            result.Price = (int)dr["Price"];
 
                             result.StatusOrder = (string)dr["StatusOrder"];
-
-
-                            result.DeliveryTime = (DateTime)dr["DeliveryTime"];
-
                         }
                     }
                 }
@@ -149,14 +130,14 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Order(IdUser, DateOrder) values(@IdUser, @DateOrder); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Order(UserID, DateOrder) values(@IdUser, @DateOrder); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdUser", order.IdUser);
-                    cmd.Parameters.AddWithValue("@DateOrder", order.DateOrder);
+                    cmd.Parameters.AddWithValue("@UserID", order.UserID);
+                    cmd.Parameters.AddWithValue("@DateOrder", order.OrderDate);
 
                     cn.Open();
 
-                    order.IdOrder = Convert.ToInt32(cmd.ExecuteScalar());
+                    order.OrderID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -176,9 +157,11 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Order SET StatusOrder = @statusorder WHERE IdOrder = @idorder";
+                    string query = "Update from Order SET StatusOrder = @statusorder WHERE OrderID = @OrderID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@statusorder", newStatus);
+                    cmd.Parameters.AddWithValue("@OrderID", order.OrderID);
+
 
                     cn.Open();
 
@@ -202,7 +185,7 @@ namespace DAL
                 {
                     string query = "Delete from Order WHERE IdOrder = @idorder";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idorder", order.IdOrder);
+                    cmd.Parameters.AddWithValue("@idorder", order.OrderID);
 
                     cn.Open();
 

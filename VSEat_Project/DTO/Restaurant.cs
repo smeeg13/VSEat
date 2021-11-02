@@ -9,15 +9,22 @@ namespace DAL
     public class Restaurant
     {
         //PK
-        public int IdRestaurant { get; set; }
+        public int RestaurantID { get; set; }
         //FK
-        public int IdCity { get; set; }
-        public int IdMenu { get; set; }
-        public string NameRestaurant { get; set; }
+        public int LocationID { get; set; }
+        public int MenuID { get; set; }
+        public string RestaurantName { get; set; }
         public string DescriptionRestaurant { get; set; }
-        public string Contact { get; set; }
-        public string AddressRestaurant { get; set; }
+        public string Address { get; set; }
 
-        
+        public override string ToString()
+        {
+            return "Id Restaurant : " + RestaurantID +
+                "Id Location : " + LocationID +
+                "Id Menu : " + MenuID +
+                "Name Restaurant : " + RestaurantName +
+                "DescriptionRestaurant : " + DescriptionRestaurant;
+        }
     }
+    
 }

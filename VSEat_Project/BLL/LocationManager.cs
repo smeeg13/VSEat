@@ -17,8 +17,8 @@ namespace BLL
         {
             LocationDb = new LocationDB(conf);
         }
-
-        public Deliverer AddDeliverer(Location location)
+       
+        public Location AddLocation(Location location)
         {
             return LocationDb.AddLocation(location);
         }
@@ -28,7 +28,7 @@ namespace BLL
             LocationDb.DeleteLocation(location);
         }
 
-        public Deliverer GetDeliverer(string NameCity, int ZIP)
+        public Location GetLocation(string NameCity, int ZIP)
         {
             return LocationDb.GetLocation(NameCity,ZIP);
         }

@@ -9,10 +9,11 @@ namespace VSEat_Project
     public class Program
     {
 
-        private static IConfiguration Configuration { get; } = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-        .Build();
+        private static IConfiguration Configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .Build();
+
 
         static void Main(string[] args)
             {
@@ -21,10 +22,10 @@ namespace VSEat_Project
 
 
             //Add a User
-            var newMessage = userManager.AddUser(new User("Scott", "Lucas", "s.l@gmail.com", "Rte", "Scot-Lu", "123", "active"));
+            var newUser = userManager.AddUser(new User("Scott", "Lucas", "Rte",1, "123"));
 
             //Lister les Users
-                // var userrDb = new UserDB(Configuration);
+            // var userrDb = new UserDB(Configuration);
             var users = userManager.GetUsers();
 
             foreach (var user in users)
@@ -33,15 +34,13 @@ namespace VSEat_Project
             }
 
             //Get a member
-            var searchMember = userManager.GetUser("m.sol@hotmail.com", "1234");
+            var searchMember = userManager.GetUser("Scott", "Lucas");
             if (searchMember != null)
             {
+                Console.WriteLine("--- THIS IS MY USER : ----");
                 Console.WriteLine(searchMember.ToString());
             }
-            else
-            {
-                Console.WriteLine("Email or Password is wrong, no user found !");
-            }
+            
 
 
         }

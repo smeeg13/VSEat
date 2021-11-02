@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class OrderDetailsDB : IOrderDetailsDB
+    public class OrderDetailDB : IOrderDetailDB
     {
         private IConfiguration Configuration { get; }
 
-        public OrderDetailsDB(IConfiguration configuration)
+        public OrderDetailDB(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public List<OrderDetails> GetOrdersDetails()
+        public List<OrderDetail> GetOrdersDetails()
         {
-            List<OrderDetails> results = null;
+            List<OrderDetail> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -36,12 +36,13 @@ namespace DAL
                         while (dr.Read())
                         {
                             if (results == null)
-                                results = new List<OrderDetails>();
+                                results = new List<OrderDetail>();
 
-                            OrderDetails orderDetails = new OrderDetails();
+                            OrderDetail orderDetails = new OrderDetail();
 
                             orderDetails.IdOrderDetails = (int)dr["idOrderDetails"];
-
+                            orderDetails.MenuID = (int)dr["MenuID"];
+                            orderDetails.OrderID = (int)dr["OrderID"];
                             if (dr["UnitPrice"] != null)
                                 orderDetails.UnitPrice = (int)dr["UnitPrice"];
 
@@ -66,9 +67,9 @@ namespace DAL
             return results;
         }
 
-        public OrderDetails GetOrderDetails(int idOrderDetails, int TotalAmount)
+        public OrderDetail GetOrderDetail(int idOrderDetails, int TotalAmount)
         {
-            OrderDetails result = null;
+            OrderDetail result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -89,9 +90,9 @@ namespace DAL
                         {
 
 
-                            result = new OrderDetails();
+                            result = new OrderDetail();
 
-                            result.IdOrderDetails = (int)dr["idOrder"];
+                            result.IdOrderDetails = (int)dr["idOrderDetails"];
 
                             if (dr["UnitPrice"] != null)
                                 result.UnitPrice = (int)dr["UnitPrice"];
@@ -117,7 +118,7 @@ namespace DAL
 
 
         //Method to add one order in the database
-        public OrderDetails AddOrderDetails(OrderDetails orderDetails)
+        public OrderDetail AddOrderDetails(OrderDetail orderDetails)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -125,12 +126,12 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into OrderDetails(UnitPrice, Quantity, Discount, Totalamount) values(@unitprice, @quantity, @discount, @totalAmount); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into OrderDetails(UnitPrice, Quantity, Discount, TotalAmount) values(@unitprice, @quantity, @discount, @totalAmount); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@unitprice", orderDetails.UnitPrice);
                     cmd.Parameters.AddWithValue("@quantity", orderDetails.Quantity);
                     cmd.Parameters.AddWithValue("@discount", orderDetails.Discount);
-                    cmd.Parameters.AddWithValue("@totalamount", orderDetails.TotalAmount);
+                    cmd.Parameters.AddWithValue("@totalAmount", orderDetails.TotalAmount);
 
 
                     cn.Open();
@@ -147,7 +148,7 @@ namespace DAL
         }
 
         //Method to update the quantity of one orderdetail in the database
-        public void UpdateOrderDetailsQuantity(OrderDetails orderDetails, int newQuantity)
+        public void UpdateOrderDetailsQuantity(OrderDetail orderDetails, int newQuantity)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -171,7 +172,7 @@ namespace DAL
 
 
         //Method to delete one order details in the database
-        public void DeleteOrderDetails(OrderDetails orderDetails)
+        public void DeleteOrderDetails(OrderDetail orderDetails)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 

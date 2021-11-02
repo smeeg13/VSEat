@@ -9,22 +9,34 @@ namespace DAL
     public class Order
     {
         //PK
-        public int IdOrder { get; set; }
+        public int OrderID { get; set; }
         //FK
-        public int IdOrderDetails { get; set; }
-        public int IdResautant { get; set; }
-        public int IdDeliverer { get; set; }
-        public int IdUser { get; set; }
+        public int LocationID { get; set; }
+        public int DelivererID { get; set; }
+        public int UserID { get; set; }
 
 
-        public DateTime DateOrder { get; set; }
-        public DateTime DateDelivery { get; set; }
-        public string DeliveryAddress { get; set; }
-        public int Fees { get; set; }
-        public int TotalAmount { get; set; }
-        public string StatusOrder { get; set; }
+        public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }
+        public DateTime ShippedDate { get; set; }
 
+        public string ShipAddress { get; set; }
+        public int Price { get; set; }
+        public string StatusOrder { get; set; }
+
+        public override string ToString()
+        {
+            return "Id Order : " + OrderID +
+                "Id Location : " + LocationID +
+                "Id User : " + UserID +
+                "Id Deliverer : " + DelivererID +
+                "Order Date  : " + OrderDate +
+                "Required Date : " + RequiredDate+
+                "Shipped Date : "+ ShippedDate+
+                "Ship Address : "+ ShipAddress+
+                "Price : "+ Price+
+                "Status Order : "+ StatusOrder;
+        }
 
     }
 }

@@ -7,7 +7,7 @@ namespace DAL
     {
         Order AddOrder(Order order);
         void DeleteOrder(Order order);
-        Order GetOrder(int IdOrder, DateTime DateOrder);
+        Order GetOrder(int OrderID, int UserID);
         List<Order> GetOrders();
         void UpdateOrderStatus(Order order, string newStatus);
     }

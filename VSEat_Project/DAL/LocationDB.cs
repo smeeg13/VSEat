@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Location";
+                    string query = "Select * from Locations";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -40,7 +40,7 @@ namespace DAL
 
                             Location location = new Location();
 
-                            location.IdCity = (int)dr["IdCity"];
+                            location.LocationID = (int)dr["LocationID"];
                             location.ZIP = (int)dr["ZIP"];
 
                             if (dr["NameCity"] != null)
@@ -69,7 +69,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Location where NameCity = @NameCity AND ZIP = @ZIP";
+                    string query = "Select * from Locations where NameCity = @NameCity AND ZIP = @ZIP";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCity", NameCity);
                     cmd.Parameters.AddWithValue("@ZIP", ZIP);
@@ -82,9 +82,9 @@ namespace DAL
                         {
                             location = new Location();
 
-                            location.IdCity = (int)dr["IdCity"];
+                            location.LocationID = (int)dr["LocationID"];
 
-                            if (dr["PriceMenu"] != null)
+                            if (dr["ZIP"] != null)
                                 location.ZIP = (int)dr["ZIP"];
 
                         }
@@ -107,7 +107,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Location SET NameCity = @NameCity WHERE IdCity = @IdCity";
+                    string query = "Update from Locations SET NameCity = @NameCity WHERE LocationID = @LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCity", NameCity);
                     cmd.Parameters.AddWithValue("@ZIP", ZIP);
@@ -138,7 +138,7 @@ namespace DAL
 
                     cn.Open();
 
-                    location.IdCity = Convert.ToInt32(cmd.ExecuteScalar());
+                    location.LocationID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -157,13 +157,13 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Location WHERE IdCity = @IdCity";
+                    string query = "Delete from Locations WHERE LocationID = @LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdCity", location.IdCity);
+                    cmd.Parameters.AddWithValue("@LocationID", location.LocationID);
 
                     cn.Open();
 
-                    location.IdCity = Convert.ToInt32(cmd.ExecuteScalar());
+                    location.LocationID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }

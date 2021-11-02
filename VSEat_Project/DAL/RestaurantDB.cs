@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Restaurant";
+                    string query = "Select * from Restaurants";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -40,17 +40,15 @@ namespace DAL
 
                             Restaurant restaurant = new Restaurant();
 
-                            restaurant.IdRestaurant = (int)dr["idRestaurant"];
+                            restaurant.RestaurantID = (int)dr["RestaurantID"];
 
-                            if (dr["NameRestaurant"] != null)
-                                restaurant.NameRestaurant = (string)dr["nameRestaurant"];
+                            if (dr["RestaurantName"] != null)
+                                restaurant.RestaurantName = (string)dr["RestaurantName"];
 
                             restaurant.DescriptionRestaurant = (string)dr["descriptionRestaurant"];
 
-                            restaurant.Contact = (string)dr["contact"];
-
                             if (dr["AddressRestaurant"] != null)
-                                restaurant.AddressRestaurant = (string)dr["addressRestaurant"];
+                                restaurant.Address = (string)dr["AddressRestaurant"];
 
 
                             results.Add(restaurant);
@@ -76,10 +74,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Restaurant WHERE username=@nameresautant AND password=@addressrestaurant";
+                    string query = "Select * from Restaurant WHERE RestaurantName=@RestaurantName AND AddressRestaurant=@Address";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@nameresautant", nameRestaurant);
-                    cmd.Parameters.AddWithValue("@addressrestaurant", addressRestaurant);
+                    cmd.Parameters.AddWithValue("@RestaurantName", nameRestaurant);
+                    cmd.Parameters.AddWithValue("@Address", addressRestaurant);
 
 
                     cn.Open();
@@ -92,17 +90,15 @@ namespace DAL
 
                             result = new Restaurant();
 
-                            result.IdRestaurant = (int)dr["idRestaurant"];
+                            result.RestaurantID = (int)dr["RestaurantID"];
 
-                            if (dr["NameRestaurant"] != null)
-                                result.NameRestaurant = (string)dr["NameRestaurant"];
+                            if (dr["RestaurantName"] != null)
+                                result.RestaurantName = (string)dr["RestaurantName"];
 
-                            result.DescriptionRestaurant = (string)dr["descriptionRestaurant"];
+                            result.DescriptionRestaurant = (string)dr["DescriptionRestaurant"];
 
-                            result.Contact = (string)dr["contact"];
-
-                            if (dr["AddressRestaurant"] != null)
-                                result.AddressRestaurant = (string)dr["addressRestaurant"];
+                            if (dr["Address"] != null)
+                                result.Address = (string)dr["Address"];
 
 
                         }
@@ -125,15 +121,15 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Restaurant(NameRestaurant, AddressRestaurant) values(@nameRestaurant, @addressRestaurant); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Restaurant(RestaurantName, Address) values(@nameRestaurant, @addressRestaurant); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@nameRestaurant", restaurant.NameRestaurant);
-                    cmd.Parameters.AddWithValue("@addressRestaurant", restaurant.AddressRestaurant);
+                    cmd.Parameters.AddWithValue("@nameRestaurant", restaurant.RestaurantName);
+                    cmd.Parameters.AddWithValue("@addressRestaurant", restaurant.Address);
 
 
                     cn.Open();
 
-                    restaurant.IdRestaurant = Convert.ToInt32(cmd.ExecuteScalar());
+                    restaurant.RestaurantID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -153,7 +149,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Restaurant SET AddressRestaurant = @addressrestaurant WHERE IdRestaurant = @idrestaurant";
+                    string query = "Update from Restaurant SET Address = @addressrestaurant WHERE RestaurantID = @RestaurantID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@addressrestaurant", newAddress);
 
@@ -177,9 +173,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Restaurant WHERE IdRestaurant = @idrestaurant";
+                    string query = "Delete from Restaurant WHERE RestaurantID = @RestaurantID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idrestaurant", restaurant.IdRestaurant);
+                    cmd.Parameters.AddWithValue("@RestaurantID", restaurant.RestaurantID);
 
                     cn.Open();
 

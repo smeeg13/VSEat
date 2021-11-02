@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class OrderDetails
+    public class OrderDetail
     {
         //PK
         public int IdOrderDetails { get; set; }
         //FK
-        public int IdMenu { get; set; }
-        public int IdOrder { get; set; }
+        public int MenuID { get; set; }
+        public int OrderID { get; set; }
 
         public int UnitPrice { get; set; }
         public int Quantity { get; set; }
