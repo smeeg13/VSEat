@@ -9,7 +9,7 @@ namespace DAL
    public interface IDelivererDB
     {
         List<Deliverer> GetDeliverers();
-        Deliverer GetDeliverer(int AvailabilityDeliverer, DateTime TimeAssigned);
+        Deliverer GetDeliverer(int DelivererID);
         Deliverer AddDeliverer(Deliverer deliverer);
         void DeleteDeliverer(Deliverer deliverer);
         void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer);

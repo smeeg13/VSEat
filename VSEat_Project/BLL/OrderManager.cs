@@ -19,14 +19,14 @@ namespace BLL
         {
             return OrderDb.AddOrder(order);
         }
-        public void DeleteOrder(int IdOrder)
+        public void DeleteOrder(Order order)
         {
-            OrderDb.DeleteOrder(IdOrder);
+            OrderDb.DeleteOrder(order);
 
         }
-        public Order GetOrder(int IdOrder, DateTime DateOrder)
+        public Order GetOrder(int OrderID, int UserID)
         {
-            return OrderDb.GetOrder(IdOrder, DateOrder);
+            return OrderDb.GetOrder(OrderID, UserID);
 
         }
         public List<Order> GetOrders()

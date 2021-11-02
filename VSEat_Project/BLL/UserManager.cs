@@ -24,9 +24,9 @@ namespace BLL
             return UserDb.AddUser(user);
         }
 
-        public User GetUser(string Firstname, string Lastname, string password)
+        public User GetUser(string Firstname, string Lastname)
         {
-            return UserDb.GetUser(Firstname, Lastname, password);
+            return UserDb.GetUser(Firstname, Lastname);
         }
 
         public List<User> GetUsers()
@@ -34,14 +34,14 @@ namespace BLL
             return UserDb.GetUsers();
         }
 
-        public void UpdateUserAddress(Order order, string newAddress)
+        public void UpdateUserAddress(User user, string newAddress)
         {
-            UserDb.UpdateUserAddress(order, newAddress);
+            UserDb.UpdateUserAddress(user, newAddress);
         }
 
-        public void UpdateUserPassword(Order order, string newPassword)
+        public void UpdateUserPassword(User user, string newPassword)
         {
-            UserDb.UpdateUserPassword(order, newPassword);
+            UserDb.UpdateUserPassword(user, newPassword);
         }
 
     }

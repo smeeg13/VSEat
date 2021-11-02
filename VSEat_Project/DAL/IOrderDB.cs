@@ -6,8 +6,8 @@ namespace DAL
     public interface IOrderDB
     {
         Order AddOrder(Order order);
-        void DeleteOrder(int IdOrder);
-        Order GetOrder(int IdOrder, DateTime DateOrder);
+        void DeleteOrder(Order order);
+        Order GetOrder(int OrderID, int UserID);
         List<Order> GetOrders();
         void UpdateOrderStatus(Order order, string newStatus);
     }
