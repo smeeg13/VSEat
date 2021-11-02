@@ -127,7 +127,6 @@ namespace DAL
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
                     string query = "Insert into Deliverer(Username, Password, NumberOrdersAssigned, Availability) values(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
-                    string query = "Insert into Deliverer(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@Username", deliverer.Username);
                     cmd.Parameters.AddWithValue("@Password", deliverer.Password);
@@ -163,8 +162,6 @@ namespace DAL
                     cmd.Parameters.RemoveAt("@Availability");
 
                     cn.Open();
-
-                  //  deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }
@@ -182,7 +179,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "";
+                    string query = "SELECT idk FROM Deliverer d, Restaurant r WHERE d.LocationID = r.LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                 }
@@ -192,7 +189,20 @@ namespace DAL
 
         public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
         {
-           
+            //COUNT 
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT idk FROM Deliverer d, Restaurant r WHERE d.LocationID = r.LocationID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+
+                }
+            }
+
+
         }
 
         public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
