@@ -13,6 +13,9 @@ namespace DAL
         //FK 
         public int IdOrder { get; set; }
 
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public int NumberOrdersAssigned { get; set; }
         public int AvailabilityDeliverer { get; set; } 
         public DateTime TimeAssigned { get; set; }
 

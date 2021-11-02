@@ -23,7 +23,7 @@ namespace DAL
         public int Fees { get; set; }
         public int TotalAmount { get; set; }
         public string StatusOrder { get; set; }
-        public DateTime DeliveryTime { get; set; }
+        public DateTime RequiredDate { get; set; }
 
 
     }

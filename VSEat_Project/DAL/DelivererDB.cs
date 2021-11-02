@@ -129,11 +129,13 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Deliverer(AvailabilityDeliverer, TimeAssigned) values(@AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Deliverer(Username, Password, NumberOrdersAssigned, AvailabilityDeliverer, TimeAssigned) values(@Username, @Password, @NumberOrdersAssigned, @AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@Username", deliverer.Username);
+                    cmd.Parameters.AddWithValue("@Password", deliverer.Password);
+                    cmd.Parameters.AddWithValue("NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
                     cmd.Parameters.AddWithValue("@Availability", deliverer.AvailabilityDeliverer);
-                    cmd.Parameters.AddWithValue("@firstname", deliverer.TimeAssigned);
-
+                    cmd.Parameters.AddWithValue("@TimeAssigned", deliverer.TimeAssigned);
 
                     cn.Open();
 
@@ -158,11 +160,15 @@ namespace DAL
                 {
                     string query = "Delete from Deliverer WHERE IdDeliverer = @IdDeliverer ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdDeliverer", deliverer.IdDeliverer);
+                    cmd.Parameters.RemoveAt("@Username");
+                    cmd.Parameters.RemoveAt("@Password");
+                    cmd.Parameters.RemoveAt("NumberOrdersAssigned");
+                    cmd.Parameters.RemoveAt("@Availability");
+                    cmd.Parameters.RemoveAt("@TimeAssigned");
 
                     cn.Open();
 
-                    deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
+                  //  deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }
@@ -171,6 +177,29 @@ namespace DAL
                 throw e;
             }
         }
+
+        public void CheckCity (Deliverer deliverer, Restaurant restaurant)
+        {
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+
+                }
+            }
+
+        }
+
+        public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
+        {
+           
+        }
+
+        public void DeliveryValidation (int )
     }
 }
     
