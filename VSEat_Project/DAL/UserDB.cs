@@ -20,13 +20,14 @@ namespace DAL
         public List<User> GetUsers()
         {
             List<User> results = null;
+
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from [Users];";
+                    string query = "Select * from Users;";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -71,7 +72,7 @@ namespace DAL
         public User GetUser(string Firstname, string Lastname)
         {
             User result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
@@ -117,20 +118,77 @@ namespace DAL
             return result;
         }
 
-        public User AddUser(User user)
+
+        public User LogInUser(string Firstname, string Lastname, string password)
         {
+            User result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Users(Firstname, Lastname,  Password ,Address , LocationID) values(@lastname,@firstname, @address, @username, @password,@statusAccount); SELECT SCOPE_IDENTITY()";
+                    string query = "Update from Users SET StatusAccount=@StatusAccount WHERE Firstname=@Firstname AND Lastname=@Lastname AND Password=@Password";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@Firstname", Firstname);
+                    cmd.Parameters.AddWithValue("@Lastname", Lastname);
+                    cmd.Parameters.AddWithValue("@Password", password);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+
+
+                            result = new User();
+
+                            result.UserID = (int)dr["UserID"];
+
+                            if (dr["Lastname"] != null)
+                                result.Lastname = (string)dr["Lastname"];
+
+                            if (dr["Firstname"] != null)
+                                result.Firstname = (string)dr["Firstname"];
+
+
+                            if (dr["Address"] != null)
+                                result.Address = (string)dr["Address"];
+
+                            result.Password = (string)dr["Password"];
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return result;
+        }
+
+
+        public User AddUser(User user)
+        {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+
+
+                {
+                    string query = "Insert into Users(Firstname, Lastname,  Password ,Address,StatusAccount , LocationID) values(@Firstname ,@lastname, @password, @address,@StatusAccount, @LocationID); SELECT SCOPE_IDENTITY()";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    Console.WriteLine("---- Connection String : "+ connectionString);
+
                     cmd.Parameters.AddWithValue("@lastname", user.Lastname);
                     cmd.Parameters.AddWithValue("@firstname", user.Firstname);
                     cmd.Parameters.AddWithValue("@address", user.Address);
                     cmd.Parameters.AddWithValue("@password", user.Password);
+                    cmd.Parameters.AddWithValue("@StatusAccount", "Active");
                     cmd.Parameters.AddWithValue("@LocationID", user.LocationID);
 
                     cn.Open();

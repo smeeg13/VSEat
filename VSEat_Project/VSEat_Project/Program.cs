@@ -9,7 +9,7 @@ namespace VSEat_Project
     public class Program
     {
 
-        private static IConfiguration Configuration { get; } = new ConfigurationBuilder()
+        private static IConfiguration Configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .Build();
@@ -22,7 +22,7 @@ namespace VSEat_Project
 
 
             //Add a User
-         //   var newUser = userManager.AddUser(new User("Scott", "Lucas", "Rte", "123"));
+            var newUser = userManager.AddUser(new User("Scott", "Lucas", "Rte", "123"));
 
             //Lister les Users
             // var userrDb = new UserDB(Configuration);
