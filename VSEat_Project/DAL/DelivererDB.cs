@@ -126,15 +126,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Deliverer(Username, Password, NumberOrdersAssigned, AvailabilityDeliverer, TimeAssigned) values(@Username, @Password, @NumberOrdersAssigned, @AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Deliverer(Username, Password, NumberOrdersAssigned, Availability) values(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
                     string query = "Insert into Deliverer(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@Username", deliverer.Username);
-                    cmd.Parameters.AddWithValue("@Password", deliverer.Password);
-                    cmd.Parameters.AddWithValue("NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
-                    cmd.Parameters.AddWithValue("@Availability", deliverer.AvailabilityDeliverer);
-                    cmd.Parameters.AddWithValue("@TimeAssigned", deliverer.TimeAssigned);
-
                     cmd.Parameters.AddWithValue("@Username", deliverer.Username);
                     cmd.Parameters.AddWithValue("@Password", deliverer.Password);
                     cmd.Parameters.AddWithValue("@NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
@@ -167,13 +161,10 @@ namespace DAL
                     cmd.Parameters.RemoveAt("@Password");
                     cmd.Parameters.RemoveAt("NumberOrdersAssigned");
                     cmd.Parameters.RemoveAt("@Availability");
-                    cmd.Parameters.RemoveAt("@TimeAssigned");
-                    cmd.Parameters.AddWithValue("@IdDeliverer", deliverer.DelivereID);
 
                     cn.Open();
 
                   //  deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
-                    deliverer.DelivereID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }
@@ -204,7 +195,10 @@ namespace DAL
            
         }
 
-        public void DeliveryValidation (int )
+        public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
+        {
+            //Deliverer needs to be connected to validate, validation of connection required !
+        }
     }
 }
     

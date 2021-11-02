@@ -13,8 +13,6 @@ namespace DAL
         //FK
         public int RestaurantID { get; set; }
         public int CategoryID { get; set; }
-
-
         public string MenuName { get; set; }
         public int QuantityPerUnit { get; set; }
         public int UnitPrice { get; set; }

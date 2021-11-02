@@ -159,11 +159,10 @@ namespace DAL
                 {
                     string query = "Delete from Locations WHERE LocationID = @LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@LocationID", location.LocationID);
+                    cmd.Parameters.RemoveAt("@NameCity");
+                    cmd.Parameters.RemoveAt("@ZIP");
 
                     cn.Open();
-
-                    location.LocationID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }

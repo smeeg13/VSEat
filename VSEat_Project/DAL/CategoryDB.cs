@@ -136,10 +136,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Category(NameCategory, DescriptionCategory) values(@NameCategory, @DescriptionCategory); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Category(CategoryName, DescriptionCategory) values(@NameCategory, @DescriptionCategory); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@lastname", category.CategoryName);
-                    cmd.Parameters.AddWithValue("@firstname", category.Description);
+                    cmd.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                    cmd.Parameters.AddWithValue("@DescriptionCategory", category.Description);
              
 
                     cn.Open();
@@ -165,11 +165,11 @@ namespace DAL
                 {
                     string query = "Delete from CategorY WHERE IdCategory = @IdCategory ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@IdCategory", category.CategoryID);
+                    cmd.Parameters.RemoveAt("@CategoryName");
+                    cmd.Parameters.RemoveAt("@DescriptionCategory");
 
                     cn.Open();
 
-                    category.CategoryID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }

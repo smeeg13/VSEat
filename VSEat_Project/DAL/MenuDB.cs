@@ -200,11 +200,15 @@ namespace DAL
                 {
                     string query = "Delete from Menus WHERE MenuID = @MenuID ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
+                    cmd.Parameters.RemoveAt("@MenuName");
+                    cmd.Parameters.RemoveAt("@QuantityPerUnit");
+                    cmd.Parameters.RemoveAt("@UnitPrice");
+                    cmd.Parameters.RemoveAt("@UnitInStock");
+                    cmd.Parameters.RemoveAt("@UnitOnOrder");
+                    cmd.Parameters.RemoveAt("@StatusMenu");
 
                     cn.Open();
 
-                    menu.MenuID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
             }
