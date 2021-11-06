@@ -8,7 +8,10 @@ namespace DAL
         List<Restaurant> GetRestaurants();
 
         //Method to get one Restaurant with his name
-        Restaurant GetRestaurant(string nameRestaurant);
+        Restaurant GetRestaurantWithName(string nameRestaurant);
+
+        //Method to get one Restaurant with his ID
+        Restaurant GetRestaurantWithID(int restaurantID);
 
         //Method to add one Restaurant in the database
         Restaurant AddRestaurant(Restaurant restaurant);

@@ -65,7 +65,7 @@ namespace DAL
         }
 
         //Method to get one Restaurant with his name
-        public Restaurant GetRestaurant(string nameRestaurant)
+        public Restaurant GetRestaurantWithName(string nameRestaurant)
         {
             Restaurant result = null;
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -77,6 +77,52 @@ namespace DAL
                     string query = "Select * from Restaurants WHERE RestaurantName=@RestaurantName";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@RestaurantName", nameRestaurant);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+
+                            result = new Restaurant();
+
+                            result.RestaurantID = (int)dr["RestaurantID"];
+
+                            if (dr["RestaurantName"] != null)
+                                result.RestaurantName = (string)dr["RestaurantName"];
+
+                            if (dr["Address"] != null)
+                                result.Address = (string)dr["Address"];
+
+                            if (dr["LocationID"] != null)
+                                result.LocationID = (int)dr["LocationID"];
+
+                            result.DescriptionRestaurant = (string)dr["DescriptionRestaurant"];
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return result;
+        }
+
+        //Method to get one Restaurant with his name
+        public Restaurant GetRestaurantWithID(int restaurantID)
+        {
+            Restaurant result = null;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Restaurants WHERE RestaurantID=@RestaurantID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@RestaurantID", restaurantID);
 
                     cn.Open();
 

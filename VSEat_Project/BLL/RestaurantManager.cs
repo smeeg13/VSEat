@@ -12,6 +12,7 @@ namespace BLL
     {
 
         private IRestaurantDB RestaurantDb { get; }
+        private ILocationDB LocationDb { get; }
 
         //Constructor
         public RestaurantManager(IConfiguration conf)
@@ -37,38 +38,32 @@ namespace BLL
             return locations;
         }
 
-        //Method to get one Restaurant with his name
-        public Restaurant GetRestaurant(string restaurantname)
+         //Method to get one Restaurant with his name
+        Restaurant GetRestaurantWithName(string nameRestaurant)
         {
-            return RestaurantDb.GetRestaurant(restaurantname);
+            return RestaurantDb.GetRestaurantWithName(nameRestaurant);
         }
 
         //Method to get one Restaurant with his id
-        public int GetRestaurantWithId(string restaurantName)
+        Restaurant GetRestaurantWithID(int restaurantID)
         {
-            int RestID;
-            Restaurant restaurant = RestaurantDb.GetRestaurant(restaurantName);
-            RestID = restaurant.RestaurantID;
-
-            return RestID;
+            return RestaurantDb.GetRestaurantWithID(restaurantID);
         }
+
+
 
         //Method to get the location Id of a certain Restaurant
         public string GetLocationOfRestaurant(string RestaurantName)
         {
             int locationId ;
-            string location = null;
+            string locationName = null;
 
             Restaurant restaurant = RestaurantDb.GetRestaurant(RestaurantName);
             locationId = restaurant.RestaurantID;
 
-            //--------------------------------------------------------------------------
-            //NEED LOCATION METHOD TO BE ABLE TO GET THE LOCATION NAMBE USING HIS ID
-            //--------------------------------------------------------------------------
-
-            location = "";//should add the method to GetLocation from locationManager to be able to take the name of the city
-
-            return location;
+            Location location = LocationDb.GetLocationID(locationId);
+            locationName = location.NameCity;
+            return locationName;
         }
 
         //Method to add one Restaurant in the database
