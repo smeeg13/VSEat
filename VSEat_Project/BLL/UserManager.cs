@@ -13,6 +13,8 @@ namespace BLL
     {
 
         private IUserDB UserDb { get; }
+        private ILocationDB LocationDb { get; }
+
 
         //Constructor
         public UserManager(IConfiguration conf)
@@ -41,18 +43,16 @@ namespace BLL
         //Method to get Location of the user
         public string GetLocationOfUser(User user)
         {
+            int locationId;
+            string locationName = null;
 
-                User userForLocation = GetUser(user.Username, user.Password);
+            User userForLocation = UserDb.GetUser(user.Username, user.Password);
+            locationId = userForLocation.UserID;
 
-            int idlocation = userForLocation.LocationID;
+            Location location = LocationDb.GetLocationID(locationId);
+            locationName = location.NameCity;
 
-            //--------------------------------------------------------------------------
-            //NEED LOCATION METHOD TO BE ABLE TO GET THE LOCATION NAMBE USING HIS ID
-            //--------------------------------------------------------------------------
-
-string location ="";//should add the method to GetLocation from locationManager to be able to take the name of the city
-
-            return location;
+            return locationName;
         }
 
         //Method to Add one User in the database
