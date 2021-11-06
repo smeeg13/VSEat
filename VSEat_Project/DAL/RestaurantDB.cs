@@ -12,11 +12,13 @@ namespace DAL
     {
         private IConfiguration Configuration { get; }
 
+        //Constructor
         public RestaurantDB(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        //Method to list all restaurants in the database
         public List<Restaurant> GetRestaurants()
         {
             List<Restaurant> results = null;
@@ -50,9 +52,7 @@ namespace DAL
                             if (dr["AddressRestaurant"] != null)
                                 restaurant.Address = (string)dr["AddressRestaurant"];
 
-
                             results.Add(restaurant);
-
                         }
                     }
                 }
@@ -61,24 +61,22 @@ namespace DAL
             {
                 throw e;
             }
-
             return results;
         }
 
-        public Restaurant GetRestaurant(string nameRestaurant, string addressRestaurant)
+        //Method to get one Restaurant with his name
+        public Restaurant GetRestaurant(string nameRestaurant)
         {
             Restaurant result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Restaurant WHERE RestaurantName=@RestaurantName AND AddressRestaurant=@Address";
+                    string query = "Select * from Restaurants WHERE RestaurantName=@RestaurantName";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@RestaurantName", nameRestaurant);
-                    cmd.Parameters.AddWithValue("@Address", addressRestaurant);
-
 
                     cn.Open();
 
@@ -87,7 +85,6 @@ namespace DAL
                         if (dr.Read())
                         {
 
-
                             result = new Restaurant();
 
                             result.RestaurantID = (int)dr["RestaurantID"];
@@ -95,12 +92,13 @@ namespace DAL
                             if (dr["RestaurantName"] != null)
                                 result.RestaurantName = (string)dr["RestaurantName"];
 
-                            result.DescriptionRestaurant = (string)dr["DescriptionRestaurant"];
-
                             if (dr["Address"] != null)
                                 result.Address = (string)dr["Address"];
 
+                            if (dr["LocationID"] != null)
+                                result.LocationID = (int)dr["LocationID"];
 
+                            result.DescriptionRestaurant = (string)dr["DescriptionRestaurant"];
                         }
                     }
                 }
@@ -109,23 +107,24 @@ namespace DAL
             {
                 throw e;
             }
-
             return result;
         }
 
+        //Method to add one Restaurant in the database
         public Restaurant AddRestaurant(Restaurant restaurant)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Restaurant(RestaurantName, Address) values(@nameRestaurant, @addressRestaurant); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Restaurants(RestaurantName, Address, LocationID, DescriptionRestaurant) values(@RestaurantName, @Address, @LocationID, @DescriptionRestaurant); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@nameRestaurant", restaurant.RestaurantName);
-                    cmd.Parameters.AddWithValue("@addressRestaurant", restaurant.Address);
-
+                    cmd.Parameters.AddWithValue("@RestaurantName", restaurant.RestaurantName);
+                    cmd.Parameters.AddWithValue("@Address", restaurant.Address);
+                    cmd.Parameters.AddWithValue("@LocationID", restaurant.LocationID);
+                    cmd.Parameters.AddWithValue("@DescriptionRestaurant", restaurant.DescriptionRestaurant);
 
                     cn.Open();
 
@@ -136,57 +135,64 @@ namespace DAL
             {
                 throw e;
             }
-
             return restaurant;
         }
 
-        //Method to update the status of one Restaurant in the database
-        public void UpdateRestaurantAddress(Restaurant restaurant, string newAddress)
+        //Method to update one Restaurant in the database
+        public Restaurant UpdateRestaurant(Restaurant restaurant)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var result = 0;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Restaurant SET Address = @addressrestaurant WHERE RestaurantID = @RestaurantID";
+                    string query = "Update from Restaurants SET RestaurantName=@RestaurantName, Address = @Address, LocationID = @LocationID, DescriptionRestaurant = @DescriptionRestaurant WHERE RestaurantID = @RestaurantID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@addressrestaurant", newAddress);
+
+                    cmd.Parameters.AddWithValue("@RestaurantID", restaurant.RestaurantID);
+
+                    cmd.Parameters.AddWithValue("@RestaurantName", restaurant.RestaurantName);
+                    cmd.Parameters.AddWithValue("@Address", restaurant.Address);
+                    cmd.Parameters.AddWithValue("@LocationID", restaurant.LocationID);
+                    cmd.Parameters.AddWithValue("@DescriptionRestaurant", restaurant.DescriptionRestaurant);
 
                     cn.Open();
-
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+            return restaurant;
         }
 
 
         //Method to delete one Restaurant in the database
-        public void DeleteRestaurant(Restaurant restaurant)
+        public void DeleteRestaurant(int restaurantId)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var result = 0;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Restaurant WHERE RestaurantID = @RestaurantID";
+                    string query = "Delete from Restaurants WHERE RestaurantID = @RestaurantID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@RestaurantID", restaurant.RestaurantID);
+                    cmd.Parameters.AddWithValue("@RestaurantID",restaurantId);
 
                     cn.Open();
 
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
-
         }
-
     }
 }

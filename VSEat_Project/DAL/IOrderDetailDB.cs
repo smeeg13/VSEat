@@ -4,10 +4,15 @@ namespace DAL
 {
     public interface IOrderDetailDB
     {
-        OrderDetail AddOrderDetails(OrderDetail orderDetails);
-        void DeleteOrderDetails(OrderDetail orderDetails);
-        OrderDetail GetOrderDetail(int idOrderDetails, int TotalAmount);
+
         List<OrderDetail> GetOrdersDetails();
-        void UpdateOrderDetailsQuantity(OrderDetail orderDetails, int newQuantity);
+
+        OrderDetail GetOrderDetail(int idOrderDetails);
+
+        OrderDetail AddOrderDetails(OrderDetail orderDetails);
+
+        OrderDetail UpdateOrderDetails(OrderDetail orderDetails);
+
+        void DeleteOrderDetails(int orderDetails);
     }
 }

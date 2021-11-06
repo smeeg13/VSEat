@@ -9,7 +9,7 @@ namespace DAL
     public class OrderDetail
     {
         //PK
-        public int IdOrderDetails { get; set; }
+        public int OrderDetailsID { get; set; }
         //FK
         public int MenuID { get; set; }
         public int OrderID { get; set; }

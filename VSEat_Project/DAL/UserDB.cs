@@ -12,11 +12,13 @@ namespace DAL
     {
         private IConfiguration Configuration { get; }
 
+        //Constructor
         public UserDB(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        //Method the list all users in the Database
         public List<User> GetUsers()
         {
             List<User> results = null;
@@ -48,14 +50,21 @@ namespace DAL
 
                             if (dr["Firstname"] != null)
                                 user.Firstname = (string)dr["Firstname"];
+                            if (dr["Username"] != null)
+                                user.Username = (string)dr["Username"];
 
                             if (dr["Address"] != null)
                                 user.Address = (string)dr["Address"];
 
                             user.Password = (string)dr["Password"];
 
-                            results.Add(user);
+                            if (dr["LocationID"] != null)
+                                user.LocationID = (int)dr["LocationID"];
 
+                            if (dr["StatusAccount"] != null)
+                                user.StatusAccount = (string)dr["StatusAccount"];
+
+                            results.Add(user);
                         }
                     }
                 }
@@ -63,75 +72,25 @@ namespace DAL
             catch (Exception e)
             {
                 throw e;
-                
             }
-
             return results;
         }
 
-        public User GetUser(string Firstname, string Lastname)
+
+        //Method to get the user with his username and his password
+        public User GetUser(string username, string password)
         {
             User result = null;
+
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Users WHERE Firstname=@Firstname AND Lastname=@Lastname";
+                    string query = "Select * from Users WHERE Username=@Username AND Password=@Password";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@Firstname", Firstname);
-                    cmd.Parameters.AddWithValue("@Lastname", Lastname);
-
-                    cn.Open();
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
-                    {
-                        if (dr.Read())
-                        {
-
-
-                            result = new User();
-
-                            result.UserID = (int)dr["UserID"];
-
-                            if (dr["Lastname"] != null)
-                                result.Lastname = (string)dr["Lastname"];
-
-                            if (dr["Firstname"] != null)
-                                result.Firstname = (string)dr["Firstname"];
-
-
-                            if (dr["Address"] != null)
-                                result.Address = (string)dr["Address"];
-
-                            result.Password = (string)dr["Password"];
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-            return result;
-        }
-
-
-        public User LogInUser(string Firstname, string Lastname, string password)
-        {
-            User result = null;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "Update from Users SET StatusAccount=@StatusAccount WHERE Firstname=@Firstname AND Lastname=@Lastname AND Password=@Password";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@Firstname", Firstname);
-                    cmd.Parameters.AddWithValue("@Lastname", Lastname);
+                    cmd.Parameters.AddWithValue("@Username", username);
                     cmd.Parameters.AddWithValue("@Password", password);
 
                     cn.Open();
@@ -140,8 +99,6 @@ namespace DAL
                     {
                         if (dr.Read())
                         {
-
-
                             result = new User();
 
                             result.UserID = (int)dr["UserID"];
@@ -151,12 +108,19 @@ namespace DAL
 
                             if (dr["Firstname"] != null)
                                 result.Firstname = (string)dr["Firstname"];
-
+                            if (dr["Username"] != null)
+                                result.Username = (string)dr["Username"];
 
                             if (dr["Address"] != null)
                                 result.Address = (string)dr["Address"];
 
                             result.Password = (string)dr["Password"];
+
+                            if (dr["LocationID"] != null)
+                                result.LocationID = (int)dr["LocationID"];
+
+                            if (dr["StatusAccount"] != null)
+                                result.StatusAccount = (string)dr["StatusAccount"];
                         }
                     }
                 }
@@ -165,31 +129,30 @@ namespace DAL
             {
                 throw e;
             }
-
             return result;
         }
 
-
+        //Method to Add one User in the database
         public User AddUser(User user)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
-
-
                 {
-                    string query = "Insert into Users(Firstname, Lastname,Username,  Password ,Address, LocationID) values(@Firstname ,@lastname,@username, @password, @address, @LocationID); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Users(Firstname, Lastname,Username,  Password ,Address, LocationID, StatusAccount, IsAdmin) values(@firstname ,@lastname,@username, @password, @address, @locationID, @statusAccount, IsAdmin); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    Console.WriteLine("---- Connection String : "+ connectionString);
 
-                    cmd.Parameters.AddWithValue("@lastname", user.Lastname);
                     cmd.Parameters.AddWithValue("@firstname", user.Firstname);
+                    cmd.Parameters.AddWithValue("@lastname", user.Lastname);
                     cmd.Parameters.AddWithValue("@username", user.Username);
-                    cmd.Parameters.AddWithValue("@address", user.Address);
                     cmd.Parameters.AddWithValue("@password", user.Password);
-                    cmd.Parameters.AddWithValue("@LocationID", user.LocationID);
+                    cmd.Parameters.AddWithValue("@address", user.Address);
+                    cmd.Parameters.AddWithValue("@locationID", user.LocationID);
+                    cmd.Parameters.AddWithValue("@statusAccount", user.StatusAccount);
+
+                    cmd.Parameters.AddWithValue("@IsAdmin", user.IsAdmin);
+
 
                     cn.Open();
 
@@ -200,24 +163,67 @@ namespace DAL
             {
                 throw e;
             }
+            return user;
+        }
 
+        //Method to Add an Administrator in the database
+        public User AddAdmin(User user, char isadmin)
+        {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Insert into Users(Firstname, Lastname,Username,  Password ,Address, LocationID, StatusAccount, IsAdmin) values(@firstname ,@lastname,@username, @password, @address, @locationID, @statusAccount, @isAdmin); SELECT SCOPE_IDENTITY()";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+
+                    cmd.Parameters.AddWithValue("@firstname", user.Firstname);
+                    cmd.Parameters.AddWithValue("@lastname", user.Lastname);
+                    cmd.Parameters.AddWithValue("@username", user.Username);
+                    cmd.Parameters.AddWithValue("@password", user.Password);
+                    cmd.Parameters.AddWithValue("@address", user.Address);
+                    cmd.Parameters.AddWithValue("@locationID", user.LocationID);
+                    cmd.Parameters.AddWithValue("@statusAccount", user.StatusAccount);
+
+                    cmd.Parameters.AddWithValue("@isAdmin", isadmin);
+
+
+                    cn.Open();
+
+                    user.UserID = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
             return user;
         }
 
 
-        public void UpdateUserAddress(User user, string newAddress)
+        //Method to Update one User in the database
+        //It does not update the admin status
+        public User UpdateUser(User user)
         {
-            int result = 0;
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var result = 0;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Users SET Address = @address WHERE UserID = @UserID";
+                    string query = "Update from Users SET Firstname=@Firstname, Lastname=@Lastname, Username=@Username,  Password=@Password, Address=@Address, LocationID=@Location, StatusAccount =@StatusAccount)  WHERE UserID = @UserID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@address", newAddress);
+
                     cmd.Parameters.AddWithValue("@UserID", user.UserID);
+
+                    cmd.Parameters.AddWithValue("@Firstname", user.Firstname);
+                    cmd.Parameters.AddWithValue("@Lastname", user.Lastname);
+                    cmd.Parameters.AddWithValue("@Username", user.Username);
+                    cmd.Parameters.AddWithValue("@Password", user.Password);
+                    cmd.Parameters.AddWithValue("@Address", user.Address);
+                    cmd.Parameters.AddWithValue("@LocationID", user.LocationID);
+                    cmd.Parameters.AddWithValue("@StatusAccount", user.StatusAccount);
 
                     cn.Open();
                     result = cmd.ExecuteNonQuery();
@@ -227,23 +233,27 @@ namespace DAL
             {
                 throw e;
             }
+
+            return user;
         }
 
-        public void UpdateUserPassword(User user, string newPassword)
+        //Method to delete one User in the database
+        public void DeleteUser(int userid)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var result = 0;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Users SET Password = @password WHERE UserID = @UserID";
+                    string query = "Delete from Users WHERE UserID = @UserID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@password", newPassword);
-                    cmd.Parameters.AddWithValue("@UserID", user.UserID);
+                    cmd.Parameters.AddWithValue("@UserID",userid);
 
                     cn.Open();
 
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
