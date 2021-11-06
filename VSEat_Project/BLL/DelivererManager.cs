@@ -23,14 +23,14 @@ namespace BLL
             return DelivererDb.AddDeliverer(deliverer);
         }
 
-        public void DeleteDeliverer(Deliverer deliverer)
+        public void DeleteDeliverer(int DelivererID)
         {
-            DelivererDb.DeleteDeliverer(deliverer);
+            DelivererDb.DeleteDeliverer(DelivererID);
         }
 
-        public Deliverer GetDeliverer(int AvailabilityDeliverer, DateTime TimeAssigned)
+        public Deliverer GetDeliverer(int DelivererID)
         {
-            return DelivererDb.GetDeliverer(AvailabilityDeliverer, TimeAssigned);
+            return DelivererDb.GetDeliverer(DelivererID);
         }
 
         public List<Deliverer> GetDeliverers()
@@ -41,6 +41,20 @@ namespace BLL
         public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
         {
             DelivererDb.UpdateDelivererAvailability(deliverer, AvailabilityDeliverer);
+        }
+
+        public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order)
+        {
+            DelivererDb.DeliveryPerMinutes(NumberOrdersAssigned, order);
+
+        }
+        public void DeliveryValidation(Order order, Deliverer deliverer)
+        {
+         
+        }
+        public void CheckCity(Deliverer deliverer, Restaurant restaurant)
+        {
+
         }
     }
 }

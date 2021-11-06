@@ -108,6 +108,7 @@ namespace DAL
 
         public void UpdateCategoryDescription(Category category, string DescriptionCategory)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -117,6 +118,7 @@ namespace DAL
                     string query = "Update from Categories SET DescriptionCategory = @DescriptionCategory WHERE IdCategory = @idcategory";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@DescriptionCategory", DescriptionCategory );
+                    result = cmd.ExecuteNonQuery();
 
                     cn.Open();
 

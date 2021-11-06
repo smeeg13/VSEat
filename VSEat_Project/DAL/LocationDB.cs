@@ -145,6 +145,7 @@ namespace DAL
 
         public void UpdateLocation(string NameCity, int ZIP)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -157,6 +158,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@ZIP", ZIP);
 
                     cn.Open();
+                    result = cmd.ExecuteNonQuery();
 
 
                 }
@@ -175,7 +177,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Location(NameCity, ZIP) values(@NameCity, @ZIP); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Locations(NameCity, ZIP) values(@NameCity, @ZIP); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCity", location.NameCity);
                     cmd.Parameters.AddWithValue("@firstname", location.ZIP);

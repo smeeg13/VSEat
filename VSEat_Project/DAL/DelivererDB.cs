@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Deliverer";
+                    string query = "Select * from Deliverers";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -98,6 +98,7 @@ namespace DAL
 
         public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -109,6 +110,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@AvailibilityDeliverer", AvailabilityDeliverer);
 
                     cn.Open();
+                    result = cmd.ExecuteNonQuery();
 
                 }
             }
@@ -156,7 +158,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Deliverer WHERE IdDeliverer = @IdDeliverer ";
+                    string query = "Delete from Deliverers WHERE DelivererID = @DelivererID ";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
                     cn.Open();
@@ -180,16 +182,21 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT idk FROM Deliverer d, Restaurant r WHERE d.LocationID = r.LocationID";
+                    string query = "SELECT idk FROM Deliverers d, Restaurant r WHERE d.LocationID = r.LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                 }
+            } catch
+            {
+
             }
+                
 
         }
 
         public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
         {
+            int result = 0;
             //COUNT 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -197,17 +204,17 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT idk FROM Deliverer d, Restaurant r WHERE d.LocationID = r.LocationID";
+                    string query = "SELECT COUNT(NumberOrdersAssigned) As NbDelivery FROM Deliverers WHERE OrderID = @OrderID";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
+                    cn.Open();
+                    result = cmd.ExecuteNonQuery();
                 }
             }
-            catch
+            catch (Exception e)
             {
-
+                throw e;
             }
-
-
         }
 
         public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
