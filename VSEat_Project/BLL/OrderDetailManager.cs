@@ -17,20 +17,14 @@ namespace BLL
             OrderDetailsDb = new OrderDetailDB(conf);
         }
 
-
         public OrderDetail AddOrderDetails(OrderDetail orderDetails)
         {
             return OrderDetailsDb.AddOrderDetails(orderDetails);
         }
         
-        public void DeleteOrderDetails(OrderDetail orderDetails)
+        public OrderDetail GetOrderDetails(int idOrderDetails)
         {
-            OrderDetailsDb.DeleteOrderDetails(orderDetails);
-        }
-        
-        public OrderDetail GetOrderDetails(int idOrderDetails, int TotalAmount)
-        {
-            return OrderDetailsDb.GetOrderDetail(idOrderDetails, TotalAmount);
+            return OrderDetailsDb.GetOrderDetail(idOrderDetails);
         }
        
         public List<OrderDetail> GetOrdersDetails()
@@ -38,9 +32,14 @@ namespace BLL
             return OrderDetailsDb.GetOrdersDetails();
         }
 
-        public void UpdateOrderDetailsQuantity(OrderDetail orderDetails, int newQuantity)
+        public OrderDetail UpdateOrderDetails(OrderDetail orderDetails)
         {
-            OrderDetailsDb.UpdateOrderDetailsQuantity(orderDetails, newQuantity);
+             return OrderDetailsDb.UpdateOrderDetails( orderDetails);
+        }
+
+        public void DeleteOrderDetails(int orderDetails)
+        {
+            OrderDetailsDb.DeleteOrderDetails(orderDetails);
         }
     }
 }

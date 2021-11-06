@@ -21,7 +21,7 @@ namespace DAL
             Configuration = configuration;
         }
 
-        //Method to get all the order in the database
+        //Method to get all orders in the database
         public List<Order> GetOrders()
         {
             List<Order> results = null;
@@ -46,16 +46,14 @@ namespace DAL
                             Order order = new Order();
 
                             order.OrderID = (int)dr["OrderID"];
-
+                            order.UserID = (int)dr["UserID"];
                             order.OrderDate = (DateTime)dr["OrderDate"];
-
+                            order.RequiredDate = (DateTime)dr["RequiredDate"];
                             order.ShippedDate = (DateTime)dr["ShippedDate"];
-
-                            order.ShipAddress = (string)dr["ShipAddress"];
-
-
+                            order.DelivererID = (int)dr["DelivererID"];
                             order.Price = (int)dr["Price"];
-
+                            order.ShipAddress = (string)dr["ShipAddress"];
+                            order.LocationID = (int)dr["LocationID"];
                             order.StatusOrder = (string)dr["StatusOrder"];
 
                             results.Add(order);
@@ -67,12 +65,105 @@ namespace DAL
             {
                 throw e;
             }
-
             return results;
         }
 
-        //Method to get one specific order in the database
-        public Order GetOrder(int OrderID, int UserID)
+        //Method to get all the order made by one particular User in the database
+        public List<Order> GetOrdersForUser(int UserID)
+        {
+            List<Order> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Orders WHERE UserID = @UserID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@UserID", UserID);
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Order>();
+
+                            Order order = new Order();
+
+                            order.OrderID = (int)dr["OrderID"];
+                            order.UserID = (int)dr["UserID"];
+                            order.OrderDate = (DateTime)dr["OrderDate"];
+                            order.RequiredDate = (DateTime)dr["RequiredDate"];
+                            order.ShippedDate = (DateTime)dr["ShippedDate"];
+                            order.DelivererID = (int)dr["DelivererID"];
+                            order.Price = (int)dr["Price"];
+                            order.ShipAddress = (string)dr["ShipAddress"];
+                            order.LocationID = (int)dr["LocationID"];
+                            order.StatusOrder = (string)dr["StatusOrder"];
+
+                            results.Add(order);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return results;
+        }
+
+        //Method to get all the order made by one particular User in the database
+        public List<Order> GetOrdersForDeliverer(int DelivererID)
+        {
+            List<Order> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Orders WHERE DelivererID = @DelivererID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Order>();
+
+                            Order order = new Order();
+
+                            order.OrderID = (int)dr["OrderID"];
+                            order.UserID = (int)dr["UserID"];
+                            order.OrderDate = (DateTime)dr["OrderDate"];
+                            order.RequiredDate = (DateTime)dr["RequiredDate"];
+                            order.ShippedDate = (DateTime)dr["ShippedDate"];
+                            order.DelivererID = (int)dr["DelivererID"];
+                            order.Price = (int)dr["Price"];
+                            order.ShipAddress = (string)dr["ShipAddress"];
+                            order.LocationID = (int)dr["LocationID"];
+                            order.StatusOrder = (string)dr["StatusOrder"];
+
+                            results.Add(order);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return results;
+        }
+
+        //Method to get one specific order for one deliverer in the database
+        public Order GetOrderForDeliverer(int OrderID, int DelivererID)
         {
             Order result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -81,11 +172,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Order WHERE OrderID=@OrderID AND UserID=@UserID";
+                    string query = "Select * from Orders WHERE OrderID=@OrderID AND DelivererID=@DelivererID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@OrderID", OrderID);
-                    cmd.Parameters.AddWithValue("@UserID", UserID);
-
+                    cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
 
                     cn.Open();
 
@@ -96,18 +186,14 @@ namespace DAL
                             result = new Order();
 
                             result.OrderID = (int)dr["OrderID"];
-
-                            if (dr["OrderDate"] != null)
-                                result.OrderDate = (DateTime)dr["OrderDate"];
-
-                            if (dr["ShippedDate"] != null)
-                                result.ShippedDate = (DateTime)dr["ShippedDate"];
-
-                            if (dr["ShipAddress"] != null)
-                                result.ShipAddress = (string)dr["ShipAddress"];
-
+                            result.UserID = (int)dr["UserID"];
+                            result.OrderDate = (DateTime)dr["OrderDate"];
+                            result.RequiredDate = (DateTime)dr["RequiredDate"];
+                            result.ShippedDate = (DateTime)dr["ShippedDate"];
+                            result.DelivererID = (int)dr["DelivererID"];
                             result.Price = (int)dr["Price"];
-
+                            result.ShipAddress = (string)dr["ShipAddress"];
+                            result.LocationID = (int)dr["LocationID"];
                             result.StatusOrder = (string)dr["StatusOrder"];
                         }
                     }
@@ -117,7 +203,50 @@ namespace DAL
             {
                 throw e;
             }
+            return result;
+        }
 
+        //Method to get one specific order for one user in the database
+        public Order GetOrderForUser(int OrderID, int UserID)
+        {
+            Order result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Orders WHERE OrderID=@OrderID AND UserID=@UserID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@OrderID", OrderID);
+                    cmd.Parameters.AddWithValue("@UserID", UserID);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            result = new Order();
+
+                            result.OrderID = (int)dr["OrderID"];
+                            result.UserID = (int)dr["UserID"];
+                            result.OrderDate = (DateTime)dr["OrderDate"];
+                            result.RequiredDate = (DateTime)dr["RequiredDate"];
+                            result.ShippedDate = (DateTime)dr["ShippedDate"];
+                            result.DelivererID = (int)dr["DelivererID"];
+                            result.Price = (int)dr["Price"];
+                            result.ShipAddress = (string)dr["ShipAddress"];
+                            result.LocationID = (int)dr["LocationID"];
+                            result.StatusOrder = (string)dr["StatusOrder"];
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
             return result;
         }
 
@@ -130,10 +259,17 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Order(UserID, DateOrder) values(@IdUser, @DateOrder); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Orders(UserID, OrderDate, RequiredDate, ShippedDate, DelivererID, Price, ShipAddress, LocationID, StatusOrder) values(@UserID, @OrderDate, @RequiredDate,@ShippedDate, @DelivererID, @Price, @ShipAddress, @LocationID, @StatusOrder); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@UserID", order.UserID);
-                    cmd.Parameters.AddWithValue("@DateOrder", order.OrderDate);
+                    cmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
+                    cmd.Parameters.AddWithValue("@RequiredDate", order.RequiredDate);
+                    cmd.Parameters.AddWithValue("@ShippedDate", order.ShippedDate);
+                    cmd.Parameters.AddWithValue("@DelivererID", order.DelivererID);
+                    cmd.Parameters.AddWithValue("@Price", order.Price);
+                    cmd.Parameters.AddWithValue("@ShippedAddress", order.ShipAddress);
+                    cmd.Parameters.AddWithValue("@LocationID", order.LocationID);
+                    cmd.Parameters.AddWithValue("@StatusOrder", order.StatusOrder);
 
                     cn.Open();
 
@@ -148,56 +284,65 @@ namespace DAL
             return order;
         }
 
-        //Method to update the status of one order in the database
-        public void UpdateOrderStatus(Order order, string newStatus)
+        //Method to update one order 
+       public Order UpdateOrder(Order order)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var result = 0;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Order SET StatusOrder = @statusorder WHERE OrderID = @OrderID";
+                    string query = "Update from Orders SET UserID = @UserID, OrderDate=@OrderDate, RequiredDate=@RequiredDate, DelivererID=@DelivererID, Price=Price, ShipAddress=@ShipAddress, LocationID = @LocationID, StatusOrder = @StatusOrder WHERE OrderID = @OrderID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@statusorder", newStatus);
                     cmd.Parameters.AddWithValue("@OrderID", order.OrderID);
 
+                    cmd.Parameters.AddWithValue("@UserID", order.UserID);
+                    cmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
+                    cmd.Parameters.AddWithValue("@RequiredDate", order.RequiredDate);
+                    cmd.Parameters.AddWithValue("@ShippedDate", order.ShippedDate);
+                    cmd.Parameters.AddWithValue("@DelivererID", order.DelivererID);
+                    cmd.Parameters.AddWithValue("@Price", order.Price);
+                    cmd.Parameters.AddWithValue("@ShipAddress", order.ShipAddress);
+                    cmd.Parameters.AddWithValue("@LocationID", order.LocationID);
+                    cmd.Parameters.AddWithValue("@StatusOrder", order.StatusOrder);
 
                     cn.Open();
-
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+            return order;
         }
 
 
         //Method to delete one order in the database
-        public void DeleteOrder(Order order)
+        public void DeleteOrder(int orderId, int userId)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            int result = 0;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Order WHERE IdOrder = @idorder";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idorder", order.OrderID);
+                    var query = "Delete from Orders WHERE OrderID = @OrderID AND UserID=@UserID";
+                    var cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@OrderID",orderId);
+                    cmd.Parameters.AddWithValue("@UserID", userId);
 
                     cn.Open();
-
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
-
         }
-
-
     }
 }

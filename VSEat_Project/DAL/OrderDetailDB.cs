@@ -40,7 +40,7 @@ namespace DAL
 
                             OrderDetail orderDetails = new OrderDetail();
 
-                            orderDetails.IdOrderDetails = (int)dr["idOrderDetails"];
+                            orderDetails.OrderDetailsID = (int)dr["idOrderDetails"];
                             orderDetails.MenuID = (int)dr["MenuID"];
                             orderDetails.OrderID = (int)dr["OrderID"];
                             if (dr["UnitPrice"] != null)
@@ -54,7 +54,6 @@ namespace DAL
                             orderDetails.TotalAmount = (int)dr["TotalAmount"];
 
                             results.Add(orderDetails);
-
                         }
                     }
                 }
@@ -63,11 +62,10 @@ namespace DAL
             {
                 throw e;
             }
-
             return results;
         }
 
-        public OrderDetail GetOrderDetail(int idOrderDetails, int TotalAmount)
+        public OrderDetail GetOrderDetail(int OrderDetailsID)
         {
             OrderDetail result = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -76,11 +74,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from OrderDetails WHERE idOrderDetails=@idOrderDetails AND TotalAmount=@TotalAmount";
+                    string query = "Select * from OrderDetails WHERE OrderDetailsID=@OrderDetailsID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idOrderDetails", idOrderDetails);
-                    cmd.Parameters.AddWithValue("@TotalAmount", TotalAmount);
-
+                    cmd.Parameters.AddWithValue("@OrderDetailsID", OrderDetailsID);
 
                     cn.Open();
 
@@ -88,11 +84,9 @@ namespace DAL
                     {
                         if (dr.Read())
                         {
-
-
                             result = new OrderDetail();
 
-                            result.IdOrderDetails = (int)dr["idOrderDetails"];
+                            result.OrderDetailsID = (int)dr["OrderDetailsID"];
 
                             if (dr["UnitPrice"] != null)
                                 result.UnitPrice = (int)dr["UnitPrice"];
@@ -103,7 +97,6 @@ namespace DAL
                             result.Discount = (short)dr["Discount"];
 
                             result.TotalAmount = (int)dr["TotalAmount"];
-
                         }
                     }
                 }
@@ -112,7 +105,6 @@ namespace DAL
             {
                 throw e;
             }
-
             return result;
         }
 
@@ -126,73 +118,77 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into OrderDetails(UnitPrice, Quantity, Discount, TotalAmount) values(@unitprice, @quantity, @discount, @totalAmount); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into OrderDetails(UnitPrice, Quantity, Discount, TotalAmount) values(@UnitPrice, @Quantity, @Discount, @TotalAmount); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@unitprice", orderDetails.UnitPrice);
-                    cmd.Parameters.AddWithValue("@quantity", orderDetails.Quantity);
-                    cmd.Parameters.AddWithValue("@discount", orderDetails.Discount);
-                    cmd.Parameters.AddWithValue("@totalAmount", orderDetails.TotalAmount);
-
+                    cmd.Parameters.AddWithValue("@UnitPrice", orderDetails.UnitPrice);
+                    cmd.Parameters.AddWithValue("@Quantity", orderDetails.Quantity);
+                    cmd.Parameters.AddWithValue("@Discount", orderDetails.Discount);
+                    cmd.Parameters.AddWithValue("@TotalAmount", orderDetails.TotalAmount);
 
                     cn.Open();
 
-                    orderDetails.IdOrderDetails = Convert.ToInt32(cmd.ExecuteScalar());
+                    orderDetails.OrderDetailsID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
-
             return orderDetails;
         }
 
         //Method to update the quantity of one orderdetail in the database
-        public void UpdateOrderDetailsQuantity(OrderDetail orderDetails, int newQuantity)
+        public OrderDetail UpdateOrderDetails(OrderDetail orderDetails)
         {
+            var result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from OrderDetails SET Quantity = @quantity WHERE IdOrderDetails = @idorderdetails";
+                    string query = "Update from OrderDetails SET UnitPrice = @UnitPrice, Quantity = @Quantity, Discount = @Discount, TotalAmount = @TotalAmount WHERE OrderDetailsID = @OrderDetailsID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@quantity", newQuantity);
+                    cmd.Parameters.AddWithValue("@OrderDetailsID", orderDetails.OrderDetailsID);
+                    cmd.Parameters.AddWithValue("@UnitPrice", orderDetails.UnitPrice);
+                    cmd.Parameters.AddWithValue("@Quantity", orderDetails.Quantity);
+                    cmd.Parameters.AddWithValue("@Discount", orderDetails.Discount);
+                    cmd.Parameters.AddWithValue("@TotalAmount", orderDetails.TotalAmount);
 
                     cn.Open();
-
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+            return orderDetails;
         }
 
 
         //Method to delete one order details in the database
-        public void DeleteOrderDetails(OrderDetail orderDetails)
+        public void DeleteOrderDetails(int orderDetails)
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var result = 0;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from OrderDetails WHERE IdOrderDetails = @idorderdetails";
+                    string query = "Delete from OrderDetails WHERE OrderDetailsID = @OrderdetailsID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@idorderdetails", orderDetails.IdOrderDetails);
+                    cmd.Parameters.AddWithValue("@OrderDetailsID", orderDetails);
 
                     cn.Open();
-
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
-
         }
     }
 }
