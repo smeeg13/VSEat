@@ -58,7 +58,7 @@ namespace BLL
             int locationId ;
             string locationName = null;
 
-            Restaurant restaurant = RestaurantDb.GetRestaurant(RestaurantName);
+            Restaurant restaurant = RestaurantDb.GetRestaurantWithName(RestaurantName);
             locationId = restaurant.RestaurantID;
 
             Location location = LocationDb.GetLocationID(locationId);
