@@ -14,7 +14,6 @@ namespace DAL
         void DeleteDeliverer(int DelivererID);
         void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer);
         void DeliveryPerMinutes(int NumberOrdersAssigned, Order order);
-        public void DeliveryValidation(Order order, Deliverer deliverer);
-        public void CheckCity(Deliverer deliverer, Restaurant restaurant);
+        void DeliveryValidation(Order order, Deliverer deliverer);
     }
 }

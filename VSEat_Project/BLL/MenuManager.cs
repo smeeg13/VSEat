@@ -23,14 +23,14 @@ namespace BLL
             return MenuDb.AddMenu(menu);
         }
 
-        public void DeleteMenu(Menu menu)
+        public void DeleteMenu(int MenuID)
         {
-            MenuDb.DeleteMenu(menu);
+            MenuDb.DeleteMenu(MenuID);
         }
 
-        public Menu GetMenu(string NameMenu, int PriceMenu)
+        public Menu GetMenu(string NameMenu)
         {
-            return MenuDb.GetMenu(NameMenu, PriceMenu);
+            return MenuDb.GetMenu(NameMenu);
         }
 
         public List<Menu> GetMenus()
@@ -38,13 +38,19 @@ namespace BLL
             return MenuDb.GetMenus();
         }
 
-        public void UpdateMenuName(Menu menu, string newname)
+        public void UpdateMenuName(Menu menu)
         {
-            MenuDb.UpdateMenuName(menu, newname);
+            MenuDb.UpdateMenuName(menu);
         }
-        public void UpdateMenuPrice(Menu menu, int newPrice)
+        public void UpdateMenuPrice(Menu menu)
         {
-            MenuDb.UpdateMenuPrice(menu, newPrice);
+            MenuDb.UpdateMenuPrice(menu);
+        }
+
+        public List <Menu> GetMenusPerResto (int RestaurantID, int MenuID)
+        {
+            int restaurantID;
+            int MenuID;
         }
     }
 }

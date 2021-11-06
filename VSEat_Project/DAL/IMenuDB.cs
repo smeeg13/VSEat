@@ -9,10 +9,10 @@ namespace DAL
    public interface IMenuDB
     {
         List<Menu> GetMenus();
-        Menu GetMenu(string MenuName, int UnitPrice);
+        Menu GetMenu(string MenuName);
         Menu AddMenu(Menu menu);
-        void UpdateMenuName(Menu menu, string NameMenu);
-        void UpdateMenuPrice(Menu menu, int UnitPrice);
+        void UpdateMenuName(Menu menu);
+        void UpdateMenuPrice(Menu menu);
         void DeleteMenu(int MenuID);
     }
 }
