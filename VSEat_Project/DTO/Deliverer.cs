@@ -9,7 +9,7 @@ namespace DAL
         public class Deliverer
     {
         //PK
-        public int DelivereID { get; set; }
+        public int DelivererID { get; set; }
 
         public string Username { get; set; }
         public string Password { get; set; }
@@ -18,7 +18,7 @@ namespace DAL
 
         public override string ToString()
         {
-            return "IdDeliverer : " + DelivereID +
+            return "IdDeliverer : " + DelivererID +
                     "Username :  " + Username +
                    "Password : " + Password +
                     "NumberOrdersAssigned : " + NumberOrdersAssigned +

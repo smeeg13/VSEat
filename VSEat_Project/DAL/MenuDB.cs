@@ -190,8 +190,9 @@ namespace DAL
             return menu;
         }
 
-        public void DeleteMenu(Menu menu)
+        public void DeleteMenu(int MenuID)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -200,15 +201,10 @@ namespace DAL
                 {
                     string query = "Delete from Menus WHERE MenuID = @MenuID ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.RemoveAt("@MenuName");
-                    cmd.Parameters.RemoveAt("@QuantityPerUnit");
-                    cmd.Parameters.RemoveAt("@UnitPrice");
-                    cmd.Parameters.RemoveAt("@UnitInStock");
-                    cmd.Parameters.RemoveAt("@UnitOnOrder");
-                    cmd.Parameters.RemoveAt("@StatusMenu");
-
+                    cmd.Parameters.AddWithValue("@MenuID", MenuID);
                     cn.Open();
 
+                    result = cmd.ExecuteNonQuery();
                 }
 
             }

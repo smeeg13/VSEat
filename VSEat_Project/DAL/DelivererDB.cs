@@ -40,7 +40,7 @@ namespace DAL
 
                             Deliverer deliverer = new Deliverer();
 
-                            deliverer.DelivereID = (int)dr["IdDeliverer"];
+                            deliverer.DelivererID = (int)dr["IdDeliverer"];
 
                             deliverer.Availability = (int)dr["AvailabilityDeliverer"];
 
@@ -79,7 +79,7 @@ namespace DAL
                         {
                             deliverer = new Deliverer();
 
-                            deliverer.DelivereID = (int)dr["IdDeliverer"];
+                            deliverer.DelivererID = (int)dr["IdDeliverer"];
 
                             if (dr["AvailabitlityDeliverer"] != null)
                                 deliverer.Availability = (int)dr["AvailabitlityDeliverer"];
@@ -135,7 +135,7 @@ namespace DAL
 
                     cn.Open();
 
-                    deliverer.DelivereID = Convert.ToInt32(cmd.ExecuteScalar());
+                    deliverer.DelivererID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -146,8 +146,10 @@ namespace DAL
             return deliverer;
         }
 
-        public void DeleteDeliverer(Deliverer deliverer)
+        public void DeleteDeliverer(int DelivererID)
         {
+            int result = 0; 
+
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -156,12 +158,11 @@ namespace DAL
                 {
                     string query = "Delete from Deliverer WHERE IdDeliverer = @IdDeliverer ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.RemoveAt("@Username");
-                    cmd.Parameters.RemoveAt("@Password");
-                    cmd.Parameters.RemoveAt("NumberOrdersAssigned");
-                    cmd.Parameters.RemoveAt("@Availability");
-
+                    cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
                     cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
+
                 }
 
             }
@@ -201,6 +202,10 @@ namespace DAL
 
                 }
             }
+            catch
+            {
+
+            }
 
 
         }
@@ -209,6 +214,8 @@ namespace DAL
         {
             //Deliverer needs to be connected to validate, validation of connection required !
         }
+
+
     }
 }
     

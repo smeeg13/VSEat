@@ -11,7 +11,7 @@ namespace DAL
         List<Location> GetLocations();
         Location GetLocation(string NameCity, int ZIP);
         Location AddLocation(Location location);
-        void DeleteLocation(Location location);
+        void DeleteLocation(int LocationID);
         void UpdateLocation(string NameCity, int ZIP);
 
     }
