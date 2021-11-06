@@ -149,8 +149,9 @@ namespace DAL
             return location;
         }
 
-        public void DeleteLocation(Location location)
+        public void DeleteLocation(int LocationID)
         {
+            int result = 0; 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -159,10 +160,10 @@ namespace DAL
                 {
                     string query = "Delete from Locations WHERE LocationID = @LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.RemoveAt("@NameCity");
-                    cmd.Parameters.RemoveAt("@ZIP");
-
+                    cmd.Parameters.AddWithValue("@LocationID", LocationID);
                     cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
                 }
 
             }

@@ -13,6 +13,6 @@ namespace DAL
         Menu AddMenu(Menu menu);
         void UpdateMenuName(Menu menu, string NameMenu);
         void UpdateMenuPrice(Menu menu, int UnitPrice);
-        void DeleteMenu(Menu menu);
+        void DeleteMenu(int MenuID);
     }
 }

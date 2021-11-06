@@ -12,7 +12,7 @@ namespace DAL
 
         Category GetCategory(string NameCategory, string DescriptionCategory);
         Category AddCategory(Category category);
-        void DeleteCategory(Category category);
+        void DeleteCategory(int CategoryID);
         void UpdateCategoryDescription(Category category, string newDescriptionCategory);
     }
 }

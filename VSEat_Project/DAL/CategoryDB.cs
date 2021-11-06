@@ -28,7 +28,7 @@ namespace DAL
                 {
                     using (SqlConnection cn = new SqlConnection(connectionString))
                     {
-                        string query = "Select * from Category";
+                        string query = "Select * from Categories";
                         SqlCommand cmd = new SqlCommand(query, cn);
 
                         cn.Open();
@@ -74,7 +74,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Category where NameCategory = @NameCategory AND DescriptionCategory = @DescriptionCategory";
+                    string query = "Select * from Categories where NameCategory = @NameCategory AND DescriptionCategory = @DescriptionCategory";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCategory", nameCategory);
                     cmd.Parameters.AddWithValue("@DescriptionCategory", descriptionCategory);
@@ -114,7 +114,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Category SET DescriptionCategory = @DescriptionCategory WHERE IdCategory = @idcategory";
+                    string query = "Update from Categories SET DescriptionCategory = @DescriptionCategory WHERE IdCategory = @idcategory";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@DescriptionCategory", DescriptionCategory );
 
@@ -136,7 +136,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Category(CategoryName, DescriptionCategory) values(@NameCategory, @DescriptionCategory); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Categories(CategoryName, DescriptionCategory) values(@NameCategory, @DescriptionCategory); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                     cmd.Parameters.AddWithValue("@DescriptionCategory", category.Description);
@@ -155,20 +155,21 @@ namespace DAL
             return category;
         }
 
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(int CategoryID)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from CategorY WHERE IdCategory = @IdCategory ";
+                    string query = "Delete from Categories WHERE IdCategory = @IdCategory ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.RemoveAt("@CategoryName");
-                    cmd.Parameters.RemoveAt("@DescriptionCategory");
-
+                    cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
                     cn.Open();
+
+                    result = cmd.ExecuteNonQuery();
 
                 }
 
@@ -180,5 +181,6 @@ namespace DAL
 
         }
 
+   
     }
 }
