@@ -8,13 +8,16 @@ namespace DAL
         List<User> GetUsers();
 
         //Method to get the user with his username and his password
-        User GetUser(string username, string password);
+        User GetUserWithName(string username, string password);
+
+        //Method to get the user with his ID
+        User GetUserWithID(int userid);
 
         //Method to Add one User in the database
         User AddUser(User user);
 
         //Method to Add an Administrator in the database
-        public User AddAdmin(User user, char isadmin);
+        User AddAdmin(User user, char isadmin);
 
         //Method to Update one User in the database
         User UpdateUser(User user);

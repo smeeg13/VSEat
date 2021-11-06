@@ -9,7 +9,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-    public class UserManager
+    public class UserManager : IUserManager
     {
 
         private IUserDB UserDb { get; }
@@ -29,30 +29,43 @@ namespace BLL
         }
 
         //Method to get the user with his username and his password
-        public User GetUser(string username, string password)
+        public User GetUserWithName(string username, string password)
         {
-            User user =new User();
+            User user = new User();
 
-            user = UserDb.GetUser(username, password);
+            user = UserDb.GetUserWithName(username, password);
 
             if (user == null)
                 throw new BusinessExceptions(" Username or Password wrong, Try again ");
 
             return user;
         }
+
+        //Method to get the user with his username and his password
+        public User GetUserwithID(int userid)
+        {
+            User user = new User();
+
+            user = UserDb.GetUserWithID(userid);
+
+            return user;
+        }
+
         //Method to get Location of the user
         public string GetLocationOfUser(User user)
         {
             int locationId;
             string locationName = null;
+            int locationZIP ;
 
-            User userForLocation = UserDb.GetUser(user.Username, user.Password);
+            User userForLocation = UserDb.GetUserWithName(user.Username, user.Password);
             locationId = userForLocation.UserID;
 
             Location location = LocationDb.GetLocationID(locationId);
             locationName = location.NameCity;
+            locationZIP = location.ZIP;
 
-            return locationName;
+            return locationZIP+" " + locationName;
         }
 
         //Method to Add one User in the database
@@ -78,7 +91,7 @@ namespace BLL
         //Method to Update one User in the database
         public User UpdateUser(User user)
         {
-           return UserDb.UpdateUser(user);
+            return UserDb.UpdateUser(user);
         }
 
         //Method to delete one User in the database
@@ -92,7 +105,7 @@ namespace BLL
         {
             string isConnected = null;
 
-            User user = GetUser(username, password);
+            User user = GetUserWithName(username, password);
             user.StatusAccount = "Connected";
             user = UserDb.UpdateUser(user);
 
@@ -106,13 +119,13 @@ namespace BLL
         {
             string isConnected = null;
 
-            User user = GetUser(username, password);
+            User user = GetUserWithName(username, password);
             user.StatusAccount = "Logged Out";
             user = UserDb.UpdateUser(user);
 
             isConnected = user.StatusAccount;
 
-            return user.Username +" "+isConnected;
+            return user.Username + " " + isConnected;
         }
 
         //Update the password
@@ -121,13 +134,43 @@ namespace BLL
             string pwdIsChanged = null;
 
             User user = null;
-            user = UserDb.GetUser(username, password);
+            user = UserDb.GetUserWithName(username, password);
             user.Password = newPwd;
             user = UserDb.UpdateUser(user);
+            pwdIsChanged = "The Password has been changed !";
 
             return pwdIsChanged;
         }
 
+        //Update the address
+        public string UpdateAddress(string username, string password, string newAddress)
+        {
+            string AddressIsChanged = null;
 
+            User user = null;
+            user = UserDb.GetUserWithName(username, password);
+            user.Address = newAddress;
+            user = UserDb.UpdateUser(user);
+            AddressIsChanged = "The address has been changed !";
+
+            return AddressIsChanged;
+        }
+
+        //Method to update LocationID of the Restaurant in the database
+        public string UpdateLocation(User user, string newlocation)
+        {
+            string LocationIsChanged = null;
+            int locationId;
+
+            User UserUpdated = null;
+            UserUpdated = UserDb.GetUserWithName(user.Username, user.Password);
+            //locationId = LocationDb.GetLocationID(newlocation); //          Get the id location with the location name
+
+            UserUpdated.LocationID = locationId;
+            UserUpdated = UserDb.UpdateUser(UserUpdated);
+
+            LocationIsChanged = "The locationID has been changed !";
+            return LocationIsChanged;
+        }
     }
 }

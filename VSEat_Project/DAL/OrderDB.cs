@@ -294,7 +294,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Orders SET UserID = @UserID, OrderDate=@OrderDate, RequiredDate=@RequiredDate, DelivererID=@DelivererID, Price=Price, ShipAddress=@ShipAddress, LocationID = @LocationID, StatusOrder = @StatusOrder WHERE OrderID = @OrderID";
+                    string query = "Update from Orders SET UserID = @UserID, OrderDate=@OrderDate, RequiredDate=@RequiredDate, DelivererID=@DelivererID, Price=@Price, ShipAddress=@ShipAddress, LocationID = @LocationID, StatusOrder = @StatusOrder WHERE OrderID = @OrderID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@OrderID", order.OrderID);
 
