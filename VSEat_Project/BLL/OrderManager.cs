@@ -51,6 +51,7 @@ namespace BLL
         //Add a new order
         public Order AddOrder(Order order)
         {
+            //Augmenter le number Orders assigned dans le deliverer dès qu'on ajoute un order ayant son ID
             return OrderDb.AddOrder(order);
         }
 
