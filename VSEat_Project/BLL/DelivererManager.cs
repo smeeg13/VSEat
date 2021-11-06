@@ -50,7 +50,7 @@ namespace BLL
         }
         public void DeliveryValidation(Order order, Deliverer deliverer)
         {
-         
+            DelivererDB.De
         }
         public void CheckCity(Deliverer deliverer, Restaurant restaurant)
         {
