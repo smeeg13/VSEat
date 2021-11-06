@@ -11,6 +11,7 @@ namespace BLL
    public class DelivererManager
     {
         private IDelivererDB DelivererDb { get; }
+        private IRestaurantDB RestaurantDb { get; }
 
 
         public DelivererManager(IConfiguration conf)
@@ -50,10 +51,20 @@ namespace BLL
         }
         public void DeliveryValidation(Order order, Deliverer deliverer)
         {
-            DelivererDB.De
+           
+            DelivererDB.DeliveryValidation(order, deliverer);
+          
         }
-        public void CheckCity(Deliverer deliverer, Restaurant restaurant)
+        public void CheckCity(int DelivererID, int RestaurantID)
         {
+            int delivererID;
+            int restaurantID; 
+
+            Deliverer deliverer = DelivererDb.GetDeliverer(DelivererID);
+            delivererID = deliverer.DelivererID;
+
+            Restaurant restaurant = RestaurantDb.GetRestaurant(RestaurantID);
+            restaurantID = restaurant.RestaurantID;
 
         }
     }

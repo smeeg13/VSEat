@@ -174,25 +174,26 @@ namespace DAL
             }
         }
 
-        public void CheckCity (Deliverer deliverer, Restaurant restaurant)
-        {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+        //public void CheckCity (Deliverer deliverer, Restaurant restaurant)
+        //{
+        //    string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT idk FROM Deliverers d, Restaurant r WHERE d.LocationID = r.LocationID";
-                    SqlCommand cmd = new SqlCommand(query, cn);
+        //    try
+        //    {
+        //        using (SqlConnection cn = new SqlConnection(connectionString))
+        //        {
+        //            string query = "SELECT  FROM  = r.LocationID";
+        //            SqlCommand cmd = new SqlCommand(query, cn);
 
-                }
-            } catch
-            {
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
 
-            }
-                
 
-        }
+
 
         public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
         {
