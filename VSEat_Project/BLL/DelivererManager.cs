@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VSEat_Project;
 
 namespace BLL
 {
@@ -63,8 +64,11 @@ namespace BLL
             Deliverer deliverer = DelivererDb.GetDeliverer(DelivererID);
             delivererID = deliverer.DelivererID;
 
-            Restaurant restaurant = RestaurantDb.GetRestaurant(RestaurantID);
+            Restaurant restaurant = RestaurantDb.GetRestaurantWithID(RestaurantID);
             restaurantID = restaurant.RestaurantID;
+
+            if (deliverer.DelivererID != restaurant.RestaurantID)
+                throw new BusinessExceptions("You must choose another deliverer !");
 
         }
     }

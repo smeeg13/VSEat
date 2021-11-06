@@ -23,9 +23,9 @@ namespace BLL
             return LocationDb.AddLocation(location);
         }
 
-        public void DeleteDeliverer(Location location)
+        public void DeleteDeliverer(int LocationID)
         {
-            LocationDb.DeleteLocation(location);
+            LocationDb.DeleteLocation(LocationID);
         }
 
         public Location GetLocation(string NameCity, int ZIP)

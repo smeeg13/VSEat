@@ -66,7 +66,7 @@ namespace DAL
             return results;
         }
 
-        public Menu GetMenu(string NameMenu, int UnitPrice)
+        public Menu GetMenu(string NameMenu)
         {
             Menu menu = null;
 
@@ -76,10 +76,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Menus where NameMenu = @NameMenu AND UnitPrice = @UnitPrice";
+                    string query = "Select * from Menus where NameMenu = @NameMenu";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameMenu", NameMenu);
-                    cmd.Parameters.AddWithValue("@UnitPrice", UnitPrice);
 
                     cn.Open();
 
@@ -112,9 +111,9 @@ namespace DAL
             return menu;
         }
 
-        public void UpdateMenuName(Menu menu,string NameMenu)
+        public void UpdateMenuName(Menu menu)
         {
-            int resul 
+            int result = 0; 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -123,7 +122,7 @@ namespace DAL
                 {
                     string query = "Update from Menus SET MenuName = @MenuName WHERE IdMenu = @MenuID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@MenuName", NameMenu);
+                    cmd.Parameters.AddWithValue("@MenuName", menu.MenuName);
                     cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
 
                     result = cmd.ExecuteNonQuery();
@@ -136,7 +135,7 @@ namespace DAL
             }
         }
 
-        public void UpdateMenuPrice(Menu menu, int UnitPrice)
+        public void UpdateMenuPrice(Menu menu)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
@@ -146,7 +145,7 @@ namespace DAL
                 {
                     string query = "Update from Menus SET UnitPrice = @UnitPrice WHERE MenuID = @MenuID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@UnitPrice", UnitPrice);
+                    cmd.Parameters.AddWithValue("@UnitPrice", menu.UnitPrice);
                     cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
 
 

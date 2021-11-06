@@ -23,14 +23,20 @@ namespace BLL
             return CategoryDb.AddCategory(category);
         }
 
-        public void DeleteCategory(Category category)
+        public void DeleteCategory(int CategoryID)
         {
-            CategoryDb.DeleteCategory(category);
+            CategoryDb.DeleteCategory(CategoryID);
         }
 
-        public Category GetCategory(string NameCategory, string DescriptionCategory)
+        public Category GetCategoryName(string NameCategory)
         {
-            return CategoryDb.GetCategory(NameCategory, DescriptionCategory);
+            return CategoryDb.GetCategoryName(NameCategory);
+        }
+
+        public Category GetCategoryID (int CategoryID)
+        {
+            return CategoryDb.GetCategoryID(CategoryID);
+
         }
 
         public List<Category> GetCategories()
