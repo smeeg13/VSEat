@@ -114,6 +114,7 @@ namespace DAL
 
         public void UpdateMenuName(Menu menu,string NameMenu)
         {
+            int resul 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -125,8 +126,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@MenuName", NameMenu);
                     cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
 
-
-                    cn.Open();
+                    result = cmd.ExecuteNonQuery();
 
                 }
             }

@@ -10,6 +10,7 @@ namespace DAL
     {
         List<Location> GetLocations();
         Location GetLocation(string NameCity, int ZIP);
+        Location GetLocationID(int LocationID);
         Location AddLocation(Location location);
         void DeleteLocation(int LocationID);
         void UpdateLocation(string NameCity, int ZIP);

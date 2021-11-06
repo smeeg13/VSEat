@@ -207,6 +207,7 @@ namespace DAL
 
         public void UpdateUserAddress(User user, string newAddress)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -219,7 +220,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@UserID", user.UserID);
 
                     cn.Open();
-
+                    result = cmd.ExecuteNonQuery();
                 }
             }
             catch (Exception e)
