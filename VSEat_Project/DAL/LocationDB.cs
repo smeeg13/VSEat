@@ -98,33 +98,6 @@ namespace DAL
             return location;
         }
 
-        public Location GetLocation(string NameCity, int ZIP)
-        {
-            Location location = null;
-
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "Select * from Locations where NameCity = @NameCity AND ZIP = @ZIP";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
-                    cmd.Parameters.AddWithValue("@ZIP", ZIP);
-
-                    cn.Open();
-
-          
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-            return location;
-        }
 
         public Location GetLocationWithID(int LocationID)
         {
@@ -214,7 +187,7 @@ namespace DAL
             return location.LocationID;
         }
 
-        public void UpdateLocation(string NameCity, int ZIP)
+        public Location UpdateLocation(Location location)
         {
             int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -225,8 +198,8 @@ namespace DAL
                 {
                     string query = "Update from Locations SET NameCity = @NameCity WHERE LocationID = @LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
-                    cmd.Parameters.AddWithValue("@ZIP", ZIP);
+                    cmd.Parameters.AddWithValue("@NameCity", location.NameCity);
+                    cmd.Parameters.AddWithValue("@ZIP", location.ZIP);
 
                     cn.Open();
                     result = cmd.ExecuteNonQuery();
@@ -238,6 +211,7 @@ namespace DAL
             {
                 throw e;
             }
+            return location;
         }
 
         public Location AddLocation(Location location)

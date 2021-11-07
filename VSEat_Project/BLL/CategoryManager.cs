@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class CategoryManager
+    public class CategoryManager : ICategoryManager
     {
         private ICategoryDB CategoryDb { get; }
 
@@ -28,14 +28,14 @@ namespace BLL
             CategoryDb.DeleteCategory(CategoryID);
         }
 
-        public Category GetCategoryName(string NameCategory)
+        public Category GetCategoryName(int CategoryID)
         {
-            return CategoryDb.GetCategoryName(NameCategory);
+            return CategoryDb.GetCategoryName(CategoryID);
         }
 
-        public Category GetCategoryID (int CategoryID)
+        public Category GetCategoryID(string CategoryName)
         {
-            return CategoryDb.GetCategoryID(CategoryID);
+            return CategoryDb.GetCategoryID(CategoryName);
 
         }
 
@@ -44,9 +44,9 @@ namespace BLL
             return CategoryDb.Categories;
         }
 
-        public void UpdateCategoryDescription(Category category, string newDescriptionCategory)
+        public void UpdateCategory(Category category)
         {
-            CategoryDb.UpdateCategoryDescription(category, newDescriptionCategory);
+            CategoryDb.UpdateCategory(category);
         }
     }
 }

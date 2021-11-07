@@ -9,7 +9,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-   public class MenuManager
+    public class MenuManager : IMenuManager
     {
         private IMenuDB MenuDb { get; }
         private IRestaurantDB RestaurantDb { get; }
@@ -39,7 +39,7 @@ namespace BLL
             return MenuDb.GetMenuWithID(MenuID);
         }
 
-        public Menu GetMenuUnitPrice (string MenuName)
+        public Menu GetMenuUnitPrice(string MenuName)
         {
             return MenuDb.GetMenuUnitPrice(MenuName);
         }
@@ -49,16 +49,16 @@ namespace BLL
             return MenuDb.GetMenus();
         }
 
-        public void UpdateMenuName(Menu menu)
+        public Menu UpdateMenu(Menu menu)
         {
-            MenuDb.UpdateMenuName(menu);
+           return MenuDb.UpdateMenu(menu);
         }
         public void UpdateMenuPrice(Menu menu)
         {
             MenuDb.UpdateMenuPrice(menu);
         }
 
-     
+
 
     }
 }

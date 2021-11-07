@@ -47,8 +47,8 @@ namespace DAL
                                 if (dr["NameCategory"] != null)
                                     category.CategoryName = (string)dr["NameCategory"];
 
-                                if (dr["DescriptionCategory"] != null)
-                                    category.Description = (string)dr["DescriptionCategory"];
+                                if (dr["Description"] != null)
+                                    category.Description = (string)dr["Description"];
 
                                 results.Add(category);
                             }
@@ -64,7 +64,7 @@ namespace DAL
             }
         }
 
-        public Category GetCategoryName(string nameCategory)
+        public Category GetCategoryName(int CategoryID)
         {
             Category category = null;
 
@@ -74,9 +74,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Categories where NameCategory = @NameCategory";
+                    string query = "Select * from Categories where CategoryID = @CategoryID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@NameCategory", nameCategory);
+                    cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
                    
 
                     cn.Open();
@@ -92,8 +92,8 @@ namespace DAL
                             if(dr["NameCategory"] != null)
                                 category.CategoryName = (string)dr["NameCategory"];
 
-                            if (dr["DescriptionCategory"] != null)
-                                category.Description = (string)dr["DescriptionCategory"];
+                            if (dr["Description"] != null)
+                                category.Description = (string)dr["Description"];
                         }
                     }
                 }
@@ -106,7 +106,7 @@ namespace DAL
             return category;
         }
 
-        public Category GetCategoryID(int CategoryID)
+        public Category GetCategoryID(string CategoryName)
         {
             Category category = null;
 
@@ -116,9 +116,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Categories where CategoryID = @CategoryID";
+                    string query = "Select * from Categories where CategoryName = @CategoryName";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+                    cmd.Parameters.AddWithValue("@CategoryName", CategoryName);
 
 
                     cn.Open();
@@ -134,8 +134,8 @@ namespace DAL
                             if (dr["NameCategory"] != null)
                                 category.CategoryName = (string)dr["NameCategory"];
 
-                            if (dr["DescriptionCategory"] != null)
-                                category.Description = (string)dr["DescriptionCategory"];
+                            if (dr["Description"] != null)
+                                category.Description = (string)dr["Description"];
                         }
                     }
                 }
@@ -149,7 +149,7 @@ namespace DAL
         }
 
 
-        public void UpdateCategoryDescription(Category category, string DescriptionCategory)
+        public Category UpdateCategory(Category category)
         {
             int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -158,9 +158,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Categories SET DescriptionCategory = @DescriptionCategory WHERE IdCategory = @idcategory";
+                    string query = "Update from Categories SET Description = @Description WHERE IdCategory = @idcategory";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@DescriptionCategory", DescriptionCategory );
+                    cmd.Parameters.AddWithValue("@CategoryName", category.CategoryName);
+                    cmd.Parameters.AddWithValue("@DescriptionCategory", category.Description );
                     result = cmd.ExecuteNonQuery();
 
                     cn.Open();
@@ -171,6 +172,8 @@ namespace DAL
             {
                 throw e;
             }
+
+            return category;
         }
 
         public Category AddCategory(Category category)
@@ -181,10 +184,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Categories(CategoryName, DescriptionCategory) values(@NameCategory, @DescriptionCategory); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Categories(CategoryName, Description) values(@NameCategory, @Description); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@CategoryName", category.CategoryName);
-                    cmd.Parameters.AddWithValue("@DescriptionCategory", category.Description);
+                    cmd.Parameters.AddWithValue("@Description", category.Description);
              
 
                     cn.Open();
