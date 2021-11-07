@@ -12,6 +12,7 @@ namespace DAL
         public int RestaurantID { get; set; }
         //FK
         public int LocationID { get; set; }
+        public int MenuID { get; set; }
         public string RestaurantName { get; set; }
         public string DescriptionRestaurant { get; set; }
         public string Address { get; set; }
@@ -32,9 +33,9 @@ namespace DAL
         {
             return "Id Restaurant : " + RestaurantID +
                 "Id Location : " + LocationID +
+                "Id Menu : " + MenuID +
                 "Name Restaurant : " + RestaurantName +
-                "DescriptionRestaurant : " + DescriptionRestaurant+
-                "Address : "+Address;
+                "DescriptionRestaurant : " + DescriptionRestaurant;
         }
     }
     
