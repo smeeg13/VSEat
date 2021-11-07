@@ -97,7 +97,7 @@ namespace BLL
         public string UpdateLocation(Restaurant restaurant, string newlocation)
         {
             string LocationIsChanged = null;
-            int locationId;
+            int locationId=0;
 
             Restaurant restauUpdated = null;
             restauUpdated = RestaurantDb.GetRestaurantWithName(restaurant.RestaurantName);

@@ -99,7 +99,51 @@ namespace DAL
             return location;
         }
 
-        public Location GetLocationID(string NameCity)
+        public int GetLocationID(int LocationID)
+        {
+            Location location = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Locations where LocationID = @LocationID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@LocationID", LocationID);
+                  
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            location = new Location();
+
+                            location.LocationID = (int)dr["LocationID"];
+
+                            if (dr["NameCity"] != null)
+                                location.NameCity = (string)dr["NameCity"];
+
+                            ;
+                            if (dr["ZIP"] != null)
+                                location.ZIP = (int)dr["ZIP"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return LocationID;
+        }
+
+        public Location GetLocationName(string NameCity)
         {
             Location location = null;
 
@@ -112,7 +156,7 @@ namespace DAL
                     string query = "Select * from Locations where NameCity = @NameCity";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCity", NameCity);
-                  
+
 
                     cn.Open();
 

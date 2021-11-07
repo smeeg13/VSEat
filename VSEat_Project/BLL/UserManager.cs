@@ -9,7 +9,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-    public class UserManager : IUserManager
+    public class UserManager 
     {
 
         private IUserDB UserDb { get; }
@@ -160,7 +160,7 @@ namespace BLL
         public string UpdateLocation(User user, string newlocation)
         {
             string LocationIsChanged = null;
-            int locationId;
+            int locationId=0;
 
             User UserUpdated = null;
             UserUpdated = UserDb.GetUserWithName(user.Username, user.Password);
