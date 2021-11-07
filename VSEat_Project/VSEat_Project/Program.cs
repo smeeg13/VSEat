@@ -18,7 +18,8 @@ namespace VSEat_Project
             static void Main(string[] args)
             {
 
-                var userManager = new UserManager(Configuration);
+            var userManager = new UserManager(Configuration);
+            var orderManager = new OrderManager(Configuration);
 
 
                 //Add a User
@@ -51,6 +52,6 @@ namespace VSEat_Project
                 Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd h:mm:ss tt"));
 
 
-            }
+        }
         }
     }

@@ -33,7 +33,7 @@ namespace BLL
         {
             User user = new User();
 
-            user = UserDb.GetUserWithName(username, password);
+            user = UserDb.GetUserWithUsername(username, password);
 
             if (user == null)
                 throw new BusinessExceptions(" Username or Password wrong, Try again ");
@@ -58,7 +58,7 @@ namespace BLL
             string locationName = null;
             int locationZIP ;
 
-            User userForLocation = UserDb.GetUserWithName(user.Username, user.Password);
+            User userForLocation = UserDb.GetUserWithUsername(user.Username, user.Password);
             locationId = userForLocation.UserID;
 
             Location location = LocationDb.GetLocationWithID(locationId);
@@ -134,7 +134,7 @@ namespace BLL
             string pwdIsChanged = null;
 
             User user = null;
-            user = UserDb.GetUserWithName(username, password);
+            user = UserDb.GetUserWithUsername(username, password);
             user.Password = newPwd;
             user = UserDb.UpdateUser(user);
             pwdIsChanged = "The Password has been changed !";
@@ -148,7 +148,7 @@ namespace BLL
             string AddressIsChanged = null;
 
             User user = null;
-            user = UserDb.GetUserWithName(username, password);
+            user = UserDb.GetUserWithUsername(username, password);
             user.Address = newAddress;
             user = UserDb.UpdateUser(user);
             AddressIsChanged = "The address has been changed !";
@@ -163,7 +163,7 @@ namespace BLL
             int locationId=0;
 
             User UserUpdated = null;
-            UserUpdated = UserDb.GetUserWithName(user.Username, user.Password);
+            UserUpdated = UserDb.GetUserWithUsername(user.Username, user.Password);
             locationId = LocationDb.GetLocationWithName(newlocation); //Get the id location with the location name
 
             UserUpdated.LocationID = locationId;
