@@ -7,6 +7,9 @@ namespace DAL
         //Method to list all restaurants in the database
         List<Restaurant> GetRestaurants();
 
+        //Method to list all restaurants Located in a certain city 
+        List<Restaurant> GetRestaurantsByLocation(int locationID);
+
         //Method to get one Restaurant with his name
         Restaurant GetRestaurantWithName(string nameRestaurant);
 

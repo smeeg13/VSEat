@@ -64,6 +64,54 @@ namespace DAL
             return results;
         }
 
+        //Method to list all restaurants Located in a certain city 
+        public List<Restaurant> GetRestaurantsByLocation(int locationID)
+        {
+            List<Restaurant> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Restaurants WHERE LocationID = @LocationID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@LocationID", locationID);
+
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Restaurant>();
+
+                            Restaurant restaurant = new Restaurant();
+
+                            restaurant.RestaurantID = (int)dr["RestaurantID"];
+
+                            if (dr["RestaurantName"] != null)
+                                restaurant.RestaurantName = (string)dr["RestaurantName"];
+
+                            restaurant.DescriptionRestaurant = (string)dr["descriptionRestaurant"];
+
+                            if (dr["AddressRestaurant"] != null)
+                                restaurant.Address = (string)dr["AddressRestaurant"];
+
+                            results.Add(restaurant);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return results;
+        }
+
         //Method to get one Restaurant with his name
         public Restaurant GetRestaurantWithName(string nameRestaurant)
         {
@@ -110,7 +158,7 @@ namespace DAL
             return result;
         }
 
-        //Method to get one Restaurant with his name
+        //Method to get one Restaurant with his ID
         public Restaurant GetRestaurantWithID(int restaurantID)
         {
             Restaurant result = null;
