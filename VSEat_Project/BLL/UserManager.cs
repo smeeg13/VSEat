@@ -164,7 +164,7 @@ namespace BLL
 
             User UserUpdated = null;
             UserUpdated = UserDb.GetUserWithName(user.Username, user.Password);
-            //locationId = LocationDb.GetLocationID(newlocation); //          Get the id location with the location name
+            locationId = LocationDb.GetLocationID(newlocation); //Get the id location with the location name
 
             UserUpdated.LocationID = locationId;
             UserUpdated = UserDb.UpdateUser(UserUpdated);
