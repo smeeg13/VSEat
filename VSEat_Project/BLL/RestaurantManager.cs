@@ -57,7 +57,7 @@ namespace BLL
             Restaurant restaurant = RestaurantDb.GetRestaurantWithName(RestaurantName);
             locationId = restaurant.RestaurantID;
 
-            Location location = LocationDb.GetLocationID(locationId);
+            Location location = LocationDb.GetLocationWithID(locationId);
             locationName = location.NameCity;
             locationZIP = location.ZIP;
 
@@ -101,7 +101,7 @@ namespace BLL
 
             Restaurant restauUpdated = null;
             restauUpdated = RestaurantDb.GetRestaurantWithName(restaurant.RestaurantName);
-            //locationId = LocationDb.GetLocationID(newlocation); //          Get the id location with the location name
+            locationId = LocationDb.GetLocationWithName(newlocation); //          Get the id location with the location name
 
             restauUpdated.LocationID = locationId;
             restauUpdated = RestaurantDb.UpdateRestaurant(restauUpdated);

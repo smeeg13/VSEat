@@ -61,7 +61,7 @@ namespace BLL
             User userForLocation = UserDb.GetUserWithName(user.Username, user.Password);
             locationId = userForLocation.UserID;
 
-            Location location = LocationDb.GetLocationID(locationId);
+            Location location = LocationDb.GetLocationWithID(locationId);
             locationName = location.NameCity;
             locationZIP = location.ZIP;
 
@@ -164,7 +164,7 @@ namespace BLL
 
             User UserUpdated = null;
             UserUpdated = UserDb.GetUserWithName(user.Username, user.Password);
-            locationId = LocationDb.GetLocationID(newlocation); //Get the id location with the location name
+            locationId = LocationDb.GetLocationWithName(newlocation); //Get the id location with the location name
 
             UserUpdated.LocationID = locationId;
             UserUpdated = UserDb.UpdateUser(UserUpdated);
