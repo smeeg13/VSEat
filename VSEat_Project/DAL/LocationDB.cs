@@ -99,7 +99,7 @@ namespace DAL
             return location;
         }
 
-        public int GetLocationID(int LocationID)
+        public Location GetLocationWithID(int LocationID)
         {
             Location location = null;
 
@@ -140,10 +140,10 @@ namespace DAL
                 throw e;
             }
 
-            return LocationID;
+            return location;
         }
 
-        public Location GetLocationName(string NameCity)
+        public int GetLocationWithName(string NameCity)
         {
             Location location = null;
 
@@ -184,7 +184,7 @@ namespace DAL
                 throw e;
             }
 
-            return location;
+            return location.LocationID;
         }
 
         public void UpdateLocation(string NameCity, int ZIP)

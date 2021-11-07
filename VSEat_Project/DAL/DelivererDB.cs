@@ -51,6 +51,7 @@ namespace DAL
                             deliverer.Availability = (int)dr["AvailabilityDeliverer"];
 
                             deliverer.NumberOrdersAssigned = (int)dr["NumberOrdersAssigned"];
+                            deliverer.LocationID = (int)dr["NumberOrdersAssigned"];
 
                             results.Add(deliverer);
                         }
@@ -142,6 +143,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@Password", deliverer.Password);
                     cmd.Parameters.AddWithValue("@NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
                     cmd.Parameters.AddWithValue("@Availability", deliverer.Availability);
+                    cmd.Parameters.AddWithValue("@LocationID", deliverer.Availability);
 
                     cn.Open();
 
@@ -199,11 +201,6 @@ namespace DAL
         //    {
         //        throw e;
         //    }
-
-
-
-
-    
 
         public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
         {

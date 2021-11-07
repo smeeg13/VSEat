@@ -5,13 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VSEat_Project;
 
 namespace BLL
 {
    public class MenuManager
     {
         private IMenuDB MenuDb { get; }
-
+        private IRestaurantDB RestaurantDb { get; }
 
         public MenuManager(IConfiguration conf)
         {
@@ -33,6 +34,16 @@ namespace BLL
             return MenuDb.GetMenu(NameMenu);
         }
 
+        public Menu GetMenuWithID(int MenuID)
+        {
+            return MenuDb.GetMenuWithID(MenuID);
+        }
+
+        public Menu GetMenuUnitPrice (string MenuName)
+        {
+            return MenuDb.GetMenuUnitPrice(MenuName);
+        }
+
         public List<Menu> GetMenus()
         {
             return MenuDb.GetMenus();
@@ -46,6 +57,8 @@ namespace BLL
         {
             MenuDb.UpdateMenuPrice(menu);
         }
+
+     
 
     }
 }
