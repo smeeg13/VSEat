@@ -24,6 +24,23 @@ namespace DAL
         public int Price { get; set; }
         public string StatusOrder { get; set; }
 
+        //Default Constructor
+        public Order()
+        {
+
+        }
+
+        //Constructor
+        public Order(DateTime requiredDate, string shipAddress, int locationID)
+        {
+            OrderDate = DateTime.Now;
+            RequiredDate = requiredDate;
+            ShipAddress = shipAddress;
+            LocationID = locationID;
+            StatusOrder = "In Progress";
+        }
+
+
         public override string ToString()
         {
             return "Id Order : " + OrderID +
