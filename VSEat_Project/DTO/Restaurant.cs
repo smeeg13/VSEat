@@ -16,6 +16,10 @@ namespace DAL
         public string DescriptionRestaurant { get; set; }
         public string Address { get; set; }
 
+        public Restaurant()
+        {
+
+        }
         public Restaurant(string restauName, string description, string address, int locationId)
         {
             RestaurantName = restauName;

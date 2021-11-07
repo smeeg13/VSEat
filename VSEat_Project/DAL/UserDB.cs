@@ -78,7 +78,7 @@ namespace DAL
 
 
         //Method to get the user with his username and his password
-        public User GetUserWithName(string username, string password)
+        public User GetUserWithUsername(string username, string password)
         {
             User result = null;
 
@@ -130,6 +130,62 @@ namespace DAL
                 throw e;
             }
             return result;
+        }
+
+        //Method to get the userID with his Firstname and his Lastname
+        public int GetUserIDWithName(string firstname, string lastname)
+        {
+            User result = null;
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Users WHERE Firstname=@Firstname AND Lastname=@Lastname";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@Firstname", firstname);
+                    cmd.Parameters.AddWithValue("@Lastname", lastname);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            result = new User();
+
+                            result.UserID = (int)dr["UserID"];
+
+                            if (dr["Lastname"] != null)
+                                result.Lastname = (string)dr["Lastname"];
+
+                            if (dr["Firstname"] != null)
+                                result.Firstname = (string)dr["Firstname"];
+                            if (dr["Username"] != null)
+                                result.Username = (string)dr["Username"];
+
+                            if (dr["Address"] != null)
+                                result.Address = (string)dr["Address"];
+
+                            result.Password = (string)dr["Password"];
+
+                            if (dr["LocationID"] != null)
+                                result.LocationID = (int)dr["LocationID"];
+
+                            if (dr["StatusAccount"] != null)
+                                result.StatusAccount = (string)dr["StatusAccount"];
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return result.UserID;
+
         }
 
         //Method to get the user with his ID
