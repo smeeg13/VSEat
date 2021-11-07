@@ -33,6 +33,16 @@ namespace BLL
             return LocationDb.GetLocation(NameCity,ZIP);
         }
 
+        public int GetLocationID (int LocationID)
+        {
+            return LocationDb.GetLocationID(LocationID);
+        }
+
+        public Location GetLocationName (string NameCity)
+        {
+            return LocationDb.GetLocationName(NameCity);
+        }
+
         public List<Location> GetLocations()
         {
             return LocationDb.GetLocations();
