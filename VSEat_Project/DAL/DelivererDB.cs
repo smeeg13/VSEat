@@ -40,9 +40,17 @@ namespace DAL
 
                             Deliverer deliverer = new Deliverer();
 
-                            deliverer.DelivererID = (int)dr["IdDeliverer"];
+                            deliverer.DelivererID = (int)dr["DelivererID"];
+
+                            if (dr["Username"] != null)
+                                deliverer.Username = (string)dr["Username"];
+
+                            if (dr["Password"] != null)
+                                deliverer.Password = (string)dr["Password"];
 
                             deliverer.Availability = (int)dr["AvailabilityDeliverer"];
+
+                            deliverer.NumberOrdersAssigned = (int)dr["NumberOrdersAssigned"];
 
                             results.Add(deliverer);
                         }
@@ -96,7 +104,7 @@ namespace DAL
             return deliverer;
         }
 
-        public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
+        public void UpdateDelivererAvailability(Deliverer deliverer)
         {
             int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -105,9 +113,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Deliverer SET AvailabilityDeliverer = @AvailibilityDeliverer WHERE IdDeliverer = @IdDeliverer";
+                    string query = "Update from Deliverer SET Availability = @Availibility WHERE IdDeliverer = @IdDeliverer";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@AvailibilityDeliverer", AvailabilityDeliverer);
+                    cmd.Parameters.AddWithValue("@AvailibilityDeliverer", deliverer.Availability);
 
                     cn.Open();
                     result = cmd.ExecuteNonQuery();
@@ -195,28 +203,7 @@ namespace DAL
 
 
 
-        public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
-        {
-            int result = 0;
-            //COUNT 
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "SELECT COUNT(NumberOrdersAssigned) As NbDelivery FROM Deliverers WHERE OrderID = @OrderID";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-
-                    cn.Open();
-                    result = cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+    
 
         public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
         {

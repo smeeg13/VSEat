@@ -12,8 +12,8 @@ namespace DAL
         Deliverer GetDeliverer(int DelivererID);
         Deliverer AddDeliverer(Deliverer deliverer);
         void DeleteDeliverer(int DelivererID);
-        void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer);
-        void DeliveryPerMinutes(int NumberOrdersAssigned, Order order);
-        void DeliveryValidation(Order order, Deliverer deliverer);
+        void UpdateDelivererAvailability(Deliverer deliverer);
+
+
     }
 }

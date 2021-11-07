@@ -14,7 +14,19 @@ namespace DAL
         public string Username { get; set; }
         public string Password { get; set; }
         public int NumberOrdersAssigned { get; set; }
-        public int Availability { get; set; } 
+        public int Availability { get; set; }
+
+        public Deliverer(string username, string password, int numberOrdersAssigned, int availability)
+        {
+            Username = username;
+            Password = password;
+            NumberOrdersAssigned = numberOrdersAssigned;
+            Availability = availability;
+        }
+
+        public Deliverer()
+        {
+        }
 
         public override string ToString()
         {
