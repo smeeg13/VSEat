@@ -99,7 +99,7 @@ namespace DAL
             return location;
         }
 
-        public Location GetLocationID(int LocationID)
+        public Location GetLocationID(string NameCity)
         {
             Location location = null;
 
@@ -109,9 +109,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Locations where LocationID = @LocationID";
+                    string query = "Select * from Locations where NameCity = @NameCity";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@LocationID", LocationID);
+                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
                   
 
                     cn.Open();
