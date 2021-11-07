@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class LocationManager
+    public class LocationManager : ILocationManager
     {
         private ILocationDB LocationDb { get; }
 
@@ -17,7 +17,7 @@ namespace BLL
         {
             LocationDb = new LocationDB(conf);
         }
-       
+
         public Location AddLocation(Location location)
         {
             return LocationDb.AddLocation(location);
@@ -28,9 +28,15 @@ namespace BLL
             LocationDb.DeleteLocation(LocationID);
         }
 
-        public Location GetLocation(string NameCity, int ZIP)
+
+        public Location GetLocationWithID(int LocationID)
         {
-            return LocationDb.GetLocation(NameCity,ZIP);
+            return LocationDb.GetLocationWithID(LocationID);
+        }
+
+        public int GetLocationWithName(string NameCity)
+        {
+            return LocationDb.GetLocationWithName(NameCity);
         }
 
         public List<Location> GetLocations()
@@ -38,9 +44,9 @@ namespace BLL
             return LocationDb.GetLocations();
         }
 
-        public void UpdateLocation(string NameCity, int ZIP)
+        public void UpdateLocation(Location location)
         {
-            LocationDb.UpdateLocation(NameCity, ZIP);
+            LocationDb.UpdateLocation(location);
         }
     }
 }

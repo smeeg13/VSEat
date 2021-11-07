@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Menus";
+                    string query = "Select * from Menus ";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -64,6 +64,101 @@ namespace DAL
             }
 
             return results;
+        }
+
+        public List<Menu> GetMenusPerResto(string RestaurantName)
+        {
+            List<Menu> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Menus WHERE RestaurantName=@RestaurantName";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@RestaurantName", RestaurantName);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Menu>();
+
+                            Menu menu = new Menu();
+
+                            menu.MenuID = (int)dr["MenuID"];
+                            menu.UnitPrice = (int)dr["UnitPrice"];
+
+                            if (dr["MenuName"] != null)
+                                menu.MenuName = (string)dr["MenuName"];
+                            menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
+
+
+
+                            if (dr["StatusMenu"] != null)
+                                menu.StatusMenu = (string)dr["StatusMenu"];
+
+                            results.Add(menu);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return results;
+        }
+
+        public Menu GetMenuPerResto(string RestaurantName)
+        {
+            Menu menu = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Menus WHERE RestaurantName=@RestaurantName";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@RestaurantName", RestaurantName);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            menu = new Menu();
+
+                            menu.MenuID = (int)dr["MenuID"];
+
+                            if (dr["PriceMenu"] != null)
+                                menu.UnitPrice = (int)dr["PriceMenu"];
+
+                            if (dr["NameMenu"] != null)
+                                menu.MenuName = (string)dr["NameMenu"];
+
+                            if (dr["StatusMenu"] != null)
+                                menu.StatusMenu = (string)dr["StatusMenu"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return menu;
         }
 
         public Menu GetMenu(string NameMenu)
@@ -111,7 +206,99 @@ namespace DAL
             return menu;
         }
 
-        public void UpdateMenuName(Menu menu)
+        public Menu GetMenuWithID(int MenuID)
+        {
+            Menu menu = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Menus where MenuID = @MenuID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@MenuID", MenuID);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            menu = new Menu();
+
+                            menu.MenuID = (int)dr["MenuID"];
+
+                            if (dr["PriceMenu"] != null)
+                                menu.UnitPrice = (int)dr["PriceMenu"];
+
+                            if (dr["NameMenu"] != null)
+                                menu.MenuName = (string)dr["NameMenu"];
+
+                            if (dr["StatusMenu"] != null)
+                                menu.StatusMenu = (string)dr["StatusMenu"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return menu;
+        }
+
+        public Menu GetMenuUnitPrice(string MenuName)
+        {
+            Menu menu = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select UnitPrice from Menus where MenuName = @MenuName";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@MenuName", MenuName);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            menu = new Menu();
+
+                            menu.MenuID = (int)dr["MenuID"];
+
+                            if (dr["PriceMenu"] != null)
+                                menu.UnitPrice = (int)dr["PriceMenu"];
+
+                            if (dr["NameMenu"] != null)
+                                menu.MenuName = (string)dr["NameMenu"];
+
+                            if (dr["StatusMenu"] != null)
+                                menu.StatusMenu = (string)dr["StatusMenu"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return menu;
+        }
+
+
+
+        public Menu UpdateMenu(Menu menu)
         {
             int result = 0; 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -133,6 +320,7 @@ namespace DAL
             {
                 throw e;
             }
+            return menu;
         }
 
         public void UpdateMenuPrice(Menu menu)
@@ -214,5 +402,7 @@ namespace DAL
 
 
         }
+
+     
     }
 }

@@ -8,7 +8,10 @@ namespace DAL
         List<User> GetUsers();
 
         //Method to get the user with his username and his password
-        User GetUserWithName(string username, string password);
+        User GetUserWithUsername(string username, string password);
+
+        //Method to get the userID with his Firstname and his Lastname
+        int GetUserIDWithName(string firstname, string Lastname);
 
         //Method to get the user with his ID
         User GetUserWithID(int userid);

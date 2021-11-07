@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class OrderDetailManager
+    public class OrderDetailManager : IOrderDetailManager
     {
         private IOrderDetailDB OrderDetailsDb { get; }
+        private IMenuDB MenuDb { get; }
 
         public OrderDetailManager(IConfiguration conf)
         {
@@ -62,13 +63,53 @@ namespace BLL
         //Method to update one orderdetail in the database
         public OrderDetail UpdateOrderDetails(OrderDetail orderDetails)
         {
-             return OrderDetailsDb.UpdateOrderDetails( orderDetails);
+            return OrderDetailsDb.UpdateOrderDetails(orderDetails);
         }
 
         //Method to delete one order details in the database
         public void DeleteOrderDetails(int orderDetails)
         {
+            //Validation
             OrderDetailsDb.DeleteOrderDetails(orderDetails);
+        }
+
+        //Update the unitprice according to the menu chosen by the user
+        public OrderDetail UpdateUnitPrice(OrderDetail orderDetail, string menuName)
+        {
+            //Take back the unit price of the menu
+            Menu menu = MenuDb.GetMenu(menuName);
+            orderDetail.UnitPrice = menu.UnitPrice;
+
+            orderDetail = OrderDetailsDb.UpdateOrderDetails(orderDetail);
+
+            return orderDetail;
+        }
+
+        //Update the quantity chosen by the user
+        public OrderDetail UpdateQuantity(OrderDetail orderDetail, int newQuantity)
+        {
+            orderDetail.Quantity = newQuantity;
+            orderDetail = OrderDetailsDb.UpdateOrderDetails(orderDetail);
+
+            return orderDetail;
+        }
+
+        //Update the discount
+        public OrderDetail UpdateDiscount(OrderDetail orderDetail, int newDiscount)
+        {
+            orderDetail.Discount = newDiscount;
+            orderDetail = OrderDetailsDb.UpdateOrderDetails(orderDetail);
+
+            return orderDetail;
+        }
+
+        //Update of the total amount for the menu chosen according to the quantity, unitprice and discount
+        public OrderDetail UpdateTotalAmount(OrderDetail orderDetail)
+        {
+            orderDetail.TotalAmount = (orderDetail.UnitPrice * orderDetail.Quantity) - orderDetail.Discount;
+            orderDetail = OrderDetailsDb.UpdateOrderDetails(orderDetail);
+
+            return orderDetail;
         }
     }
 }

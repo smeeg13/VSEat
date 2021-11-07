@@ -9,7 +9,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-    public class UserManager 
+    public class UserManager : IUserManager
     {
 
         private IUserDB UserDb { get; }
@@ -33,7 +33,7 @@ namespace BLL
         {
             User user = new User();
 
-            user = UserDb.GetUserWithName(username, password);
+            user = UserDb.GetUserWithUsername(username, password);
 
             if (user == null)
                 throw new BusinessExceptions(" Username or Password wrong, Try again ");
@@ -56,16 +56,16 @@ namespace BLL
         {
             int locationId;
             string locationName = null;
-            int locationZIP ;
+            int locationZIP;
 
-            User userForLocation = UserDb.GetUserWithName(user.Username, user.Password);
+            User userForLocation = UserDb.GetUserWithUsername(user.Username, user.Password);
             locationId = userForLocation.UserID;
 
             Location location = LocationDb.GetLocationID(locationId);
             locationName = location.NameCity;
             locationZIP = location.ZIP;
 
-            return locationZIP+" " + locationName;
+            return locationZIP + " " + locationName;
         }
 
         //Method to Add one User in the database
@@ -134,7 +134,7 @@ namespace BLL
             string pwdIsChanged = null;
 
             User user = null;
-            user = UserDb.GetUserWithName(username, password);
+            user = UserDb.GetUserWithUsername(username, password);
             user.Password = newPwd;
             user = UserDb.UpdateUser(user);
             pwdIsChanged = "The Password has been changed !";
@@ -148,7 +148,7 @@ namespace BLL
             string AddressIsChanged = null;
 
             User user = null;
-            user = UserDb.GetUserWithName(username, password);
+            user = UserDb.GetUserWithUsername(username, password);
             user.Address = newAddress;
             user = UserDb.UpdateUser(user);
             AddressIsChanged = "The address has been changed !";
@@ -160,11 +160,11 @@ namespace BLL
         public string UpdateLocation(User user, string newlocation)
         {
             string LocationIsChanged = null;
-            int locationId=0;
+            int locationId = 0;
 
             User UserUpdated = null;
-            UserUpdated = UserDb.GetUserWithName(user.Username, user.Password);
-            locationId = LocationDb.GetLocationID(newlocation); //Get the id location with the location name
+            UserUpdated = UserDb.GetUserWithUsername(user.Username, user.Password);
+            locationId = LocationDb.GetLocationWithName(newlocation); //Get the id location with the location name
 
             UserUpdated.LocationID = locationId;
             UserUpdated = UserDb.UpdateUser(UserUpdated);

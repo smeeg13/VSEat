@@ -15,6 +15,8 @@ namespace DAL
         public string Password { get; set; }
         public int NumberOrdersAssigned { get; set; }
         public int Availability { get; set; }
+        public int LocationID { get; set; }
+        public DateTime DateAssigned { get; set; }
 
         public Deliverer(string username, string password, int numberOrdersAssigned, int availability)
         {

@@ -9,7 +9,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-    public class RestaurantManager
+    public class RestaurantManager : IRestaurantManager
     {
 
         private IRestaurantDB RestaurantDb { get; }
@@ -33,7 +33,7 @@ namespace BLL
             return RestaurantDb.GetRestaurants();
         }
 
-         //Method to get one Restaurant with his name
+        //Method to get one Restaurant with his name
         Restaurant GetRestaurantWithName(string nameRestaurant)
         {
             return RestaurantDb.GetRestaurantWithName(nameRestaurant);
@@ -50,7 +50,7 @@ namespace BLL
         //Method to get the location of a certain Restaurant
         public string GetLocationOfRestaurant(string RestaurantName)
         {
-            int locationId ;
+            int locationId;
             string locationName = null;
             int locationZIP;
 
@@ -97,7 +97,7 @@ namespace BLL
         public string UpdateLocation(Restaurant restaurant, string newlocation)
         {
             string LocationIsChanged = null;
-            int locationId;
+            int locationId = 0;
 
             Restaurant restauUpdated = null;
             restauUpdated = RestaurantDb.GetRestaurantWithName(restaurant.RestaurantName);
