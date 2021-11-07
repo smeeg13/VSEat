@@ -298,7 +298,7 @@ namespace DAL
 
 
 
-        public void UpdateMenuName(Menu menu)
+        public Menu UpdateMenu(Menu menu)
         {
             int result = 0; 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -320,6 +320,7 @@ namespace DAL
             {
                 throw e;
             }
+            return menu;
         }
 
         public void UpdateMenuPrice(Menu menu)

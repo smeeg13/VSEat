@@ -11,7 +11,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-   public class DelivererManager
+    public class DelivererManager : IDelivererManager
     {
         private IDelivererDB DelivererDb { get; }
         private IRestaurantDB RestaurantDb { get; }
@@ -57,7 +57,7 @@ namespace BLL
 
             if (NumberOrdersAssigned < 5 && diffOfDates < 30)
             {
-
+                available = "yes";
             }
 
             // si NumberOrdersAssigned < 5 pour 30 minutes = Ok
@@ -70,12 +70,12 @@ namespace BLL
             // if string available = yes 
             // sout the deliverer is available
             // or business exceptions
-          
+
         }
         public void CheckCity(int DelivererID, int RestaurantID)
         {
             int delivererID;
-            int restaurantID; 
+            int restaurantID;
 
             Deliverer deliverer = DelivererDb.GetDeliverer(DelivererID);
             delivererID = deliverer.DelivererID;
@@ -85,7 +85,7 @@ namespace BLL
 
             if (deliverer.DelivererID == restaurant.RestaurantID)
                 Console.WriteLine("The deliverer work in this city");
-            else 
+            else
                 throw new BusinessExceptions("You must choose another deliverer !");
 
         }

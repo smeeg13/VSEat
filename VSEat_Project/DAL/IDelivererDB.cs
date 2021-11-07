@@ -12,7 +12,7 @@ namespace DAL
         Deliverer GetDeliverer(int DelivererID);
         Deliverer AddDeliverer(Deliverer deliverer);
         void DeleteDeliverer(int DelivererID);
-        void UpdateDeliverer(Deliverer deliverer);
+        Deliverer UpdateDeliverer(Deliverer deliverer);
 
 
     }

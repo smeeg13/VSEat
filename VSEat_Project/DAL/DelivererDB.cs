@@ -48,10 +48,10 @@ namespace DAL
                             if (dr["Password"] != null)
                                 deliverer.Password = (string)dr["Password"];
 
-                            deliverer.Availability = (int)dr["AvailabilityDeliverer"];
+                            deliverer.Availability = (int)dr["Availability"];
 
                             deliverer.NumberOrdersAssigned = (int)dr["NumberOrdersAssigned"];
-                            deliverer.LocationID = (int)dr["NumberOrdersAssigned"];
+                            deliverer.LocationID = (int)dr["LocationID"];
 
                             results.Add(deliverer);
                         }
@@ -91,7 +91,7 @@ namespace DAL
                             deliverer.DelivererID = (int)dr["IdDeliverer"];
 
                             if (dr["AvailabitlityDeliverer"] != null)
-                                deliverer.Availability = (int)dr["AvailabitlityDeliverer"];
+                                deliverer.Availability = (int)dr["Availabitlity"];
 
                         }
                     }
@@ -105,7 +105,7 @@ namespace DAL
             return deliverer;
         }
 
-        public void UpdateDeliverer(Deliverer deliverer)
+        public Deliverer UpdateDeliverer(Deliverer deliverer)
         {
             int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -131,6 +131,8 @@ namespace DAL
             {
                 throw e;
             }
+
+            return deliverer;
         }
 
         public Deliverer AddDeliverer(Deliverer deliverer)
@@ -187,13 +189,6 @@ namespace DAL
                 throw e;
             }
         }
-
-
-        public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
-        {
-            //Deliverer needs to be connected to validate, validation of connection required !
-        }
-
 
     }
 }

@@ -15,7 +15,7 @@ namespace DAL
         Menu GetMenuWithID(int MenuID);
         Menu GetMenuUnitPrice(string NameMenu);
         Menu AddMenu(Menu menu);
-        void UpdateMenuName(Menu menu);
+        Menu UpdateMenu(Menu menu);
         void UpdateMenuPrice(Menu menu);
         void DeleteMenu(int MenuID);
     }
