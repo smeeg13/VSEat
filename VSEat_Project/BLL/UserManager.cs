@@ -9,7 +9,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-    public class UserManager 
+    public class UserManager : IUserManager
     {
 
         private IUserDB UserDb { get; }
@@ -56,7 +56,7 @@ namespace BLL
         {
             int locationId;
             string locationName = null;
-            int locationZIP ;
+            int locationZIP;
 
             User userForLocation = UserDb.GetUserWithUsername(user.Username, user.Password);
             locationId = userForLocation.UserID;
@@ -65,7 +65,7 @@ namespace BLL
             locationName = location.NameCity;
             locationZIP = location.ZIP;
 
-            return locationZIP+" " + locationName;
+            return locationZIP + " " + locationName;
         }
 
         //Method to Add one User in the database
@@ -160,7 +160,7 @@ namespace BLL
         public string UpdateLocation(User user, string newlocation)
         {
             string LocationIsChanged = null;
-            int locationId=0;
+            int locationId = 0;
 
             User UserUpdated = null;
             UserUpdated = UserDb.GetUserWithUsername(user.Username, user.Password);

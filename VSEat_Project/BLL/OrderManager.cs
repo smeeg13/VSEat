@@ -6,7 +6,7 @@ using VSEat_Project;
 
 namespace BLL
 {
-    public class OrderManager
+    public class OrderManager : IOrderManager
     {
 
         private IOrderDB OrderDb { get; }
@@ -14,6 +14,10 @@ namespace BLL
         private IDelivererDB DelivererDb { get; }
         private IOrderDetailDB OrderDetailDb { get; }
         private ILocationDB LocationDb { get; }
+        private IMenuDB MenuDb { get; }
+        private IRestaurantDB RestaurantDb { get; }
+
+
 
         //Constructor
         public OrderManager(IConfiguration conf)
@@ -60,7 +64,7 @@ namespace BLL
         //Add a new order
         public Order AddOrder(User user, DateTime requiredDate, string shipAddress, string locationName)
         {
-            int locationID =LocationDb.GetLocationWithName(locationName);
+            int locationID = LocationDb.GetLocationWithName(locationName);
 
 
             //Validation if User is connected
@@ -69,16 +73,17 @@ namespace BLL
             {
 
                 //Add order informations
-                Order order = new Order( requiredDate,  shipAddress, locationID);
+                Order order = new Order(requiredDate, shipAddress, locationID);
                 order.UserID = user.UserID;
-
-
+                order.Price = UpdateOrderPrice(order, user);
+                //Ajout du deliverer ID
+                //order.DelivererID = 
                 //Validation if deliverer est dans la meme ville que le restaurant qui concerne l'ordre
                 //with method checkCity(delivererID, restaurantID) dans deliverer manager
-                DelivererManager delivmnger = new DelivererManager(conf);
+                //DelivererManager delivmnger = new DelivererManager(conf);
 
                 //Augmenter le number Orders assigned dans le deliverer dès qu'on ajoute un order ayant son ID
-                    //   deliverer = DelivererDb.UpdateDeliverer(deliverer);
+                //   deliverer = DelivererDb.UpdateDeliverer(deliverer);
 
 
                 return OrderDb.AddOrder(order);
@@ -99,13 +104,13 @@ namespace BLL
             //Check that the firstname and the lastname correspond to the user who made the order
             var userId = UserDb.GetUserIDWithName(firstname, lastname);
             var user = UserDb.GetUserWithID(userId);
-            var order = OrderDb.GetOrderForUser(orderId,userId);
+            var order = OrderDb.GetOrderForUser(orderId, userId);
 
             //current date must be at least 3 hours before shipped Date
             var diffOfDates = order.RequiredDate - DateTime.Now; //get difference of two dates
             Console.WriteLine("Difference in Hours: {0}", diffOfDates.Hours);
 
-            if (diffOfDates.Hours>=3)
+            if (diffOfDates.Hours >= 3)
             {
                 OrderDb.DeleteOrder(orderId, userId);
             }
@@ -120,13 +125,13 @@ namespace BLL
         public String UpdateOrderRequiredDate(Order order, User user, DateTime newRequiredDate)
         {
 
-//GESTION DES 15 MINUTES EN + !!!!
-            string DateIsChanged ;
+            //GESTION DES 15 MINUTES EN + !!!!
+            string DateIsChanged;
 
             Order orderChanged = OrderDb.GetOrderForUser(order.OrderID, user.UserID);
 
             orderChanged.RequiredDate = newRequiredDate;
-            
+
             orderChanged = OrderDb.UpdateOrder(orderChanged);
 
             DateIsChanged = "The Required Date has been changed !";
@@ -135,12 +140,12 @@ namespace BLL
         }
 
         //Update RequiredDate for one order
-        public String UpdateOrderPrice(Order order, User user)
+        public int UpdateOrderPrice(Order order, User user)
         {
-            int price=0;
+            int price = 0;
             //Reprendre tout les orders details ayant le meme orderID
             List<OrderDetail> ordersDetails = OrderDetailDb.GetOrdersDetailsByOrder(order.OrderID);
-            
+
             //Adition of all total amount in order Details to form the price of the order
             foreach (OrderDetail orderDet in ordersDetails)
             {
@@ -152,14 +157,30 @@ namespace BLL
             orderChanged.Price = price;
             orderChanged = OrderDb.UpdateOrder(orderChanged);
 
-            string PriceUpdated = "The Price of the order is  "+ orderChanged.Price+".-";
+            Console.WriteLine("The Price of the order is  " + orderChanged.Price + ".-");
 
-            return PriceUpdated;
+            return orderChanged.Price;
+        }
+
+
+        //Update Deliverer Id
+        public int UpdateDelivererID(Order order, Deliverer deliverer)
+        {
+            int delivererID = 0;
+            
+            //CheckCity
+            if(available = "yes")
+            {
+                order.DelivererID = deliverer.DelivererID;
+            }
+
+
+            return delivererID;
         }
 
         public string OrderIsDelivered(Order order, Deliverer deliverer)
         {
-            string isDelivered ;
+            string isDelivered;
 
             Order orderChanged = OrderDb.GetOrderForDeliverer(order.OrderID, deliverer.DelivererID);
             Deliverer delivererChanged = DelivererDb.GetDeliverer(deliverer.DelivererID);
@@ -179,15 +200,15 @@ namespace BLL
             return isDelivered;
         }
 
-
-        public void ChooseMenu()
+        public Location GetLocationRestaurant(Order order)
         {
+            OrderDetail orderDetail = OrderDetailDb.GetOrderDetailWithOrderID(order.OrderID);
+            Menu menu = MenuDb.GetMenuWithID(orderDetail.MenuID);
 
-        }
+            Restaurant restaurant = RestaurantDb.GetRestaurantWithID(menu.RestaurantID);
+            Location location = LocationDb.GetLocationWithID(restaurant.LocationID);
 
-
-        public void GetOrderLocationRestaurant()
-        {
+            return location;
         }
     }
 }

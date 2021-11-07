@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class OrderDetailManager
+    public class OrderDetailManager : IOrderDetailManager
     {
         private IOrderDetailDB OrderDetailsDb { get; }
         private IMenuDB MenuDb { get; }
@@ -63,7 +63,7 @@ namespace BLL
         //Method to update one orderdetail in the database
         public OrderDetail UpdateOrderDetails(OrderDetail orderDetails)
         {
-             return OrderDetailsDb.UpdateOrderDetails( orderDetails);
+            return OrderDetailsDb.UpdateOrderDetails(orderDetails);
         }
 
         //Method to delete one order details in the database
@@ -77,7 +77,7 @@ namespace BLL
         {
             //Take back the unit price of the menu
             Menu menu = MenuDb.GetMenu(menuName);
-            orderDetail.UnitPrice =menu.UnitPrice;
+            orderDetail.UnitPrice = menu.UnitPrice;
 
             orderDetail = OrderDetailsDb.UpdateOrderDetails(orderDetail);
 
