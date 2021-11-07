@@ -15,8 +15,9 @@ namespace VSEat_Project
 
         static void Main(string[] args)
         {
-            var delivererManager = new DelivererManager(Configuration);
+            Console.WriteLine("Hello Emilie");
 
+            var delivererManager = new DelivererManager(Configuration);
 
             //Add a User
             //Test add user without an address

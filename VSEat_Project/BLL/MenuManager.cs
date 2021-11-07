@@ -47,10 +47,5 @@ namespace BLL
             MenuDb.UpdateMenuPrice(menu);
         }
 
-        public List <Menu> GetMenusPerResto (int RestaurantID, int MenuID)
-        {
-            int restaurantID;
-            int MenuID;
-        }
     }
 }
