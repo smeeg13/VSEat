@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,20 +42,25 @@ namespace BLL
             return DelivererDb.GetDeliverers();
         }
 
-        public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
+        public void UpdateDelivererAvailability(Deliverer deliverer)
         {
-            DelivererDb.UpdateDelivererAvailability(deliverer, AvailabilityDeliverer);
+            DelivererDb.UpdateDelivererAvailability(deliverer);
         }
 
-        public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order)
+        public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
         {
-            DelivererDb.DeliveryPerMinutes(NumberOrdersAssigned, order);
+            string available = null;
 
+            // si NumberOrdersAssigned < 5 pour 30 minutes = Ok
+            // string available = yes;
+            //or
+            // BusinessExceptions
         }
         public void DeliveryValidation(Order order, Deliverer deliverer)
         {
-           
-            DelivererDB.DeliveryValidation(order, deliverer);
+            // if string available = yes 
+            // sout the deliverer is available
+            // or business exceptions
           
         }
         public void CheckCity(int DelivererID, int RestaurantID)
