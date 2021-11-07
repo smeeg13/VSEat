@@ -42,14 +42,23 @@ namespace BLL
             return DelivererDb.GetDeliverers();
         }
 
-        public void UpdateDelivererAvailability(Deliverer deliverer)
+        public void UpdateDeliverer(Deliverer deliverer)
         {
-            DelivererDb.UpdateDelivererAvailability(deliverer);
+            DelivererDb.UpdateDeliverer(deliverer);
         }
 
         public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
         {
             string available = null;
+
+            //current date must be at least 3 hours before shipped Date
+            var diffOfDates = order.RequiredDate - DateTime.Now; //get difference of two dates
+            Console.WriteLine("Difference in Hours: {0}", diffOfDates.Hours);
+
+            if (NumberOrdersAssigned < 5 && diffOfDates < 30)
+            {
+
+            }
 
             // si NumberOrdersAssigned < 5 pour 30 minutes = Ok
             // string available = yes;
@@ -74,7 +83,9 @@ namespace BLL
             Restaurant restaurant = RestaurantDb.GetRestaurantWithID(RestaurantID);
             restaurantID = restaurant.RestaurantID;
 
-            if (deliverer.DelivererID != restaurant.RestaurantID)
+            if (deliverer.DelivererID == restaurant.RestaurantID)
+                Console.WriteLine("The deliverer work in this city");
+            else 
                 throw new BusinessExceptions("You must choose another deliverer !");
 
         }

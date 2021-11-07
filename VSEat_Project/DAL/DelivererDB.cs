@@ -105,7 +105,7 @@ namespace DAL
             return deliverer;
         }
 
-        public void UpdateDelivererAvailability(Deliverer deliverer)
+        public void UpdateDeliverer(Deliverer deliverer)
         {
             int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -114,9 +114,13 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Deliverer SET Availability = @Availibility WHERE IdDeliverer = @IdDeliverer";
+                    string query = "Update from Deliverer SET Availability = @Availibility, Username=@Username, Password=@Password, NumberOrdersAssigned=@NumberOrdersAssigned,LocationID=@LocationID WHERE IdDeliverer = @IdDeliverer";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@AvailibilityDeliverer", deliverer.Availability);
+                    cmd.Parameters.AddWithValue("@Username", deliverer.Username);
+                    cmd.Parameters.AddWithValue("@Password", deliverer.Password);
+                    cmd.Parameters.AddWithValue("@NumberOrdersAssgined", deliverer.NumberOrdersAssigned);
+                    cmd.Parameters.AddWithValue("@Availibility", deliverer.Availability);
+                    cmd.Parameters.AddWithValue("@LocationID", deliverer.LocationID);
 
                     cn.Open();
                     result = cmd.ExecuteNonQuery();
@@ -184,23 +188,6 @@ namespace DAL
             }
         }
 
-        //public void CheckCity (Deliverer deliverer, Restaurant restaurant)
-        //{
-        //    string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-        //    try
-        //    {
-        //        using (SqlConnection cn = new SqlConnection(connectionString))
-        //        {
-        //            string query = "SELECT  FROM  = r.LocationID";
-        //            SqlCommand cmd = new SqlCommand(query, cn);
-
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
 
         public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
         {

@@ -59,7 +59,7 @@ namespace DAL
             return results;
         }
 
-        public Location GetLocation(string NameCity, int ZIP)
+        public Location GetLocationWithZIP(int ZIP)
         {
             Location location = null;
 
@@ -69,9 +69,8 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Locations where NameCity = @NameCity AND ZIP = @ZIP";
+                    string query = "Select * from Locations where ZIP = @ZIP";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
                     cmd.Parameters.AddWithValue("@ZIP", ZIP);
 
                     cn.Open();
@@ -89,6 +88,34 @@ namespace DAL
 
                         }
                     }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return location;
+        }
+
+        public Location GetLocation(string NameCity, int ZIP)
+        {
+            Location location = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Locations where NameCity = @NameCity AND ZIP = @ZIP";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
+                    cmd.Parameters.AddWithValue("@ZIP", ZIP);
+
+                    cn.Open();
+
+          
                 }
             }
             catch (Exception e)
