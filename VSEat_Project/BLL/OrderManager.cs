@@ -36,6 +36,12 @@ namespace BLL
             return OrderDb.GetOrdersForUser(userId);
         }
 
+        //Method to get one specific order
+        public Order GetOrderWithID(int OrderID)
+        {
+            return OrderDb.GetOrderWithID(OrderID);
+        }
+
         //Method to get one specific order for one deliverer in the database
         public Order GetOrderForDeliverer(int OrderID, int DelivererID)
         {
@@ -51,6 +57,7 @@ namespace BLL
         //Add a new order
         public Order AddOrder(Order order)
         {
+            //Validation si le deliverer est dans la meme ville que le restaurant qui conerce l'ordre
             //Augmenter le number Orders assigned dans le deliverer dès qu'on ajoute un order ayant son ID
             return OrderDb.AddOrder(order);
         }
@@ -70,5 +77,44 @@ namespace BLL
             //if()
             OrderDb.DeleteOrder(orderId, userId);
         }
+        //Update RequiredDate for one order
+        public String UpdateOrderRequiredDate(Order order,User user, DateTime newRequiredDate)
+        {
+            string DateIsChanged = null;
+
+            Order orderChanged = null;
+            orderChanged = OrderDb.GetOrderForUser(order.OrderID, user.UserID);
+            orderChanged.RequiredDate = newRequiredDate;
+            orderChanged = OrderDb.UpdateOrder(orderChanged);
+            DateIsChanged = "The Required Date has been changed !";
+
+            return DateIsChanged;
+        }
+
+        public string OrderIsDelivered(Order order, Deliverer deliverer)
+        {
+            string isDelivered = null;
+
+            Order orderChanged = null;
+            orderChanged = OrderDb.GetOrderForUser(order.OrderID, deliverer.DelivererID);
+
+            //Décrémenter le number orders assigned du Deliverer
+            //Modifier la shipdate en mettant la date courrant
+
+            //Modifier le status de l'ordre
+            orderChanged.StatusOrder = "Shipped";
+
+
+            orderChanged = OrderDb.UpdateOrder(orderChanged);
+            isDelivered = "The Order has been shipped !";
+
+            return isDelivered;
+        }
+
+        public void GetOrderLocation()
+        {
+
+        }
+
     }
 }

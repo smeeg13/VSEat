@@ -14,6 +14,9 @@ namespace DAL
         //Method to get all the order made by one particular User in the database
         List<Order> GetOrdersForUser(int userId);
 
+        //Method to get one specific order with his ID
+        Order GetOrderWithID(int OrderID);
+
         //Method to get one specific order for one deliverer in the database
         Order GetOrderForDeliverer(int OrderID, int DelivererID);
 

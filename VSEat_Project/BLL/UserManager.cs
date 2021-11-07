@@ -44,7 +44,7 @@ namespace BLL
         //Method to get the user with his username and his password
         public User GetUserwithID(int userid)
         {
-            User user = new User();
+            User user;
 
             user = UserDb.GetUserWithID(userid);
 
@@ -52,7 +52,7 @@ namespace BLL
         }
 
         //Method to get Location of the user
-        public string GetLocationOfUser(User user)
+        public string GetUserLocation(User user)
         {
             int locationId;
             string locationName = null;

@@ -35,7 +35,7 @@ namespace VSEat_Project
             }
 
             //Get a member
-            var searchMember = userManager.GetUser("Scott", "Lucas");
+            var searchMember = userManager.GetUserWithName("Scott", "Lucas");
             if (searchMember != null)
             {
                 Console.WriteLine("--- THIS IS MY USER : ----");

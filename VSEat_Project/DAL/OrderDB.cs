@@ -161,6 +161,48 @@ namespace DAL
             }
             return results;
         }
+        //Method to get one specific order with his ID
+        public Order GetOrderWithID(int OrderID)
+        {
+            Order result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Orders WHERE OrderID=@OrderID";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@OrderID", OrderID);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            result = new Order();
+
+                            result.OrderID = (int)dr["OrderID"];
+                            result.UserID = (int)dr["UserID"];
+                            result.OrderDate = (DateTime)dr["OrderDate"];
+                            result.RequiredDate = (DateTime)dr["RequiredDate"];
+                            result.ShippedDate = (DateTime)dr["ShippedDate"];
+                            result.DelivererID = (int)dr["DelivererID"];
+                            result.Price = (int)dr["Price"];
+                            result.ShipAddress = (string)dr["ShipAddress"];
+                            result.LocationID = (int)dr["LocationID"];
+                            result.StatusOrder = (string)dr["StatusOrder"];
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return result;
+        }
 
         //Method to get one specific order for one deliverer in the database
         public Order GetOrderForDeliverer(int OrderID, int DelivererID)
