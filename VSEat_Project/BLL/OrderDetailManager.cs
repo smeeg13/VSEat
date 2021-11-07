@@ -17,30 +17,58 @@ namespace BLL
             OrderDetailsDb = new OrderDetailDB(conf);
         }
 
-
-        public OrderDetail AddOrderDetails(OrderDetail orderDetails)
-        {
-            return OrderDetailsDb.AddOrderDetails(orderDetails);
-        }
-        
-        public void DeleteOrderDetails(OrderDetail orderDetails)
-        {
-            OrderDetailsDb.DeleteOrderDetails(orderDetails);
-        }
-        
-        public OrderDetail GetOrderDetails(int idOrderDetails, int TotalAmount)
-        {
-            return OrderDetailsDb.GetOrderDetail(idOrderDetails, TotalAmount);
-        }
-       
+        //Method to get all orderdetails
         public List<OrderDetail> GetOrdersDetails()
         {
             return OrderDetailsDb.GetOrdersDetails();
         }
 
-        public void UpdateOrderDetailsQuantity(OrderDetail orderDetails, int newQuantity)
+        //Method to get all orderdetails for one order
+        public List<OrderDetail> GetOrdersDetailsByOrder(int OrderID)
         {
-            OrderDetailsDb.UpdateOrderDetailsQuantity(orderDetails, newQuantity);
+            return OrderDetailsDb.GetOrdersDetailsByOrder(OrderID);
+        }
+
+        //Method to get all orderdetails for one menu
+        public List<OrderDetail> GetOrdersDetailsByMenu(int MenuID)
+        {
+            return OrderDetailsDb.GetOrdersDetailsByMenu(MenuID);
+        }
+
+
+        //Method to get one order with his ID 
+        public OrderDetail GetOrderDetailsWithID(int idOrderDetails)
+        {
+            return OrderDetailsDb.GetOrderDetailWithID(idOrderDetails);
+        }
+
+        //Method to get one order with his OrderID 
+        public OrderDetail GetOrderDetailWithOrderID(int OrderID)
+        {
+            return OrderDetailsDb.GetOrderDetailWithOrderID(OrderID);
+        }
+        //Method to get one order with his MenuID 
+        public OrderDetail GetOrderDetailWithMenuID(int MenuID)
+        {
+            return OrderDetailsDb.GetOrderDetailWithMenuID(MenuID);
+        }
+
+        //Method to add one order in the database
+        public OrderDetail AddOrderDetails(OrderDetail orderDetails)
+        {
+            return OrderDetailsDb.AddOrderDetails(orderDetails);
+        }
+
+        //Method to update one orderdetail in the database
+        public OrderDetail UpdateOrderDetails(OrderDetail orderDetails)
+        {
+             return OrderDetailsDb.UpdateOrderDetails( orderDetails);
+        }
+
+        //Method to delete one order details in the database
+        public void DeleteOrderDetails(int orderDetails)
+        {
+            OrderDetailsDb.DeleteOrderDetails(orderDetails);
         }
     }
 }

@@ -11,7 +11,9 @@ namespace DAL
         List<Deliverer> GetDeliverers();
         Deliverer GetDeliverer(int DelivererID);
         Deliverer AddDeliverer(Deliverer deliverer);
-        void DeleteDeliverer(Deliverer deliverer);
-        void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer);
+        void DeleteDeliverer(int DelivererID);
+        void UpdateDelivererAvailability(Deliverer deliverer);
+
+
     }
 }

@@ -99,8 +99,53 @@ namespace DAL
             return location;
         }
 
+        public Location GetLocationID(string NameCity)
+        {
+            Location location = null;
+
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Locations where NameCity = @NameCity";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@NameCity", NameCity);
+                  
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            location = new Location();
+
+                            location.LocationID = (int)dr["LocationID"];
+
+                            if (dr["NameCity"] != null)
+                                location.NameCity = (string)dr["NameCity"];
+
+                            ;
+                            if (dr["ZIP"] != null)
+                                location.ZIP = (int)dr["ZIP"];
+
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            return location;
+        }
+
         public void UpdateLocation(string NameCity, int ZIP)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -113,6 +158,8 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@ZIP", ZIP);
 
                     cn.Open();
+                    result = cmd.ExecuteNonQuery();
+
 
                 }
             }
@@ -130,7 +177,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Location(NameCity, ZIP) values(@NameCity, @ZIP); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Locations(NameCity, ZIP) values(@NameCity, @ZIP); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCity", location.NameCity);
                     cmd.Parameters.AddWithValue("@firstname", location.ZIP);
@@ -149,8 +196,9 @@ namespace DAL
             return location;
         }
 
-        public void DeleteLocation(Location location)
+        public void DeleteLocation(int LocationID)
         {
+            int result = 0; 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -159,11 +207,10 @@ namespace DAL
                 {
                     string query = "Delete from Locations WHERE LocationID = @LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@LocationID", location.LocationID);
-
+                    cmd.Parameters.AddWithValue("@LocationID", LocationID);
                     cn.Open();
 
-                    location.LocationID = Convert.ToInt32(cmd.ExecuteScalar());
+                    result = cmd.ExecuteNonQuery();
                 }
 
             }

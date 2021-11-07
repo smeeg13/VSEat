@@ -22,10 +22,11 @@ namespace VSEat_Project
 
 
             //Add a User
-            var newUser = userManager.AddUser(new User("Scott", "Lucas", "Rte",1, "123"));
-
+                //Test add user without an address
+                var newUser = userManager.AddUser(new User("Mégane", "Solliard", "",1, "123"));
+            userManager.UpdateUser(newUser);
+                
             //Lister les Users
-            // var userrDb = new UserDB(Configuration);
             var users = userManager.GetUsers();
 
             foreach (var user in users)
@@ -34,13 +35,20 @@ namespace VSEat_Project
             }
 
             //Get a member
-            var searchMember = userManager.GetUser("Scott", "Lucas");
+            var searchMember = userManager.GetUserWithName("Scott", "Lucas");
             if (searchMember != null)
             {
                 Console.WriteLine("--- THIS IS MY USER : ----");
                 Console.WriteLine(searchMember.ToString());
             }
-            
+            else
+            {
+                Console.WriteLine("The User or The Password is Wrong.");
+            }
+
+
+            //To Take the current day and time
+            Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd h:mm:ss tt"));
 
 
         }

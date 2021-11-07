@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Deliverer";
+                    string query = "Select * from Deliverers";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -40,9 +40,17 @@ namespace DAL
 
                             Deliverer deliverer = new Deliverer();
 
-                            deliverer.DelivereID = (int)dr["IdDeliverer"];
+                            deliverer.DelivererID = (int)dr["DelivererID"];
+
+                            if (dr["Username"] != null)
+                                deliverer.Username = (string)dr["Username"];
+
+                            if (dr["Password"] != null)
+                                deliverer.Password = (string)dr["Password"];
 
                             deliverer.Availability = (int)dr["AvailabilityDeliverer"];
+
+                            deliverer.NumberOrdersAssigned = (int)dr["NumberOrdersAssigned"];
 
                             results.Add(deliverer);
                         }
@@ -79,7 +87,7 @@ namespace DAL
                         {
                             deliverer = new Deliverer();
 
-                            deliverer.DelivereID = (int)dr["IdDeliverer"];
+                            deliverer.DelivererID = (int)dr["IdDeliverer"];
 
                             if (dr["AvailabitlityDeliverer"] != null)
                                 deliverer.Availability = (int)dr["AvailabitlityDeliverer"];
@@ -96,19 +104,21 @@ namespace DAL
             return deliverer;
         }
 
-        public void UpdateDelivererAvailability(Deliverer deliverer, int AvailabilityDeliverer)
+        public void UpdateDelivererAvailability(Deliverer deliverer)
         {
+            int result = 0;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Deliverer SET AvailabilityDeliverer = @AvailibilityDeliverer WHERE IdDeliverer = @IdDeliverer";
+                    string query = "Update from Deliverer SET Availability = @Availibility WHERE IdDeliverer = @IdDeliverer";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@AvailibilityDeliverer", AvailabilityDeliverer);
+                    cmd.Parameters.AddWithValue("@AvailibilityDeliverer", deliverer.Availability);
 
                     cn.Open();
+                    result = cmd.ExecuteNonQuery();
 
                 }
             }
@@ -126,15 +136,8 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Deliverer(Username, Password, NumberOrdersAssigned, AvailabilityDeliverer, TimeAssigned) values(@Username, @Password, @NumberOrdersAssigned, @AvailabilityDeliverer, @TimeAssgined); SELECT SCOPE_IDENTITY()";
-                    string query = "Insert into Deliverer(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Deliverer(Username, Password, NumberOrdersAssigned, Availability) values(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@Username", deliverer.Username);
-                    cmd.Parameters.AddWithValue("@Password", deliverer.Password);
-                    cmd.Parameters.AddWithValue("NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
-                    cmd.Parameters.AddWithValue("@Availability", deliverer.AvailabilityDeliverer);
-                    cmd.Parameters.AddWithValue("@TimeAssigned", deliverer.TimeAssigned);
-
                     cmd.Parameters.AddWithValue("@Username", deliverer.Username);
                     cmd.Parameters.AddWithValue("@Password", deliverer.Password);
                     cmd.Parameters.AddWithValue("@NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
@@ -142,7 +145,7 @@ namespace DAL
 
                     cn.Open();
 
-                    deliverer.DelivereID = Convert.ToInt32(cmd.ExecuteScalar());
+                    deliverer.DelivererID = Convert.ToInt32(cmd.ExecuteScalar());
                 }
             }
             catch (Exception e)
@@ -153,27 +156,23 @@ namespace DAL
             return deliverer;
         }
 
-        public void DeleteDeliverer(Deliverer deliverer)
+        public void DeleteDeliverer(int DelivererID)
         {
+            int result = 0; 
+
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Delete from Deliverer WHERE IdDeliverer = @IdDeliverer ";
+                    string query = "Delete from Deliverers WHERE DelivererID = @DelivererID ";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.RemoveAt("@Username");
-                    cmd.Parameters.RemoveAt("@Password");
-                    cmd.Parameters.RemoveAt("NumberOrdersAssigned");
-                    cmd.Parameters.RemoveAt("@Availability");
-                    cmd.Parameters.RemoveAt("@TimeAssigned");
-                    cmd.Parameters.AddWithValue("@IdDeliverer", deliverer.DelivereID);
-
+                    cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
                     cn.Open();
 
-                  //  deliverer.IdDeliverer = Convert.ToInt32(cmd.ExecuteScalar());
-                    deliverer.DelivereID = Convert.ToInt32(cmd.ExecuteScalar());
+                    result = cmd.ExecuteNonQuery();
+
                 }
 
             }
@@ -183,28 +182,35 @@ namespace DAL
             }
         }
 
-        public void CheckCity (Deliverer deliverer, Restaurant restaurant)
+        //public void CheckCity (Deliverer deliverer, Restaurant restaurant)
+        //{
+        //    string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+        //    try
+        //    {
+        //        using (SqlConnection cn = new SqlConnection(connectionString))
+        //        {
+        //            string query = "SELECT  FROM  = r.LocationID";
+        //            SqlCommand cmd = new SqlCommand(query, cn);
+
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+
+
+
+
+    
+
+        public void DeliveryValidation (Order order, Deliverer deliverer ) //status order and DelivererID
         {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-
-                }
-            }
-
+            //Deliverer needs to be connected to validate, validation of connection required !
         }
 
-        public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
-        {
-           
-        }
 
-        public void DeliveryValidation (int )
     }
 }
     

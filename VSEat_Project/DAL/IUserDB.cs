@@ -4,10 +4,26 @@ namespace DAL
 {
     public interface IUserDB
     {
-        User AddUser(User user);
-        User GetUser(string Firstname, string Lastname);
+        //Method the list all users in the Database
         List<User> GetUsers();
-        void UpdateUserAddress(User user, string newAddress);
-        void UpdateUserPassword(User user, string newPassword);
+
+        //Method to get the user with his username and his password
+        User GetUserWithName(string username, string password);
+
+        //Method to get the user with his ID
+        User GetUserWithID(int userid);
+
+        //Method to Add one User in the database
+        User AddUser(User user);
+
+        //Method to Add an Administrator in the database
+        User AddAdmin(User user, char isadmin);
+
+        //Method to Update one User in the database
+        User UpdateUser(User user);
+
+        //Method to delete one User in the database
+        void DeleteUser(int userid);
+
     }
 }

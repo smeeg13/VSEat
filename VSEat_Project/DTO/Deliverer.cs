@@ -9,16 +9,28 @@ namespace DAL
         public class Deliverer
     {
         //PK
-        public int DelivereID { get; set; }
+        public int DelivererID { get; set; }
 
         public string Username { get; set; }
         public string Password { get; set; }
         public int NumberOrdersAssigned { get; set; }
-        public int Availability { get; set; } 
+        public int Availability { get; set; }
+
+        public Deliverer(string username, string password, int numberOrdersAssigned, int availability)
+        {
+            Username = username;
+            Password = password;
+            NumberOrdersAssigned = numberOrdersAssigned;
+            Availability = availability;
+        }
+
+        public Deliverer()
+        {
+        }
 
         public override string ToString()
         {
-            return "IdDeliverer : " + DelivereID +
+            return "IdDeliverer : " + DelivererID +
                     "Username :  " + Username +
                    "Password : " + Password +
                     "NumberOrdersAssigned : " + NumberOrdersAssigned +

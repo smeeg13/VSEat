@@ -4,10 +4,26 @@ namespace DAL
 {
     public interface IRestaurantDB
     {
-        Restaurant AddRestaurant(Restaurant restaurant);
-        void DeleteRestaurant(Restaurant restaurant);
-        Restaurant GetRestaurant(string nameRestaurant, string addressRestaurant);
+        //Method to list all restaurants in the database
         List<Restaurant> GetRestaurants();
-        void UpdateRestaurantAddress(Restaurant restaurant, string newAddress);
+
+        //Method to list all restaurants Located in a certain city 
+        List<Restaurant> GetRestaurantsByLocation(int locationID);
+
+        //Method to get one Restaurant with his name
+        Restaurant GetRestaurantWithName(string nameRestaurant);
+
+        //Method to get one Restaurant with his ID
+        Restaurant GetRestaurantWithID(int restaurantID);
+
+        //Method to add one Restaurant in the database
+        Restaurant AddRestaurant(Restaurant restaurant);
+
+        //Method to update one Restaurant in the database
+        Restaurant UpdateRestaurant(Restaurant restaurant);
+
+        //Method to delete one Restaurant in the database
+        void DeleteRestaurant(int restaurantId);
+
     }
 }

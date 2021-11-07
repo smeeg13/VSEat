@@ -10,9 +10,10 @@ namespace DAL
     {
         List<Category> Categories { get; }
 
-        Category GetCategory(string NameCategory, string DescriptionCategory);
+        Category GetCategoryName(string NameCategory);
+        Category GetCategoryID(int CategoryID);
         Category AddCategory(Category category);
-        void DeleteCategory(Category category);
+        void DeleteCategory(int CategoryID);
         void UpdateCategoryDescription(Category category, string newDescriptionCategory);
     }
 }
