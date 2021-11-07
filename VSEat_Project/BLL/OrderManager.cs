@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using VSEat_Project;
 
 namespace BLL
 {
@@ -12,7 +11,6 @@ namespace BLL
         private IOrderDB OrderDb { get; }
         private IUserDB UserDb { get; }
         private IDelivererDB DelivererDb { get; }
-        private IOrderDetailDB OrderDetailDb { get; }
 
         //Constructor
         public OrderManager(IConfiguration conf)
@@ -59,42 +57,9 @@ namespace BLL
         //Add a new order
         public Order AddOrder(Order order)
         {
-
-            Deliverer deliverer = null;
-            deliverer = DelivererDb.GetDeliverer(order.DelivererID);
-            User user = null;
-            user = UserDb.GetUserWithID(order.UserID);
-
-            //Validation si User is connected
-            string isConnected = "Connected";
-            if (user.StatusAccount.Equals(isConnected))
-            {
-
-                //Validation si le deliverer est dans la meme ville que le restaurant qui concerne l'ordre
-                if (deliverer.LocationID != restaurant.locationID)
-                {
-                    throw new BusinessExceptions("Deliverer Should be in the same city");
-                }
-
-                //Augmenter le number Orders assigned dans le deliverer dès qu'on ajoute un order ayant son ID
-                if (deliverer.NumberOrdersAssigned >= 5)
-                {
-                    Console.WriteLine("This Deliverer has already 5 order to delivery");
-                    order.DelivererID ++;
-                    deliverer.Availability = 'n';
-                }
-                else
-                {
-                    deliverer.NumberOrdersAssigned = deliverer.NumberOrdersAssigned + 1;
-                }
-
-                deliverer = DelivererDb.UpdateDeliverer(deliverer);
-                order = OrderDb.UpdateOrder(order);
-
-                return OrderDb.AddOrder(order);
-            }
-            else
-                throw new BusinessExceptions("The user should be connected to be able to make an order");
+            //Validation si le deliverer est dans la meme ville que le restaurant qui conerce l'ordre
+            //Augmenter le number Orders assigned dans le deliverer dès qu'on ajoute un order ayant son ID
+            return OrderDb.AddOrder(order);
         }
 
         //Update data for one order
@@ -113,7 +78,7 @@ namespace BLL
             OrderDb.DeleteOrder(orderId, userId);
         }
         //Update RequiredDate for one order
-        public String UpdateOrderRequiredDate(Order order, User user, DateTime newRequiredDate)
+        public String UpdateOrderRequiredDate(Order order,User user, DateTime newRequiredDate)
         {
             string DateIsChanged = null;
 
@@ -135,7 +100,6 @@ namespace BLL
 
             //Décrémenter le number orders assigned du Deliverer
             //Modifier la shipdate en mettant la date courrant
-            orderChanged.StatusOrder = "Shipped";
 
             //Modifier le status de l'ordre
             orderChanged.StatusOrder = "Shipped";
@@ -147,11 +111,10 @@ namespace BLL
             return isDelivered;
         }
 
-        public void GetOrderLocationRestaurant()
+        public void GetOrderLocation()
         {
 
-
-
         }
+
     }
 }
