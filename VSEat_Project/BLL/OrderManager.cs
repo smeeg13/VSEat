@@ -17,8 +17,6 @@ namespace BLL
         private IMenuDB MenuDb { get; }
         private IRestaurantDB RestaurantDb { get; }
 
-
-
         //Constructor
         public OrderManager(IConfiguration conf)
         {
@@ -66,25 +64,21 @@ namespace BLL
         {
             int locationID = LocationDb.GetLocationWithName(locationName);
 
-
             //Validation if User is connected
             string isConnected = "Connected";
             if (user.StatusAccount.Equals(isConnected))
             {
-
                 //Add order informations
                 Order order = new Order(requiredDate, shipAddress, locationID);
                 order.UserID = user.UserID;
                 order.Price = UpdateOrderPrice(order, user);
                 //Ajout du deliverer ID
-                //order.DelivererID = 
-                //Validation if deliverer est dans la meme ville que le restaurant qui concerne l'ordre
-                //with method checkCity(delivererID, restaurantID) dans deliverer manager
-                //DelivererManager delivmnger = new DelivererManager(conf);
+                    //Validation if deliverer est dans la meme ville que le restaurant qui concerne l'ordre
+                    //with method checkCity(delivererID, restaurantID) dans deliverer manager
+                    //DelivererManager delivmnger = new DelivererManager(conf);
 
                 //Augmenter le number Orders assigned dans le deliverer dès qu'on ajoute un order ayant son ID
-                //   deliverer = DelivererDb.UpdateDeliverer(deliverer);
-
+                    //deliverer = DelivererDb.UpdateDeliverer(deliverer);
 
                 return OrderDb.AddOrder(order);
             }

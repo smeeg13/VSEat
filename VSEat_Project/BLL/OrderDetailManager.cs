@@ -69,6 +69,7 @@ namespace BLL
         //Method to delete one order details in the database
         public void DeleteOrderDetails(int orderDetails)
         {
+            //Validation
             OrderDetailsDb.DeleteOrderDetails(orderDetails);
         }
 
