@@ -64,6 +64,8 @@ namespace BLL
             deliverer = DelivererDb.GetDeliverer(order.DelivererID);
             User user = null;
             user = UserDb.GetUserWithID(order.UserID);
+            OrderDetail orderDetail = null;
+            orderDetail = OrderDetailDb.AddOrderDetails(order.OrderID);
 
             //Validation si User is connected
             string isConnected = "Connected";
@@ -91,6 +93,7 @@ namespace BLL
                 deliverer = DelivererDb.UpdateDeliverer(deliverer);
                 order = OrderDb.UpdateOrder(order);
 
+
                 return OrderDb.AddOrder(order);
             }
             else
@@ -104,12 +107,12 @@ namespace BLL
         }
 
         //Delete an order
-        public void DeleteOrder(int orderId, int userId)
+        public void DeleteOrder(int orderId, string fisrtsname, string lastname)
         {
             //var user = UserDb.GetUser(userId);
             //var order = OrderDb.GetOrdersForUser(orderId,userId);
 
-            //if()
+            //current date must be at least 3hours befor shippDate
             OrderDb.DeleteOrder(orderId, userId);
         }
         //Update RequiredDate for one order
@@ -130,12 +133,14 @@ namespace BLL
         {
             string isDelivered = null;
 
-            Order orderChanged = null;
-            orderChanged = OrderDb.GetOrderForUser(order.OrderID, deliverer.DelivererID);
+            Order orderChanged = OrderDb.GetOrderForUser(order.OrderID, deliverer.DelivererID);
+            Deliverer delivererChanged = DelivererDb.GetDeliverer(deliverer.DelivererID);
 
             //Décrémenter le number orders assigned du Deliverer
+            delivererChanged.NumberOrdersAssigned--;
+
             //Modifier la shipdate en mettant la date courrant
-            orderChanged.StatusOrder = "Shipped";
+            orderChanged.ShippedDate = DateTime.Now;
 
             //Modifier le status de l'ordre
             orderChanged.StatusOrder = "Shipped";

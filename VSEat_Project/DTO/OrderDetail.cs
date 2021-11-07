@@ -19,6 +19,11 @@ namespace DAL
         public int Discount { get; set; }
         public int TotalAmount { get; set; }
 
+        public OrderDetail()
+        {
+
+        }
+
         public OrderDetail(int orderId, int menuId, int unitPrice, int quantity, int discount, int totalAmount)
         {
             OrderID = orderId;
