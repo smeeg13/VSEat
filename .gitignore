@@ -386,3 +386,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 .idea/
 *.sln.iml
+/VSEat_Project/WebApplication

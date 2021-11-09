@@ -60,7 +60,7 @@ namespace BLL
         }
 
         //Add a new order
-        public Order AddOrder(User user, DateTime requiredDate, string shipAddress, string locationName)
+        public Order AddOrder(User user)
         {
             int locationID = LocationDb.GetLocationWithName(locationName);
 
@@ -69,9 +69,8 @@ namespace BLL
             if (user.StatusAccount.Equals(isConnected))
             {
                 //Add order informations
-                Order order = new Order(requiredDate, shipAddress, locationID);
+                Order order = new Order();
                 order.UserID = user.UserID;
-                order.Price = UpdateOrderPrice(order, user);
                 //Ajout du deliverer ID
                     //Validation if deliverer est dans la meme ville que le restaurant qui concerne l'ordre
                     //with method checkCity(delivererID, restaurantID) dans deliverer manager

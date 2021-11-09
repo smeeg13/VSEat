@@ -57,6 +57,9 @@ namespace BLL
         //Method to add one order in the database
         public OrderDetail AddOrderDetails(OrderDetail orderDetails)
         {
+            //Ajouté l'idOrder
+            //choose menu
+           
             return OrderDetailsDb.AddOrderDetails(orderDetails);
         }
 
