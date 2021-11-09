@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using VSEat_Project;
 
 namespace BLL
 {
@@ -115,7 +114,7 @@ namespace BLL
 
 
         //Update RequiredDate for one order
-        public String UpdateOrderRequiredDate(Order order, User user, DateTime newRequiredDate)
+        public String UpdateOrderRequiredDate(Order order,User user, DateTime newRequiredDate)
         {
 
             //GESTION DES 15 MINUTES EN + !!!!
@@ -203,5 +202,6 @@ namespace BLL
 
             return location;
         }
+
     }
 }
