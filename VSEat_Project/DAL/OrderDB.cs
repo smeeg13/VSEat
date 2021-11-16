@@ -49,9 +49,11 @@ namespace DAL
                             order.UserID = (int)dr["UserID"];
                             order.OrderDate = (DateTime)dr["OrderDate"];
                             order.RequiredDate = (DateTime)dr["RequiredDate"];
+                            order.LastChangeDate = (DateTime)dr["LastChangeDate"];
                             order.ShippedDate = (DateTime)dr["ShippedDate"];
                             order.DelivererID = (int)dr["DelivererID"];
                             order.Price = (int)dr["Price"];
+                            order.SameAddressUser = (Boolean)dr["SameAddressUser"];
                             order.ShipAddress = (string)dr["ShipAddress"];
                             order.LocationID = (int)dr["LocationID"];
                             order.StatusOrder = (string)dr["StatusOrder"];
@@ -96,9 +98,11 @@ namespace DAL
                             order.UserID = (int)dr["UserID"];
                             order.OrderDate = (DateTime)dr["OrderDate"];
                             order.RequiredDate = (DateTime)dr["RequiredDate"];
+                            order.LastChangeDate = (DateTime)dr["LastChangeDate"];
                             order.ShippedDate = (DateTime)dr["ShippedDate"];
                             order.DelivererID = (int)dr["DelivererID"];
                             order.Price = (int)dr["Price"];
+                            order.SameAddressUser = (Boolean)dr["SameAddressUser"];
                             order.ShipAddress = (string)dr["ShipAddress"];
                             order.LocationID = (int)dr["LocationID"];
                             order.StatusOrder = (string)dr["StatusOrder"];
@@ -143,9 +147,11 @@ namespace DAL
                             order.UserID = (int)dr["UserID"];
                             order.OrderDate = (DateTime)dr["OrderDate"];
                             order.RequiredDate = (DateTime)dr["RequiredDate"];
+                            order.LastChangeDate = (DateTime)dr["LastChangeDate"];
                             order.ShippedDate = (DateTime)dr["ShippedDate"];
                             order.DelivererID = (int)dr["DelivererID"];
                             order.Price = (int)dr["Price"];
+                            order.SameAddressUser = (Boolean)dr["SameAddressUser"];
                             order.ShipAddress = (string)dr["ShipAddress"];
                             order.LocationID = (int)dr["LocationID"];
                             order.StatusOrder = (string)dr["StatusOrder"];
@@ -161,6 +167,57 @@ namespace DAL
             }
             return results;
         }
+
+        //Method to count all orders assigned to one particular deliverer in the database
+        public List<Order> CountOrdersForDeliverer(Deliverer deliverer)
+        {
+            List<Order> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select DelivererID, COUNT(*) As NbOrders from Orders WHERE DelivererID = @DelivererID ORDER BY NbOrders";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@DelivererID", deliverer.DelivererID);
+
+                    cn.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Order>();
+
+                            Order order = new Order();
+
+                            order.OrderID = (int)dr["OrderID"];
+                            order.UserID = (int)dr["UserID"];
+                            order.OrderDate = (DateTime)dr["OrderDate"];
+                            order.RequiredDate = (DateTime)dr["RequiredDate"];
+                            order.LastChangeDate = (DateTime)dr["LastChangeDate"];
+                            order.ShippedDate = (DateTime)dr["ShippedDate"];
+                            order.DelivererID = (int)dr["DelivererID"];
+                            order.Price = (int)dr["Price"];
+                            order.SameAddressUser = (Boolean)dr["SameAddressUser"];
+                            order.ShipAddress = (string)dr["ShipAddress"];
+                            order.LocationID = (int)dr["LocationID"];
+                            order.StatusOrder = (string)dr["StatusOrder"];
+
+                            results.Add(order);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return results;
+        }
+
         //Method to get one specific order with his ID
         public Order GetOrderWithID(int OrderID)
         {
@@ -187,9 +244,11 @@ namespace DAL
                             result.UserID = (int)dr["UserID"];
                             result.OrderDate = (DateTime)dr["OrderDate"];
                             result.RequiredDate = (DateTime)dr["RequiredDate"];
+                            result.LastChangeDate = (DateTime)dr["LastChangeDate"];
                             result.ShippedDate = (DateTime)dr["ShippedDate"];
                             result.DelivererID = (int)dr["DelivererID"];
                             result.Price = (int)dr["Price"];
+                            result.SameAddressUser = (Boolean)dr["SameAddressUser"];
                             result.ShipAddress = (string)dr["ShipAddress"];
                             result.LocationID = (int)dr["LocationID"];
                             result.StatusOrder = (string)dr["StatusOrder"];
@@ -231,6 +290,7 @@ namespace DAL
                             result.UserID = (int)dr["UserID"];
                             result.OrderDate = (DateTime)dr["OrderDate"];
                             result.RequiredDate = (DateTime)dr["RequiredDate"];
+                            result.LastChangeDate = (DateTime)dr["LastChangeDate"];
                             result.ShippedDate = (DateTime)dr["ShippedDate"];
                             result.DelivererID = (int)dr["DelivererID"];
                             result.Price = (int)dr["Price"];
@@ -275,9 +335,11 @@ namespace DAL
                             result.UserID = (int)dr["UserID"];
                             result.OrderDate = (DateTime)dr["OrderDate"];
                             result.RequiredDate = (DateTime)dr["RequiredDate"];
+                            result.LastChangeDate = (DateTime)dr["LastChangeDate"];
                             result.ShippedDate = (DateTime)dr["ShippedDate"];
                             result.DelivererID = (int)dr["DelivererID"];
                             result.Price = (int)dr["Price"];
+                            result.SameAddressUser = (Boolean)dr["SameAddressUser"];
                             result.ShipAddress = (string)dr["ShipAddress"];
                             result.LocationID = (int)dr["LocationID"];
                             result.StatusOrder = (string)dr["StatusOrder"];
@@ -301,14 +363,16 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Orders(UserID, OrderDate, RequiredDate, ShippedDate, DelivererID, Price, ShipAddress, LocationID, StatusOrder) values(@UserID, @OrderDate, @RequiredDate,@ShippedDate, @DelivererID, @Price, @ShipAddress, @LocationID, @StatusOrder); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Orders(UserID, OrderDate, RequiredDate,LastChangeDate, ShippedDate, DelivererID, Price,SameAddressUser, ShipAddress, LocationID, StatusOrder) values(@UserID, @OrderDate, @RequiredDate, @LastChangeDate, @ShippedDate, @DelivererID, @Price,@SameAddressUser, @ShipAddress, @LocationID, @StatusOrder); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@UserID", order.UserID);
                     cmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                     cmd.Parameters.AddWithValue("@RequiredDate", order.RequiredDate);
+                    cmd.Parameters.AddWithValue("@LastChangeDate", order.LastChangeDate);
                     cmd.Parameters.AddWithValue("@ShippedDate", order.ShippedDate);
                     cmd.Parameters.AddWithValue("@DelivererID", order.DelivererID);
                     cmd.Parameters.AddWithValue("@Price", order.Price);
+                    cmd.Parameters.AddWithValue("@SameAddressUser", order.SameAddressUser);
                     cmd.Parameters.AddWithValue("@ShippedAddress", order.ShipAddress);
                     cmd.Parameters.AddWithValue("@LocationID", order.LocationID);
                     cmd.Parameters.AddWithValue("@StatusOrder", order.StatusOrder);
@@ -336,16 +400,18 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Orders SET UserID = @UserID, OrderDate=@OrderDate, RequiredDate=@RequiredDate, DelivererID=@DelivererID, Price=@Price, ShipAddress=@ShipAddress, LocationID = @LocationID, StatusOrder = @StatusOrder WHERE OrderID = @OrderID";
+                    string query = "Update from Orders SET UserID = @UserID, OrderDate=@OrderDate, RequiredDate=@RequiredDate, LastChangeDate=@LastChangeDate, ShippedDate=@ShippedDate, DelivererID=@DelivererID, Price=@Price,SameAddressUser=@SameAddressUser, ShipAddress=@ShipAddress, LocationID = @LocationID, StatusOrder = @StatusOrder WHERE OrderID = @OrderID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@OrderID", order.OrderID);
 
                     cmd.Parameters.AddWithValue("@UserID", order.UserID);
                     cmd.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                     cmd.Parameters.AddWithValue("@RequiredDate", order.RequiredDate);
+                    cmd.Parameters.AddWithValue("@LastChangeDate", order.LastChangeDate);
                     cmd.Parameters.AddWithValue("@ShippedDate", order.ShippedDate);
                     cmd.Parameters.AddWithValue("@DelivererID", order.DelivererID);
                     cmd.Parameters.AddWithValue("@Price", order.Price);
+                    cmd.Parameters.AddWithValue("@SameAddressUser", order.SameAddressUser);
                     cmd.Parameters.AddWithValue("@ShipAddress", order.ShipAddress);
                     cmd.Parameters.AddWithValue("@LocationID", order.LocationID);
                     cmd.Parameters.AddWithValue("@StatusOrder", order.StatusOrder);

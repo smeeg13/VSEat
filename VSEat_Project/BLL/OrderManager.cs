@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using VSEat_Project;
 
 namespace BLL
 {
@@ -40,6 +41,12 @@ namespace BLL
             return OrderDb.GetOrdersForUser(userId);
         }
 
+        //Method to count all orders assigned to one particular deliverer in the database
+        public List<Order> CountOrdersForDeliverer(int DelivererID)
+        {
+            return OrderDb.CountOrdersForDeliverer(DelivererID);
+        }
+
         //Method to get one specific order with his ID
         public Order GetOrderWithID(int OrderID)
         {
@@ -61,22 +68,14 @@ namespace BLL
         //Add a new order
         public Order AddOrder(User user)
         {
-            int locationID = LocationDb.GetLocationWithName(locationName);
 
             //Validation if User is connected
             string isConnected = "Connected";
             if (user.StatusAccount.Equals(isConnected))
             {
-                //Add order informations
+                //Add order informations that we already have ( the user ID and DateOrder = now, Status = In Progress according to the constructor)
                 Order order = new Order();
                 order.UserID = user.UserID;
-                //Ajout du deliverer ID
-                    //Validation if deliverer est dans la meme ville que le restaurant qui concerne l'ordre
-                    //with method checkCity(delivererID, restaurantID) dans deliverer manager
-                    //DelivererManager delivmnger = new DelivererManager(conf);
-
-                //Augmenter le number Orders assigned dans le deliverer dès qu'on ajoute un order ayant son ID
-                    //deliverer = DelivererDb.UpdateDeliverer(deliverer);
 
                 return OrderDb.AddOrder(order);
             }
@@ -85,8 +84,38 @@ namespace BLL
         }
 
         //Update data for one order
-        public Order UpdateOrder(Order order)
+        public Order UpdateOrder(Order order,DateTime requireddate,Boolean sameaddressuser, string shipaddress, string locationname)
         {
+            User user = UserDb.GetUserWithID(order.UserID);
+
+            //the user will add a required date for his order
+            order.RequiredDate = requireddate;
+            order.LastChangeDate = DateTime.Now;
+
+            //He will tell us if he want to use his address or another one which he have to give us
+            order.SameAddressUser = sameaddressuser;
+            if (sameaddressuser = true)
+            {
+                order.ShipAddress = user.Address;
+                order.LocationID = user.LocationID;
+            }
+            else
+            {
+                order.ShipAddress = shipaddress;
+                order.LocationID = LocationDb.GetLocationWithName(locationname);
+            }
+
+            //Ajout du deliverer ID
+                //Validation if deliverer est dans la meme ville que le restaurant qui concerne l'ordre
+                //with method checkCity(delivererID, restaurantID) dans deliverer manager
+                //DelivererManager delivmnger = new DelivererManager(conf);
+
+                //int delivererid = UpdateDelivererID(order);
+
+
+            //Ajout du prix total de l'ordre
+            order.Price = GetOrderPrice(order, user);
+
             return OrderDb.UpdateOrder(order);
         }
 
@@ -116,25 +145,35 @@ namespace BLL
         //Update RequiredDate for one order
         public String UpdateOrderRequiredDate(Order order,User user, DateTime newRequiredDate)
         {
+            var diffOfDates = order.LastChangeDate - DateTime.Now; //get difference of two dates
+            Console.WriteLine("Difference in Minutes: {0}", diffOfDates.Minutes);
 
-            //GESTION DES 15 MINUTES EN + !!!!
             string DateIsChanged;
-
             Order orderChanged = OrderDb.GetOrderForUser(order.OrderID, user.UserID);
 
-            orderChanged.RequiredDate = newRequiredDate;
+            //GESTION DES 15 MINUTES ENTRE CHAQUE CHANGEMENT DE REQUIRED DATE
+            if (diffOfDates.Minutes >= 15)
+            {
+                orderChanged.RequiredDate = newRequiredDate;
 
-            orderChanged = OrderDb.UpdateOrder(orderChanged);
+                orderChanged = OrderDb.UpdateOrder(orderChanged);
 
-            DateIsChanged = "The Required Date has been changed !";
-
+                DateIsChanged = "The Required Date has been changed !";
+            }
+            else
+            {
+                throw new BusinessExceptions("User muste wait a little before changing the required date");
+            }
             return DateIsChanged;
         }
 
-        //Update RequiredDate for one order
-        public int UpdateOrderPrice(Order order, User user)
+        //Get the final Priceof the order
+        public int GetOrderPrice(Order order, User user)
         {
+            Order orderChanged = OrderDb.GetOrderForUser(order.OrderID, user.UserID);
+
             int price = 0;
+
             //Reprendre tout les orders details ayant le meme orderID
             List<OrderDetail> ordersDetails = OrderDetailDb.GetOrdersDetailsByOrder(order.OrderID);
 
@@ -144,32 +183,42 @@ namespace BLL
                 price += orderDet.TotalAmount;
             }
 
-            //Update in the DB
-            Order orderChanged = OrderDb.GetOrderForUser(order.OrderID, user.UserID);
-            orderChanged.Price = price;
-            orderChanged = OrderDb.UpdateOrder(orderChanged);
-
             Console.WriteLine("The Price of the order is  " + orderChanged.Price + ".-");
 
-            return orderChanged.Price;
+            return price;
         }
 
 
         //Update Deliverer Id
-        public int UpdateDelivererID(Order order, Deliverer deliverer)
+        public int UpdateDelivererID(Order order)
         {
+            List<Order> nbOrdersDeliv;
             int delivererID = 0;
-            
-            //CheckCity
-            if(available = "yes")
+            Deliverer deliverer;
+
+            //Validation Deliverer Method dans Deliverer Manager 
+                //-> Met available yes
+                //si deliverer est ds meme ville que restaur de l'ordre
+                //ET si il n'a pas + de 5 ordres assignés
+
+            //Maybe return true pour reprendre dans le if ???????????????????????
+
+            /*
+            if(DelivererValidation(order, deliverer) = true)
             {
-                order.DelivererID = deliverer.DelivererID;
+                order.DelivererID =0;
             }
+            */
+
+            //Augmenter le number Orders assigned dans le deliverer qu'on a choisi plus haut
+                //deliverer.NumberOrdersAssigned =+ 1;
+                //deliverer = DelivererDb.UpdateDeliverer(deliverer);
 
 
             return delivererID;
         }
 
+        //Method to let the deliverer confirm the delivery of the order
         public string OrderIsDelivered(Order order, Deliverer deliverer)
         {
             string isDelivered;
@@ -190,6 +239,26 @@ namespace BLL
             isDelivered = "The Order has been shipped !";
 
             return isDelivered;
+        }
+
+        //Method to let the user confirm his order
+        public string OrderIsConfirmed(Order order, User user)
+        {
+            string isConfirmed;
+
+            Order orderChanged = OrderDb.GetOrderForUser(order.OrderID, user.UserID);
+
+
+            //Modifier la shipdate en mettant la date courrante
+            orderChanged.OrderDate = DateTime.Now;
+
+            //Modifier le status de l'ordre
+            orderChanged.StatusOrder = "Confirmed";
+
+            orderChanged = OrderDb.UpdateOrder(orderChanged);
+            isConfirmed = "The Order has been shipped !";
+
+            return isConfirmed;
         }
 
         public Location GetLocationRestaurant(Order order)

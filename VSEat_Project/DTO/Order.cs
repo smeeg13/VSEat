@@ -18,17 +18,27 @@ namespace DAL
 
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }
+        public DateTime LastChangeDate { get; set; }
         public DateTime ShippedDate { get; set; }
-
+        public Boolean SameAddressUser { get; set; }
         public string ShipAddress { get; set; }
         public int Price { get; set; }
-        public string StatusOrder { get; set; }
+        public string StatusOrder { get; set; } //Can be "In Progress", "Confirmed", "Shipped"
+
+        //Default Constructor
+        public Order()
+        {
+            OrderDate = DateTime.Now;
+            SameAddressUser = true;
+            StatusOrder = "In Progress";
+        }
 
         //Constructor
         public Order(User user)
         {
             this.UserID = user.UserID;
             OrderDate = DateTime.Now;
+            SameAddressUser = true;
             StatusOrder = "In Progress";
         }
 
@@ -41,9 +51,12 @@ namespace DAL
                 "Id Deliverer : " + DelivererID +
                 "Order Date  : " + OrderDate +
                 "Required Date : " + RequiredDate+
-                "Shipped Date : "+ ShippedDate+
+                "Last change of the required Date : " + LastChangeDate +
+                "Shipped Date : " + ShippedDate+
+                "Price : " + Price +
+                "SameAddressUser : " + SameAddressUser+
                 "Ship Address : "+ ShipAddress+
-                "Price : "+ Price+
+                "Location ID :"+ LocationID+
                 "Status Order : "+ StatusOrder;
         }
 
