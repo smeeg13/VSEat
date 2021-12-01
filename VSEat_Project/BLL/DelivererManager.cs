@@ -42,9 +42,9 @@ namespace BLL
             return DelivererDb.GetDeliverers();
         }
 
-        public void UpdateDeliverer(Deliverer deliverer)
+        public Deliverer UpdateDeliverer(Deliverer deliverer)
         {
-            DelivererDb.UpdateDeliverer(deliverer);
+            return DelivererDb.UpdateDeliverer(deliverer);
         }
 
         public void DeliveryPerMinutes(int NumberOrdersAssigned, Order order) //requiredDate
@@ -55,10 +55,10 @@ namespace BLL
             var diffOfDates = order.RequiredDate - DateTime.Now; //get difference of two dates
             Console.WriteLine("Difference in Hours: {0}", diffOfDates.Hours);
 
-            if (NumberOrdersAssigned < 5 && diffOfDates < 30)
-            {
-                available = "yes";
-            }
+          //  if (NumberOrdersAssigned < 5 && diffOfDates < 30)
+           // {
+              //  available = "yes";
+          //  }
 
             // si NumberOrdersAssigned < 5 pour 30 minutes = Ok
             // string available = yes;

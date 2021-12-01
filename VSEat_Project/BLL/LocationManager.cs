@@ -44,9 +44,9 @@ namespace BLL
             return LocationDb.GetLocations();
         }
 
-        public void UpdateLocation(Location location)
+        public Location UpdateLocation(Location location)
         {
-            LocationDb.UpdateLocation(location);
+            return LocationDb.UpdateLocation(location);
         }
     }
 }

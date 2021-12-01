@@ -263,6 +263,13 @@ namespace DAL
             return restaurant;
         }
 
+        public string GetLocationOfRestaurant(string RestaurantName)
+        {
+            //Yoooo, t'avais oublié de mettre cette méthode :)
+            string location = "idk";
+            return location;
+        }
+
 
         //Method to delete one Restaurant in the database
         public void DeleteRestaurant(int restaurantId)

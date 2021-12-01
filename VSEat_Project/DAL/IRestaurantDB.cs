@@ -22,6 +22,8 @@ namespace DAL
         //Method to update one Restaurant in the database
         Restaurant UpdateRestaurant(Restaurant restaurant);
 
+        string GetLocationOfRestaurant(string RestaurantName);
+
         //Method to delete one Restaurant in the database
         void DeleteRestaurant(int restaurantId);
 

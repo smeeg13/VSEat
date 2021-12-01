@@ -61,7 +61,7 @@ namespace BLL
             User userForLocation = UserDb.GetUserWithUsername(user.Username, user.Password);
             locationId = userForLocation.UserID;
 
-            Location location = LocationDb.GetLocationID(locationId);
+            Location location = LocationDb.GetLocationWithID(locationId);
             locationName = location.NameCity;
             locationZIP = location.ZIP;
 

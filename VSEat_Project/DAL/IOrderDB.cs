@@ -34,6 +34,6 @@ namespace DAL
 
         //Delete an order
         void DeleteOrder(int orderId, int userId);
-
+        List<Order> CountOrdersForDeliverer(int delivererID);
     }
 }

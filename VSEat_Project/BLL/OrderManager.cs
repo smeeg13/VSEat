@@ -42,9 +42,9 @@ namespace BLL
         }
 
         //Method to count all orders assigned to one particular deliverer in the database
-        public List<Order> CountOrdersForDeliverer(int DelivererID)
+        public List<Order> CountOrdersForDeliverer(Deliverer deliverer)
         {
-            return OrderDb.CountOrdersForDeliverer(DelivererID);
+            return OrderDB.CountOrdersForDeliverer(deliverer);
         }
 
         //Method to get one specific order with his ID
@@ -66,7 +66,7 @@ namespace BLL
         }
 
         //Add a new order
-        public Order AddOrder(User user)
+        public Order AddOrder(User user, DateTime requiredDate, string shipAddress, string locationName)
         {
 
             //Validation if User is connected
@@ -190,11 +190,10 @@ namespace BLL
 
 
         //Update Deliverer Id
-        public int UpdateDelivererID(Order order)
+        public int UpdateDelivererID(Order order, Deliverer deliverer)
         {
             List<Order> nbOrdersDeliv;
             int delivererID = 0;
-            Deliverer deliverer;
 
             //Validation Deliverer Method dans Deliverer Manager 
                 //-> Met available yes
@@ -216,6 +215,13 @@ namespace BLL
 
 
             return delivererID;
+        }
+
+        public int UpdateOrderPrice(Order order, User user)
+        {
+            int idk=0;
+            // Yooo, tu l'avais oublié, je te laisse remplir la méthode :)
+            return idk;
         }
 
         //Method to let the deliverer confirm the delivery of the order

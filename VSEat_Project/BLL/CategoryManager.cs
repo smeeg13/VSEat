@@ -28,9 +28,9 @@ namespace BLL
             CategoryDb.DeleteCategory(CategoryID);
         }
 
-        public Category GetCategoryName(int CategoryID)
+        public List<Category> GetCategories()
         {
-            return CategoryDb.GetCategoryName(CategoryID);
+            return CategoryDb.Categories;
         }
 
         public Category GetCategoryID(string CategoryName)
@@ -39,14 +39,14 @@ namespace BLL
 
         }
 
-        public List<Category> GetCategories()
+        public Category GetCategoryName(int CategoryID)
         {
-            return CategoryDb.Categories;
+            return CategoryDb.GetCategoryName(CategoryID);
         }
 
-        public void UpdateCategory(Category category)
+        public Category UpdateCategory(Category category)
         {
-            CategoryDb.UpdateCategory(category);
+            return CategoryDb.UpdateCategory(category);
         }
     }
 }

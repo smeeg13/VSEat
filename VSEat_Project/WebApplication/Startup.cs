@@ -34,6 +34,10 @@ namespace WebApplication
             services.AddScoped<IOrderDetailDB, OrderDetailDB>();
             services.AddScoped<IOrderManager, OrderManager>();
             services.AddScoped<IOrderDB, OrderDB>();
+            services.AddScoped<ICategoryDB, CategoryDB>();
+            services.AddScoped<IDelivererDB, DelivererDB>();
+            services.AddScoped<ILocationDB, LocationDB>();
+            services.AddScoped<IMenuDB, MenuDB>();
 
 
 

@@ -11,13 +11,14 @@ namespace BLL
         Location GetLocationRestaurant(Order order);
         Order GetOrderForDeliverer(int OrderID, int DelivererID);
         Order GetOrderForUser(int OrderID, int UserID);
+        List<Order> CountOrdersForDeliverer(Deliverer deliverer);
         List<Order> GetOrders();
-        List<Order> GetOrdersForDeliverer(int delivererId);
         List<Order> GetOrdersForUser(int userId);
         Order GetOrderWithID(int OrderID);
         string OrderIsDelivered(Order order, Deliverer deliverer);
+        string OrderIsConfirmed(Order order, User user);
         int UpdateDelivererID(Order order, Deliverer deliverer);
-        Order UpdateOrder(Order order);
+        Order UpdateOrder(Order order, DateTime requireddate, Boolean sameaddressuser, string shipaddress, string locationname);
         int UpdateOrderPrice(Order order, User user);
         string UpdateOrderRequiredDate(Order order, User user, DateTime newRequiredDate);
     }
