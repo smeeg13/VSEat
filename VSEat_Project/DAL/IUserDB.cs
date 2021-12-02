@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DTO;
+using System.Collections.Generic;
 
 namespace DAL
 {

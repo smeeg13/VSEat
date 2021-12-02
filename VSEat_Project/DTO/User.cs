@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DAL
+namespace DTO
 {
     public class User
     {
