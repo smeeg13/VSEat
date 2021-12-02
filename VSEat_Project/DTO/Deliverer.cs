@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-        public class Deliverer
+    public class Deliverer
     {
         //PK
         public int DelivererID { get; set; }
@@ -36,9 +36,10 @@ namespace DAL
                     "Username :  " + Username +
                    "Password : " + Password +
                     "NumberOrdersAssigned : " + NumberOrdersAssigned +
-                    "Availability " + Availability;       
+                    "Availability " + Availability;
         }
     }
 
 
 }
+

@@ -9,13 +9,13 @@ namespace DAL
         List<Order> GetOrders();
 
         //Method to get all the order Assigned to one particular Deliverer in the database
-        List<Order> GetOrdersForDeliverer(int delivererId);
+        List<Order> GetOrdersForDeliverer(int DelivererID);
 
         //Method to get all the order made by one particular User in the database
-        List<Order> GetOrdersForUser(int userId);
+        List<Order> GetOrdersForUser(int UserId);
 
         //Method to count all orders assigned to one particular deliverer in the database
-        public List<Order> CountOrdersForDeliverer(Deliverer deliverer);
+        List<Order> CountOrdersForDeliverer(Deliverer deliverer);
 
         //Method to get one specific order with his ID
         Order GetOrderWithID(int OrderID);
@@ -34,6 +34,5 @@ namespace DAL
 
         //Delete an order
         void DeleteOrder(int orderId, int userId);
-        List<Order> CountOrdersForDeliverer(int delivererID);
     }
 }

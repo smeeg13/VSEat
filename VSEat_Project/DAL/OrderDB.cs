@@ -120,7 +120,7 @@ namespace DAL
         }
 
         //Method to get all the order made by one particular User in the database
-        public List<Order> GetOrdersForDeliverer(int delivererId)
+        public List<Order> GetOrdersForDeliverer(int DelivererID)
         {
             List<Order> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -131,7 +131,7 @@ namespace DAL
                 {
                     string query = "Select * from Orders WHERE DelivererID = @DelivererID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@DelivererID", deliverer.DelivererID);
+                    cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
@@ -169,7 +169,7 @@ namespace DAL
         }
 
         //Method to count all orders assigned to one particular deliverer in the database
-        public List<Order> CountOrdersForDeliverer(int  DelivererID)
+        public List<Order> CountOrdersForDeliverer(Deliverer deliverer)
         {
             List<Order> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -180,7 +180,7 @@ namespace DAL
                 {
                     string query = "Select DelivererID, COUNT(*) As NbOrders from Orders WHERE DelivererID = @DelivererID ORDER BY NbOrders";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
+                    cmd.Parameters.AddWithValue("@DelivererID", deliverer.DelivererID);
 
                     cn.Open();
 

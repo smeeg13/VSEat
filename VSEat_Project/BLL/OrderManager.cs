@@ -44,7 +44,7 @@ namespace BLL
         //Method to count all orders assigned to one particular deliverer in the database
         public List<Order> CountOrdersForDeliverer(Deliverer deliverer)
         {
-            return OrderDB.CountOrdersForDeliverer(deliverer);
+            return OrderDb.CountOrdersForDeliverer(deliverer);
         }
 
         //Method to get one specific order with his ID

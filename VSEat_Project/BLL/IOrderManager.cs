@@ -10,6 +10,7 @@ namespace BLL
         void DeleteOrder(int orderId, string firstname, string lastname);
         Location GetLocationRestaurant(Order order);
         Order GetOrderForDeliverer(int OrderID, int DelivererID);
+        List<Order> GetOrdersForDeliverer(int DelivererID);
         Order GetOrderForUser(int OrderID, int UserID);
         List<Order> CountOrdersForDeliverer(Deliverer deliverer);
         List<Order> GetOrders();
