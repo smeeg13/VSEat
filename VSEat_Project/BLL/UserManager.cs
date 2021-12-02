@@ -18,9 +18,10 @@ namespace BLL
 
 
         //Constructor
-        public UserManager(IConfiguration conf)
+        public UserManager(IUserDB UserDb, ILocationDB LocationDb)
         {
-            UserDb = new UserDB(conf);
+            this.UserDb = UserDb;
+            this.LocationDb = LocationDb;
         }
 
         //Method to list all users in the Database

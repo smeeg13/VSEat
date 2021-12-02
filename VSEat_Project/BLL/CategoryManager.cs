@@ -14,9 +14,9 @@ namespace BLL
         private ICategoryDB CategoryDb { get; }
 
 
-        public CategoryManager(IConfiguration conf)
+        public CategoryManager(ICategoryDB CategoryDb)
         {
-            CategoryDb = new CategoryDB(conf);
+            this.CategoryDb = CategoryDb;
         }
 
         public Category AddCategory(Category category)

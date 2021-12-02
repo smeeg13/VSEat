@@ -17,9 +17,10 @@ namespace BLL
         private ILocationDB LocationDb { get; }
 
         //Constructor
-        public RestaurantManager(IConfiguration conf)
+        public RestaurantManager(IRestaurantDB RestaurantDb, ILocationDB LocationDb)
         {
-            RestaurantDb = new RestaurantDB(conf);
+            this.RestaurantDb = RestaurantDb;
+            this.LocationDb = LocationDb;
         }
 
         //Method to list all restaurants in the database

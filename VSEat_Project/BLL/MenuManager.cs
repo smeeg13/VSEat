@@ -15,9 +15,10 @@ namespace BLL
         private IMenuDB MenuDb { get; }
         private IRestaurantDB RestaurantDb { get; }
 
-        public MenuManager(IConfiguration conf)
+        public MenuManager(MenuDB MenuDb, IRestaurantDB RestaurantDb)
         {
-            MenuDb = new MenuDB(conf);
+            this.MenuDb = MenuDb;
+            this.RestaurantDb = RestaurantDb;
         }
 
         public Menu AddMenu(Menu menu)

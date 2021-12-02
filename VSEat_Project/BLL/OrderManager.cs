@@ -19,9 +19,15 @@ namespace BLL
         private IRestaurantDB RestaurantDb { get; }
 
         //Constructor
-        public OrderManager(IConfiguration conf)
+        public OrderManager(IOrderDB OrderDb, IUserDB UserDb, IDelivererDB DelivererDb, IOrderDetailDB OrderDetailDb, ILocationDB LocationDb, IMenuDB MenuDb, IRestaurantDB RestaurantDb)
         {
-            OrderDb = new OrderDB(conf);
+            this.OrderDb = OrderDb;
+            this.UserDb = UserDb;
+            this.DelivererDb = DelivererDb;
+            this.OrderDetailDb = OrderDetailDb;
+            this.LocationDb = LocationDb;
+            this.MenuDb = MenuDb;
+            this.RestaurantDb = RestaurantDb;
         }
 
         //Method to get all orders in the database

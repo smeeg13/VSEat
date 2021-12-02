@@ -14,9 +14,10 @@ namespace BLL
         private IOrderDetailDB OrderDetailsDb { get; }
         private IMenuDB MenuDb { get; }
 
-        public OrderDetailManager(IConfiguration conf)
+        public OrderDetailManager(IOrderDetailDB OrderDetailsDb, IMenuDB MenuDb)
         {
-            OrderDetailsDb = new OrderDetailDB(conf);
+            this.OrderDetailsDb = OrderDetailsDb;
+            this.MenuDb = MenuDb;
         }
 
         //Method to get all orderdetails

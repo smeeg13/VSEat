@@ -14,9 +14,9 @@ namespace BLL
         private ILocationDB LocationDb { get; }
 
 
-        public LocationManager(IConfiguration conf)
+        public LocationManager(ILocationDB LocationDb)
         {
-            LocationDb = new LocationDB(conf);
+            this.LocationDb = LocationDb;
         }
 
         public Location AddLocation(Location location)
