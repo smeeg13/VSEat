@@ -1,12 +1,8 @@
 ﻿using DAL;
+using DTO;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VSEat_Project;
 
 namespace BLL
@@ -17,9 +13,10 @@ namespace BLL
         private IRestaurantDB RestaurantDb { get; }
 
 
-        public DelivererManager(IConfiguration conf)
+        public DelivererManager(IDelivererDB DelivererDb, IRestaurantDB RestaurantDb)
         {
-            DelivererDb = new DelivererDB(conf);
+            this.DelivererDb = DelivererDb;
+            this.RestaurantDb = RestaurantDb;
         }
 
         public Deliverer AddDeliverer(Deliverer deliverer)
