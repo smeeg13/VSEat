@@ -44,7 +44,7 @@ namespace WebApplication
             services.AddScoped<IMenuDB, MenuDB>();
 
 
-
+            services.AddSession();
             services.AddControllersWithViews();
         }
 
