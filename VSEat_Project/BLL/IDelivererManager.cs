@@ -1,7 +1,7 @@
 ﻿using DTO;
 using System.Collections.Generic;
 
-namespace BLL
+namespace BLL.Interfaces
 {
     public interface IDelivererManager
     {
