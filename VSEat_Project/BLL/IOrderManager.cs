@@ -3,7 +3,7 @@ using DTO;
 using System;
 using System.Collections.Generic;
 
-namespace BLL
+namespace BLL.Interfaces
 {
     public interface IOrderManager
     {
