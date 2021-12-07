@@ -41,15 +41,18 @@ namespace DAL
 
                             Menu menu = new Menu();
 
+                            if (dr["MenuID"] != null)
                             menu.MenuID = (int)dr["MenuID"];
-                            menu.UnitPrice = (int)dr["UnitPrice"];
-
+                            if (dr["UnitPrice"] != null)
+                                menu.UnitPrice = (int)dr["UnitPrice"];
+                            if (dr["QuantityPerUnit"] != null)
+                                menu.QuantityPerUnit = (int)dr["QuantityPerUnit"];
                             if (dr["MenuName"] != null)
-                                menu.MenuName = (string)dr["MenuName"];
-                            menu.UnitsInStock = (int)dr["UnitsInStock"];
-                            menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
-
-
+                            menu.MenuName = (string)dr["MenuName"];
+                            if (dr["UnitsInStock"] != null)
+                                menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            if (dr["UnitsOnOrder"] != null)
+                                menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
 
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
@@ -91,15 +94,18 @@ namespace DAL
 
                             Menu menu = new Menu();
 
-                            menu.MenuID = (int)dr["MenuID"];
-                            menu.UnitPrice = (int)dr["UnitPrice"];
-
+                            if (dr["MenuID"] != null)
+                                menu.MenuID = (int)dr["MenuID"];
+                            if (dr["UnitPrice"] != null)
+                                menu.UnitPrice = (int)dr["UnitPrice"];
+                            if (dr["QuantityPerUnit"] != null)
+                                menu.QuantityPerUnit = (int)dr["QuantityPerUnit"];
                             if (dr["MenuName"] != null)
                                 menu.MenuName = (string)dr["MenuName"];
-                            menu.UnitsInStock = (int)dr["UnitsInStock"];
-                            menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
-
-
+                            if (dr["UnitsInStock"] != null)
+                                menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            if (dr["UnitsOnOrder"] != null)
+                                menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
 
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
@@ -117,7 +123,7 @@ namespace DAL
             return results;
         }
 
-        public Menu GetMenuPerResto(string RestaurantName)
+        public Menu GetMenuPerRestoID(int RestaurantID)
         {
             Menu menu = null;
 
@@ -127,9 +133,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Menus WHERE RestaurantName=@RestaurantName";
+                    string query = "Select * from Menus WHERE RestaurantID=@RestaurantID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@RestaurantName", RestaurantName);
+                    cmd.Parameters.AddWithValue("@RestaurantID", RestaurantID);
 
                     cn.Open();
 
@@ -139,13 +145,18 @@ namespace DAL
                         {
                             menu = new Menu();
 
-                            menu.MenuID = (int)dr["MenuID"];
-
-                            if (dr["PriceMenu"] != null)
-                                menu.UnitPrice = (int)dr["PriceMenu"];
-
-                            if (dr["NameMenu"] != null)
-                                menu.MenuName = (string)dr["NameMenu"];
+                            if (dr["MenuID"] != null)
+                                menu.MenuID = (int)dr["MenuID"];
+                            if (dr["UnitPrice"] != null)
+                                menu.UnitPrice = (int)dr["UnitPrice"];
+                            if (dr["QuantityPerUnit"] != null)
+                                menu.QuantityPerUnit = (int)dr["QuantityPerUnit"];
+                            if (dr["MenuName"] != null)
+                                menu.MenuName = (string)dr["MenuName"];
+                            if (dr["UnitsInStock"] != null)
+                                menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            if (dr["UnitsOnOrder"] != null)
+                                menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
 
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
@@ -184,14 +195,18 @@ namespace DAL
                         {
                             menu = new Menu();
 
-                            menu.MenuID = (int)dr["MenuID"];
-
-                            if (dr["PriceMenu"] != null)
-                                menu.UnitPrice = (int)dr["PriceMenu"];
-
-                            if (dr["NameMenu"] != null)
-                                menu.MenuName = (string)dr["NameMenu"];
-
+                            if (dr["MenuID"] != null)
+                                menu.MenuID = (int)dr["MenuID"];
+                            if (dr["UnitPrice"] != null)
+                                menu.UnitPrice = (int)dr["UnitPrice"];
+                            if (dr["QuantityPerUnit"] != null)
+                                menu.QuantityPerUnit = (int)dr["QuantityPerUnit"];
+                            if (dr["MenuName"] != null)
+                                menu.MenuName = (string)dr["MenuName"];
+                            if (dr["UnitsInStock"] != null)
+                                menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            if (dr["UnitsOnOrder"] != null)
+                                menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
 
@@ -229,14 +244,18 @@ namespace DAL
                         {
                             menu = new Menu();
 
-                            menu.MenuID = (int)dr["MenuID"];
-
-                            if (dr["PriceMenu"] != null)
-                                menu.UnitPrice = (int)dr["PriceMenu"];
-
-                            if (dr["NameMenu"] != null)
-                                menu.MenuName = (string)dr["NameMenu"];
-
+                            if (dr["MenuID"] != null)
+                                menu.MenuID = (int)dr["MenuID"];
+                            if (dr["UnitPrice"] != null)
+                                menu.UnitPrice = (int)dr["UnitPrice"];
+                            if (dr["QuantityPerUnit"] != null)
+                                menu.QuantityPerUnit = (int)dr["QuantityPerUnit"];
+                            if (dr["MenuName"] != null)
+                                menu.MenuName = (string)dr["MenuName"];
+                            if (dr["UnitsInStock"] != null)
+                                menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            if (dr["UnitsOnOrder"] != null)
+                                menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
 
@@ -274,14 +293,18 @@ namespace DAL
                         {
                             menu = new Menu();
 
-                            menu.MenuID = (int)dr["MenuID"];
-
-                            if (dr["PriceMenu"] != null)
-                                menu.UnitPrice = (int)dr["PriceMenu"];
-
-                            if (dr["NameMenu"] != null)
-                                menu.MenuName = (string)dr["NameMenu"];
-
+                            if (dr["MenuID"] != null)
+                                menu.MenuID = (int)dr["MenuID"];
+                            if (dr["UnitPrice"] != null)
+                                menu.UnitPrice = (int)dr["UnitPrice"];
+                            if (dr["QuantityPerUnit"] != null)
+                                menu.QuantityPerUnit = (int)dr["QuantityPerUnit"];
+                            if (dr["MenuName"] != null)
+                                menu.MenuName = (string)dr["MenuName"];
+                            if (dr["UnitsInStock"] != null)
+                                menu.UnitsInStock = (int)dr["UnitsInStock"];
+                            if (dr["UnitsOnOrder"] != null)
+                                menu.UnitsOnOrder = (int)dr["UnitsOnOrder"];
                             if (dr["StatusMenu"] != null)
                                 menu.StatusMenu = (string)dr["StatusMenu"];
 
@@ -297,8 +320,6 @@ namespace DAL
             return menu;
         }
 
-
-
         public Menu UpdateMenu(Menu menu)
         {
             int result = 0; 
@@ -308,10 +329,16 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Menus SET MenuName = @MenuName WHERE IdMenu = @MenuID";
+                    string query = "Update from Menus SET MenuName = @MenuName WHERE IdMenu = @MenuID ";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@MenuName", menu.MenuName);
                     cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
+                    cmd.Parameters.AddWithValue("@RestaurantID", menu.RestaurantID);
+                    cmd.Parameters.AddWithValue("@UnitPrice", menu.UnitPrice);
+                    cmd.Parameters.AddWithValue("@CategoryID", menu.CategoryID);
+                    cmd.Parameters.AddWithValue("@UnitsInStock", menu.UnitsInStock);
+                    cmd.Parameters.AddWithValue("@UnitsOnOrder", menu.UnitsOnOrder);
+                    cmd.Parameters.AddWithValue("@StatusMenu", menu.StatusMenu);
 
                     result = cmd.ExecuteNonQuery();
 
@@ -334,9 +361,14 @@ namespace DAL
                 {
                     string query = "Update from Menus SET UnitPrice = @UnitPrice WHERE MenuID = @MenuID";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@UnitPrice", menu.UnitPrice);
+                    cmd.Parameters.AddWithValue("@MenuName", menu.MenuName);
                     cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
-
+                    cmd.Parameters.AddWithValue("@RestaurantID", menu.RestaurantID);
+                    cmd.Parameters.AddWithValue("@UnitPrice", menu.UnitPrice);
+                    cmd.Parameters.AddWithValue("@CategoryID", menu.CategoryID);
+                    cmd.Parameters.AddWithValue("@UnitsInStock", menu.UnitsInStock);
+                    cmd.Parameters.AddWithValue("@UnitsOnOrder", menu.UnitsOnOrder);
+                    cmd.Parameters.AddWithValue("@StatusMenu", menu.StatusMenu);
 
                     cn.Open();
 
@@ -359,10 +391,12 @@ namespace DAL
                     string query = "Insert into Menus(MenuName, QuantityPerUnit, UnitPrice,UnitsInStock, UnitsOnOrder, StatusMenu) values(@MenuName, @QuantityPerUnit, @UnitPrice, @UnitsInStock, @UnitsOnOrder, @StatusMenu); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@MenuName", menu.MenuName);
-                    cmd.Parameters.AddWithValue("@QuantityPerUnit", menu.QuantityPerUnit);
+                    cmd.Parameters.AddWithValue("@MenuID", menu.MenuID);
+                    cmd.Parameters.AddWithValue("@RestaurantID", menu.RestaurantID);
                     cmd.Parameters.AddWithValue("@UnitPrice", menu.UnitPrice);
-                    cmd.Parameters.AddWithValue("@UnitInStock", menu.UnitsInStock);
-                    cmd.Parameters.AddWithValue("@UnitOnOrder", menu.UnitsOnOrder);
+                    cmd.Parameters.AddWithValue("@CategoryID", menu.CategoryID);
+                    cmd.Parameters.AddWithValue("@UnitsInStock", menu.UnitsInStock);
+                    cmd.Parameters.AddWithValue("@UnitsOnOrder", menu.UnitsOnOrder);
                     cmd.Parameters.AddWithValue("@StatusMenu", menu.StatusMenu);
 
                     cn.Open();

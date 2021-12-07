@@ -18,12 +18,15 @@ namespace DTO
         public int LocationID { get; set; }
         public DateTime DateAssigned { get; set; }
 
-        public Deliverer(string username, string password, int numberOrdersAssigned, int availability)
+        public Deliverer(string username, string password, int numberOrdersAssigned, int availability, int locationId, DateTime dateAssigned)
         {
             Username = username;
             Password = password;
             NumberOrdersAssigned = numberOrdersAssigned;
             Availability = availability;
+            LocationID = locationId;
+            DateAssigned = dateAssigned;
+
         }
 
         public Deliverer()

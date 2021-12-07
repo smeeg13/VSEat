@@ -73,6 +73,7 @@ namespace DAL
                     string query = "Select * from Locations where ZIP = @ZIP";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@ZIP", ZIP);
+              
 
                     cn.Open();
 
@@ -86,6 +87,10 @@ namespace DAL
 
                             if (dr["ZIP"] != null)
                                 location.ZIP = (int)dr["ZIP"];
+
+                            if (dr["NameCity"] != null)
+                                location.NameCity = (string)dr["NameCity"];
+
 
                         }
                     }
@@ -197,7 +202,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Locations SET NameCity = @NameCity WHERE LocationID = @LocationID";
+                    string query = "Update from Locations SET NameCity = @NameCity, ZIP = @ZIP, WHERE LocationID = @LocationID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCity", location.NameCity);
                     cmd.Parameters.AddWithValue("@ZIP", location.ZIP);
@@ -226,7 +231,7 @@ namespace DAL
                     string query = "Insert into Locations(NameCity, ZIP) values(@NameCity, @ZIP); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@NameCity", location.NameCity);
-                    cmd.Parameters.AddWithValue("@firstname", location.ZIP);
+                    cmd.Parameters.AddWithValue("@ZIP", location.ZIP);
 
 
                     cn.Open();
@@ -258,7 +263,6 @@ namespace DAL
 
                     result = cmd.ExecuteNonQuery();
                 }
-
             }
             catch (Exception e)
             {

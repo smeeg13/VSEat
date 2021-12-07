@@ -10,7 +10,7 @@ namespace BLL.Interfaces
         void DeleteDeliverer(int DelivererID);
         void DeliveryPerMinutes(int NumberOrdersAssigned, Order order);
         void DeliveryValidation(Order order, Deliverer deliverer);
-        Deliverer GetDeliverer(int DelivererID);
+        Deliverer GetDelivererWithID(int DelivererID);
         List<Deliverer> GetDeliverers();
         Deliverer UpdateDeliverer(Deliverer deliverer);
     }

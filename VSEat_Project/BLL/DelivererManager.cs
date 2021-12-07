@@ -30,9 +30,9 @@ namespace BLL
             DelivererDb.DeleteDeliverer(DelivererID);
         }
 
-        public Deliverer GetDeliverer(int DelivererID)
+        public Deliverer GetDelivererWithID(int DelivererID)
         {
-            return DelivererDb.GetDeliverer(DelivererID);
+            return DelivererDb.GetDelivererWithID(DelivererID);
         }
 
         public List<Deliverer> GetDeliverers()

@@ -159,10 +159,11 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Categories SET Description = @Description WHERE IdCategory = @idcategory";
+                    string query = "Update from Categories SET Description = @Description WHERE CategoryID = @CategoryID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                     cmd.Parameters.AddWithValue("@DescriptionCategory", category.Description );
+
                     result = cmd.ExecuteNonQuery();
 
                     cn.Open();
@@ -185,8 +186,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Categories(CategoryName, Description) values(@NameCategory, @Description); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Categories(CategoryID, CategoryName, Description) values(@CategoryID, @NameCategory, @Description); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@CategoryID", category.CategoryID);
                     cmd.Parameters.AddWithValue("@CategoryName", category.CategoryName);
                     cmd.Parameters.AddWithValue("@Description", category.Description);
              

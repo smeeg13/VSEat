@@ -49,10 +49,17 @@ namespace DAL
                             if (dr["Password"] != null)
                                 deliverer.Password = (string)dr["Password"];
 
+                            if (dr["Availability"] != null)
                             deliverer.Availability = (int)dr["Availability"];
 
+                            if (dr["NumberOrdersAssigned"] != null)
                             deliverer.NumberOrdersAssigned = (int)dr["NumberOrdersAssigned"];
+
+                            if (dr["LocationID"] != null)
                             deliverer.LocationID = (int)dr["LocationID"];
+
+                            if (dr["DateAssigned"] != null)
+                                deliverer.DateAssigned = (DateTime)dr["DateAssigned"];
 
                             results.Add(deliverer);
                         }
@@ -67,7 +74,7 @@ namespace DAL
             return results;
         }
 
-        public Deliverer GetDeliverer(int DelivererID)
+        public Deliverer GetDelivererWithID(int DelivererID)
         {
             Deliverer deliverer = null;
 
@@ -81,6 +88,7 @@ namespace DAL
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@DelivererID", DelivererID);
 
+
                     cn.Open();
 
                     using (SqlDataReader dr = cmd.ExecuteReader())
@@ -91,8 +99,24 @@ namespace DAL
 
                             deliverer.DelivererID = (int)dr["IdDeliverer"];
 
-                            if (dr["AvailabitlityDeliverer"] != null)
+                            if (dr["Username"] != null)
+                                deliverer.Username = (string)dr["Username"];
+
+                            if (dr["Password"] != null)
+                                deliverer.Password = (string)dr["Password"];
+
+                            if (dr["NumberOrdersAssigned"] != null)
+                                deliverer.NumberOrdersAssigned = (int)dr["NumberOrdersAssigned"];
+
+                            if (dr["Availabitlity"] != null)
                                 deliverer.Availability = (int)dr["Availabitlity"];
+
+                            if (dr["LocationID"] != null)
+                                deliverer.LocationID = (int)dr["LocationID"];
+
+                            if (dr["DateAssigned"] != null)
+                                deliverer.DateAssigned = (DateTime)dr["DateAssigned"];
+
 
                         }
                     }
@@ -115,13 +139,15 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Deliverer SET Availability = @Availibility, Username=@Username, Password=@Password, NumberOrdersAssigned=@NumberOrdersAssigned,LocationID=@LocationID WHERE IdDeliverer = @IdDeliverer";
+                    string query = "Update from Deliverer SET Availability = @Availibility, Username=@Username, Password=@Password, NumberOrdersAssigned=@NumberOrdersAssigned,LocationID=@LocationID, DateAssigned = @DateAssigned, WHERE IdDeliverer = @IdDeliverer";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@Username", deliverer.Username);
                     cmd.Parameters.AddWithValue("@Password", deliverer.Password);
                     cmd.Parameters.AddWithValue("@NumberOrdersAssgined", deliverer.NumberOrdersAssigned);
                     cmd.Parameters.AddWithValue("@Availibility", deliverer.Availability);
                     cmd.Parameters.AddWithValue("@LocationID", deliverer.LocationID);
+                    cmd.Parameters.AddWithValue("@DateAssigned", deliverer.DateAssigned);
+
 
                     cn.Open();
                     result = cmd.ExecuteNonQuery();
@@ -144,13 +170,14 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Deliverers (Username, Password, NumberOrdersAssigned, Availability) values(@Username, @Password, @NumberOrdersAssigned, @Availability); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Deliverers (Username, Password, NumberOrdersAssigned, Availability, LocationID, DateAssigned) values(@Username, @Password, @NumberOrdersAssigned, @Availability, @LocationID, @DateAssigned); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@Username", deliverer.Username);
                     cmd.Parameters.AddWithValue("@Password", deliverer.Password);
                     cmd.Parameters.AddWithValue("@NumberOrdersAssigned", deliverer.NumberOrdersAssigned);
                     cmd.Parameters.AddWithValue("@Availability", deliverer.Availability);
-                    cmd.Parameters.AddWithValue("@LocationID", deliverer.Availability);
+                    cmd.Parameters.AddWithValue("@LocationID", deliverer.LocationID);
+                    cmd.Parameters.AddWithValue("@DateAssigned", deliverer.DateAssigned);
 
                     cn.Open();
 
