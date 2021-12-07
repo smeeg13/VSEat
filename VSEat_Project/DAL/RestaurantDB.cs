@@ -53,6 +53,8 @@ namespace DAL
                             if (dr["AddressRestaurant"] != null)
                                 restaurant.Address = (string)dr["AddressRestaurant"];
 
+                            restaurant.LocationID = (int)dr["LocationID"];
+
                             results.Add(restaurant);
                         }
                     }
@@ -100,6 +102,8 @@ namespace DAL
 
                             if (dr["AddressRestaurant"] != null)
                                 restaurant.Address = (string)dr["AddressRestaurant"];
+
+                            restaurant.LocationID = (int)dr["LocationID"];
 
                             results.Add(restaurant);
                         }

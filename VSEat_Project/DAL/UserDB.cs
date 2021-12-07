@@ -64,6 +64,8 @@ namespace DAL
 
                             if (dr["StatusAccount"] != null)
                                 user.StatusAccount = (string)dr["StatusAccount"];
+                            if (dr["IsAdmin"] != null)
+                                user.IsAdmin = (char)dr["IsAdmin"];
 
                             results.Add(user);
                         }
@@ -122,6 +124,8 @@ namespace DAL
 
                             if (dr["StatusAccount"] != null)
                                 result.StatusAccount = (string)dr["StatusAccount"];
+                            if (dr["IsAdmin"] != null)
+                                result.IsAdmin = (char)dr["IsAdmin"];
                         }
                     }
                 }
@@ -177,6 +181,8 @@ namespace DAL
 
                             if (dr["StatusAccount"] != null)
                                 result.StatusAccount = (string)dr["StatusAccount"];
+                            if (dr["IsAdmin"] != null)
+                                result.IsAdmin = (char)dr["IsAdmin"];
                         }
                     }
                 }
@@ -232,6 +238,8 @@ namespace DAL
 
                             if (dr["StatusAccount"] != null)
                                 result.StatusAccount = (string)dr["StatusAccount"];
+                            if (dr["IsAdmin"] != null)
+                                result.IsAdmin = (char)dr["IsAdmin"];
                         }
                     }
                 }
@@ -252,7 +260,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into Users(Firstname, Lastname,Username,  Password ,Address, LocationID, StatusAccount, IsAdmin) values(@firstname ,@lastname,@username, @password, @address, @locationID, @statusAccount, IsAdmin); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into Users(Firstname, Lastname,Username,  Password ,Address, LocationID, StatusAccount, IsAdmin) values(@firstname ,@lastname,@username, @password, @address, @locationID, @statusAccount, @isAdmin); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cmd.Parameters.AddWithValue("@firstname", user.Firstname);
@@ -263,7 +271,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@locationID", user.LocationID);
                     cmd.Parameters.AddWithValue("@statusAccount", user.StatusAccount);
 
-                    cmd.Parameters.AddWithValue("@IsAdmin", user.IsAdmin);
+                    cmd.Parameters.AddWithValue("@isAdmin", user.IsAdmin);
 
 
                     cn.Open();
@@ -324,7 +332,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from Users SET Firstname=@Firstname, Lastname=@Lastname, Username=@Username,  Password=@Password, Address=@Address, LocationID=@Location, StatusAccount =@StatusAccount)  WHERE UserID = @UserID";
+                    string query = "Update from Users SET Firstname=@Firstname, Lastname=@Lastname, Username=@Username,  Password=@Password, Address=@Address, LocationID=@Location, StatusAccount =@StatusAccount, IsAdmin=@IsAdmin)  WHERE UserID = @UserID";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cmd.Parameters.AddWithValue("@UserID", user.UserID);
@@ -336,6 +344,8 @@ namespace DAL
                     cmd.Parameters.AddWithValue("@Address", user.Address);
                     cmd.Parameters.AddWithValue("@LocationID", user.LocationID);
                     cmd.Parameters.AddWithValue("@StatusAccount", user.StatusAccount);
+                    cmd.Parameters.AddWithValue("@IsAdmin", user.IsAdmin);
+
 
                     cn.Open();
                     result = cmd.ExecuteNonQuery();

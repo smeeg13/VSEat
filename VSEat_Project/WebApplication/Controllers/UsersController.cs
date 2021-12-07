@@ -16,7 +16,7 @@ namespace WebApplication.Controllers
             UserManager = userManager;
         }
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
             return View();
         }

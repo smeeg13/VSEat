@@ -16,7 +16,7 @@ namespace DTO
         public string Address { get; set; }
         public string StatusAccount { get; set; }
 
-        public char IsAdmin { get; }
+        public char IsAdmin { get; set; }
 
 
         public User()

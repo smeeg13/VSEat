@@ -38,8 +38,8 @@ namespace BLL
 
             user = UserDb.GetUserWithUsername(username, password);
 
-            if (user == null)
-                throw new BusinessExceptions(" Username or Password wrong, Try again ");
+            //if (user == null)
+            //    throw new BusinessExceptions(" Username or Password wrong, Try again ");
 
             return user;
         }

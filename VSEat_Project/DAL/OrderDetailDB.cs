@@ -44,9 +44,7 @@ namespace DAL
                             orderDetails.OrderDetailsID = (int)dr["idOrderDetails"];
                             orderDetails.MenuID = (int)dr["MenuID"];
                             orderDetails.OrderID = (int)dr["OrderID"];
-                            if (dr["UnitPrice"] != null)
-                                orderDetails.UnitPrice = (int)dr["UnitPrice"];
-
+                           
                             if (dr["Quantity"] != null)
                                 orderDetails.Quantity = (int)dr["Quantity"];
 
@@ -94,9 +92,7 @@ namespace DAL
                             orderDetails.OrderDetailsID = (int)dr["idOrderDetails"];
                             orderDetails.MenuID = (int)dr["MenuID"];
                             orderDetails.OrderID = (int)dr["OrderID"];
-                            if (dr["UnitPrice"] != null)
-                                orderDetails.UnitPrice = (int)dr["UnitPrice"];
-
+                            
                             if (dr["Quantity"] != null)
                                 orderDetails.Quantity = (int)dr["Quantity"];
 
@@ -145,9 +141,7 @@ namespace DAL
                             orderDetails.OrderDetailsID = (int)dr["idOrderDetails"];
                             orderDetails.MenuID = (int)dr["MenuID"];
                             orderDetails.OrderID = (int)dr["OrderID"];
-                            if (dr["UnitPrice"] != null)
-                                orderDetails.UnitPrice = (int)dr["UnitPrice"];
-
+                            
                             if (dr["Quantity"] != null)
                                 orderDetails.Quantity = (int)dr["Quantity"];
 
@@ -191,9 +185,6 @@ namespace DAL
 
                             result.OrderDetailsID = (int)dr["OrderDetailsID"];
 
-                            if (dr["UnitPrice"] != null)
-                                result.UnitPrice = (int)dr["UnitPrice"];
-
                             if (dr["Quantity"] != null)
                                 result.Quantity = (int)dr["Quantity"];
 
@@ -234,9 +225,6 @@ namespace DAL
                             result = new OrderDetail();
 
                             result.OrderDetailsID = (int)dr["OrderDetailsID"];
-
-                            if (dr["UnitPrice"] != null)
-                                result.UnitPrice = (int)dr["UnitPrice"];
 
                             if (dr["Quantity"] != null)
                                 result.Quantity = (int)dr["Quantity"];
@@ -279,9 +267,6 @@ namespace DAL
 
                             result.OrderDetailsID = (int)dr["OrderDetailsID"];
 
-                            if (dr["UnitPrice"] != null)
-                                result.UnitPrice = (int)dr["UnitPrice"];
-
                             if (dr["Quantity"] != null)
                                 result.Quantity = (int)dr["Quantity"];
 
@@ -309,9 +294,8 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Insert into OrderDetails(UnitPrice, Quantity, Discount, TotalAmount) values(@UnitPrice, @Quantity, @Discount, @TotalAmount); SELECT SCOPE_IDENTITY()";
+                    string query = "Insert into OrderDetails( Quantity, Discount, TotalAmount) values( @Quantity, @Discount, @TotalAmount); SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("@UnitPrice", orderDetails.UnitPrice);
                     cmd.Parameters.AddWithValue("@Quantity", orderDetails.Quantity);
                     cmd.Parameters.AddWithValue("@Discount", orderDetails.Discount);
                     cmd.Parameters.AddWithValue("@TotalAmount", orderDetails.TotalAmount);
@@ -338,11 +322,10 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Update from OrderDetails SET UnitPrice = @UnitPrice, Quantity = @Quantity, Discount = @Discount, TotalAmount = @TotalAmount WHERE OrderDetailsID = @OrderDetailsID";
+                    string query = "Update from OrderDetails SET Quantity = @Quantity, Discount = @Discount, TotalAmount = @TotalAmount WHERE OrderDetailsID = @OrderDetailsID";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@OrderDetailsID", orderDetails.OrderDetailsID);
 
-                    cmd.Parameters.AddWithValue("@UnitPrice", orderDetails.UnitPrice);
                     cmd.Parameters.AddWithValue("@Quantity", orderDetails.Quantity);
                     cmd.Parameters.AddWithValue("@Discount", orderDetails.Discount);
                     cmd.Parameters.AddWithValue("@TotalAmount", orderDetails.TotalAmount);

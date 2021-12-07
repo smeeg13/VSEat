@@ -430,7 +430,7 @@ namespace DAL
 
 
         //Method to delete one order in the database
-        public void DeleteOrder(int orderId, int userId)
+        public void DeleteOrder(int orderId)
         {
             int result = 0;
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -439,10 +439,9 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    var query = "Delete from Orders WHERE OrderID = @OrderID AND UserID=@UserID";
+                    var query = "Delete from Orders WHERE OrderID = @OrderID";
                     var cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@OrderID",orderId);
-                    cmd.Parameters.AddWithValue("@UserID", userId);
 
                     cn.Open();
                     result = cmd.ExecuteNonQuery();
