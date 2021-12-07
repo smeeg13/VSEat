@@ -1,4 +1,4 @@
-﻿using BLL;
+﻿using BLL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,17 +11,14 @@ namespace WebApplication.Controllers
     {
         private IUserManager UserManager { get; }
 
-
-        public UsersController(IUserManager usermanager)
+        public UsersController(IUserManager userManager)
         {
-            UserManager = usermanager;
+            UserManager = userManager;
         }
 
-        //GET :UsersController
         public IActionResult Index()
         {
-            var users = UserManager.GetUsers();
-            return View(users);
+            return View();
         }
     }
 }

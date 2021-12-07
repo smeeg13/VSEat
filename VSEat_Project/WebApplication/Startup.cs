@@ -1,5 +1,3 @@
-using BLL;
-using DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,26 +23,6 @@ namespace WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //ADD FOLLOWING LINE FOR EACH I.... CLASSES WE HAVE
-            services.AddScoped<IUserManager, UserManager>();
-            services.AddScoped<IUserDB, UserDB>();
-            services.AddScoped<IRestaurantManager, RestaurantManager>();
-            services.AddScoped<IRestaurantDB, RestaurantDB>();
-            services.AddScoped<IOrderDetailManager, OrderDetailManager>();
-            services.AddScoped<IOrderDetailDB, OrderDetailDB>();
-            services.AddScoped<IOrderManager, OrderManager>();
-            services.AddScoped<IOrderDB, OrderDB>();
-            services.AddScoped<ICategoryDB, CategoryDB>();
-            services.AddScoped<ICategoryManager, CategoryManager>();
-            services.AddScoped<IDelivererDB, DelivererDB>();
-            services.AddScoped<IDelivererManager, DelivererManager>();
-            services.AddScoped<ILocationDB, LocationDB>();
-            services.AddScoped<ILocationManager, LocationManager>();
-            services.AddScoped<IMenuManager, MenuManager>();
-            services.AddScoped<IMenuDB, MenuDB>();
-
-
-            services.AddSession();
             services.AddControllersWithViews();
         }
 
